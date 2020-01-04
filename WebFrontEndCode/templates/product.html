@@ -45,19 +45,19 @@
       </div>
       <div data-duration-in="300" data-duration-out="100" class="w-tabs">
         <div class="tabs-menu w-tab-menu">
-          <a data-w-tab="Find Product" class="primary-button w-inline-block w-tab-link">
+          <a data-w-tab="Find Product" class="primary-button w-inline-block w-tab-link {% if context.find_product_tab %} w--current {% endif %}">
             <div>Find Product</div>
           </a>
-          <a data-w-tab="Add Product" class="primary-button w-inline-block w-tab-link">
+          <a data-w-tab="Add Product" class="primary-button w-inline-block w-tab-link {% if context.add_product_tab %} w--current {% endif %}">
             <div>Add Product</div>
           </a>
-          <a data-w-tab="Update Product" class="primary-button w-inline-block w-tab-link">
+          <a data-w-tab="Update Product" class="primary-button w-inline-block w-tab-link {% if context.update_product_tab %} w--current {% endif %}">
             <div>Update Product</div>
           </a>
-          <a data-w-tab="Archive Product" class="primary-button w-inline-block w-tab-link">
+          <a data-w-tab="Archive Product" class="primary-button w-inline-block w-tab-link {% if context.archive_product_tab %} w--current {% endif %}">
             <div>Archive Product</div>
           </a>
-          <a data-w-tab="Log Sales" class="primary-button w-inline-block w-tab-link w--current">
+          <a data-w-tab="Log Sales" class="primary-button w-inline-block w-tab-link {% if context.log_sale_product_tab %} w--current {% endif %}">
             <div>Log Sales</div>
           </a>
         </div>
@@ -76,7 +76,7 @@
           </div>
           <div data-w-tab="Add Product" class="tab-pane-add-product w-tab-pane"><a href="#" class="secondary-cta">Upload Products in Bulk</a>
             <div class="form-block w-form">
-              <form id="email-form-2" name="email-form-2" data-name="Email Form 2" class="form-2"><label for="SKU">SKU</label><input type="text" class="w-input" maxlength="256" name="SKU" data-name="SKU" id="SKU"><label for="Product-Name">Product Name</label><input type="email" class="w-input" maxlength="256" name="Product-Name" data-name="Product Name" id="Product-Name" required=""><label for="Description">Description</label><input type="text" class="w-input" maxlength="256" name="Description" data-name="Description" id="Description" required=""><label for="Unit-Cost">Unit Cost</label><input type="number" class="w-input" maxlength="256" name="Unit-Cost" data-name="Unit Cost" id="Unit-Cost" required=""><label for="Weight">Weight</label><input type="number" class="w-input" maxlength="256" name="Weight" data-name="Weight" id="Weight" required=""><label for="Dimension">Dimension</label><input type="number" class="w-input" maxlength="256" name="Dimension" data-name="Dimension" id="Dimension" required=""><label for="Case-Size">Case Size</label><input type="number" maxlength="256" name="Case-Size" data-name="Case Size" id="Case-Size" class="w-input"><label for="Wholesale-Price">Wholesale Price</label><input type="number" class="w-input" maxlength="256" name="Wholesale-Price" data-name="Wholesale Price" id="Wholesale-Price" required=""><label for="Retail-Price">Retail Price</label><input type="number" class="w-input" maxlength="256" name="Retail-Price" data-name="Retail Price" id="Retail-Price" required=""><input type="submit" value="Submit" data-wait="Please wait..." class="secondary-button w-button"></form>
+              <form action="/product.html" method="POST" id="add-product-form" name="add-product-form" class="form-2"><label for="SKU">SKU</label><input type="text" class="w-input" maxlength="256" name="SKU" data-name="SKU" id="SKU"><label for="Product-Name">Product Name</label><input type="text" class="w-input" maxlength="256" name="Product-Name" data-name="Product Name" id="Product-Name" required=""><label for="Description">Description</label><input type="text" class="w-input" maxlength="256" name="Description" data-name="Description" id="Description" required=""><label for="Unit-Cost">Unit Cost</label><input type="number" class="w-input" maxlength="256" name="Unit-Cost" data-name="Unit Cost" id="Unit-Cost" required=""><label for="Weight">Weight</label><input type="number" class="w-input" maxlength="256" name="Weight" data-name="Weight" id="Weight" required=""><label for="Dimension">Dimension</label><input type="number" class="w-input" maxlength="256" name="Dimension" data-name="Dimension" id="Dimension" required=""><label for="Case-Size">Case Size</label><input type="number" maxlength="256" name="Case-Size" data-name="Case Size" id="Case-Size" class="w-input"><label for="Wholesale-Price">Wholesale Price</label><input type="number" class="w-input" maxlength="256" name="Wholesale-Price" data-name="Wholesale Price" id="Wholesale-Price" required=""><label for="Retail-Price">Retail Price</label><input type="number" class="w-input" maxlength="256" name="Retail-Price" data-name="Retail Price" id="Retail-Price" required=""><input type="submit" value="Submit" data-wait="Please wait..." class="secondary-button w-button"></form>
               <div class="w-form-done">
                 <div>Thank you! Your submission has been received!</div>
               </div>
@@ -84,7 +84,7 @@
                 <div>Oops! Something went wrong while submitting the form.</div>
               </div>
             </div>
-          </div>
+          </div>a
           <div data-w-tab="Update Product" class="w-tab-pane">
             <h1 class="peach-text">Enter the SKU or name of the product that you want to update. Leave blank if you want to return all products.</h1>
             <div class="w-form">

@@ -1,8 +1,9 @@
 import mysql.connector
 
+
 class product:
     def __init__(self,sku,prod_name,description,retail_price, unit_cost, weight, company_code, length=None, width=None,
-                 height=None,case_size=None,wholesale_price=None,image_path=None, collection=None):
+                 height=None,case_size=None,wholesale_price=None, collection=None, image_path=None):
         self.sku = sku
         self.prod_name = prod_name
         self.description = description
@@ -14,15 +15,21 @@ class product:
         self.case_size = case_size
         self.wholesale_price = wholesale_price
         self.retail_price = retail_price
-        if image_path is None:
-            self.image_path = ""
-        else:
-            self.image_path = image_path
+        self.company_code = company_code
         if collection is None:
             self.collection = ""
         else:
             self.collection = collection
-        self.company_code = ""
+        if company_code is None:
+            self.company_code = ""
+        else:
+            self.company_code = company_code
+        if image_path is None:
+            self.image_path = ""
+        else:
+            self.image_path = image_path
+
+
 
     def myfunc(self):
         print("This is the product " + self.sku)
@@ -30,12 +37,12 @@ class product:
     def insert_statement_and_data(self):
         insert_product_sql = (
             "INSERT INTO product"
-            "(sku, prod_name, description, unit_cost, weight, length, width, height, case_size, wholesale_price, retail_price, image_path, collection, company_code)"
+            "(sku, prod_name, description, unit_cost, weight, length, width, height, case_size, wholesale_price, retail_price, collection, company_code, image_path)"
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         )
         data = (self.sku, self.prod_name, self.description, self.unit_cost, self.weight, self.length, self.width,
-                self.height, self.case_size, self.wholesale_price, self.retail_price, self.image_path, self.collection,
-                self.company_code)
+                self.height, self.case_size, self.wholesale_price, self.retail_price, self.collection,
+                self.company_code, self.image_path)
         return insert_product_sql, data
 
 
