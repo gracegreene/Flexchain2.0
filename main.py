@@ -35,7 +35,7 @@ def location_page():
     return render_template("locations.html")
 
 
-@app.route('/product.html', methods=["GET","POST"])
+@app.route('/product.html', methods=["GET", "POST"])
 def product_page():
     page_data = {
         "find_product_tab": True,
@@ -43,6 +43,8 @@ def product_page():
         "update_product_tab": False,
         "archive_product_tab": False,
         "log_sale_product_tab": False,
+        "products": list(),
+        "error": None,
     }
 
     if request.method == "POST":
@@ -53,7 +55,9 @@ def product_page():
         description = request.form.get("Description")
         unit_cost = request.form.get("Unit-Cost")
         weight = request.form.get("Weight")
-        dimension = request.form.get("Dimension")
+        length = request.form.get("Length")
+        width = request.form.get("Width")
+        height = request.form.get("Height")
         case_size = request.form.get("Case-Size")
         whole_sale_price = request.form.get("Wholesale-Price")
         retail_price = request.form.get("Retail-Price")
@@ -64,16 +68,20 @@ def product_page():
                             image_path=None, collection=None)
         sql, data = p.insert_statement_and_data()
         cursor = connection.cursor()
-
         try:
             cursor.execute(sql, data)
+            connection.commit()
         except Exception as e:
-            cursor.close()
             print("There was an error saving the product to the database: ", e)
-            return render_template("product.html", context=page_data) # TODO error message
-        connection.commit()
+            page_data["error"] = e
         cursor.close()
-        return render_template("product.html") # TODO success message
+    else:
+        query = request.args.get("q")
+        if query is not None:
+            # Perform the query here and update
+            cursor = connection.cursor()
+            page_data["products"] = product.get_product(cursor, query)
+            cursor.close()
     return render_template("product.html", context=page_data)
 
 

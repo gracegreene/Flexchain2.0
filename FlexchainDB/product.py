@@ -29,10 +29,6 @@ class product:
         else:
             self.image_path = image_path
 
-
-
-    def myfunc(self):
-        print("This is the product " + self.sku)
         
     def insert_statement_and_data(self):
         insert_product_sql = (
@@ -46,6 +42,26 @@ class product:
         return insert_product_sql, data
 
 
+def get_product(cursor, query):
+    product_collection = list()
+    select_product_sql  = '''
+    SELECT sku, prod_name, description, image_path, weight
+    FROM product
+    WHERE sku = %s
+    OR prod_name like %s
+    '''
+    cursor.execute(select_product_sql, (query, query))
+    for (sku, prod_name, description, image_path, weight) in cursor:
+        product_collection.append({
+            "sku": sku,
+            "product_name": prod_name,
+            "description": description,
+            "image_path": image_path,
+            "weight": weight
+        })
+    return product_collection
+
+
 if __name__ == "__main__":
     connection = mysql.connector.connect(
         host="flexchain-db.c9c4zw0dc4zn.us-east-2.rds.amazonaws.com",
@@ -54,16 +70,13 @@ if __name__ == "__main__":
         password='w0BtB6lVyAnqG2zMg4R5',
         database='innodb'
     )
-    products = list()
-    p1= product("7", "product7", "description", 23.13, 1, 12, "cc")
-    p2= product("8", "product8", "descirption", 14.21, 1, 12, "cc")
-    products.append(p1)
-    products.append(p2)
     cursor = connection.cursor()
     try:
-        for p in products:
-            sql, data = p.insert_statement_and_data()
-            cursor.execute(sql, data)
+        for product in get_product(cursor, "NEWSK"):
+            print(product["sku"])
+            print(product["product_name"])
+            print(product["description"])
+            print(product["image_path"])
     except Exception as e:
         print(e)
         cursor.close()
