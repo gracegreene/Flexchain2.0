@@ -46,9 +46,12 @@ CREATE TABLE `inventory`(
     `month` int(2) NOT NULL,
     `year` int(4) NOT NULL,
     `quantity` int(6) NOT NULL,
+    `location_id` int(11) NOT NULL,
     PRIMARY KEY(`inventory_id`),
     CONSTRAINT `inventory_sku` FOREIGN KEY (`sku`)
     REFERENCES `product` (`sku`) ON DELETE CASCADE
+    CONSTRAINT `inventory_location` FOREIGN KEY (`location_id`)
+    REFERENCES `location` (`location`) ON DELETE CASCADE
     )
 
 CREATE TABLE `forecast`(

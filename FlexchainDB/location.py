@@ -36,7 +36,28 @@ class location:
         )
         data = (self.location_id, self.location_type, self.loc_name, self.country, self.state, self.street_address, self.zipcode,
                 self.integration_id, self.coordinates, self.notes,self.company_code)
-        return insert_product_sql, data
+        return insert_location_sql, data
+
+def get_location(cursor, query):
+    location_collection = list()
+    select_location_sql  = '''
+    SELECT location_id, loc_name, location_type, state, zipcode
+    FROM location
+    WHERE location_id = %s
+    OR loc_name like %s
+    '''
+    cursor.execute(select_location_sql, (query, query))
+    for (location_id, loc_name, location_type, state, zipcode) in cursor:
+        location_collection.append({
+            "location_id": location_id,
+            "loc_name": loc_name,
+            "location_type": location_type,
+            "state": state,
+            "zipcode": zipcode
+        })
+    return location_collection
+
+
 
 
 if __name__ == "__main__":
@@ -47,16 +68,13 @@ if __name__ == "__main__":
         password='w0BtB6lVyAnqG2zMg4R5',
         database='innodb'
     )
-    locations = list()
-    p1 = product("7", "product7", "loc_name", 23.13, 1, 12, "cc")
-    p2 = product("8", "product8", "descirption", 14.21, 1, 12, "cc")
-    products.append(p1)
-    products.append(p2)
     cursor = connection.cursor()
     try:
-        for p in products:
-            sql, data = p.insert_statement_and_data()
-            cursor.execute(sql, data)
+        for location in get_location(cursor, "NEWSK"):
+            print(location["location_id"])
+            print(location["loc_name"])
+            print(location["location_type"])
+            print(location["state"])
     except Exception as e:
         print(e)
         cursor.close()

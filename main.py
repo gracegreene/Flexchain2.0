@@ -30,9 +30,56 @@ def dashboard_settings_page():
     return render_template("dashboard-settings.html")
 
 
-@app.route('/locations.html')
+@app.route('/locations.html', methods=["GET","POST"])
 def location_page():
-    return render_template("locations.html")
+    page_data = {
+        "find_product_tab": True,
+        "add_product_tab": False,
+        "update_product_tab": False,
+        "archive_product_tab": False,
+        "log_sale_product_tab": False,
+        "products": list(),
+        "error": None,
+    }
+
+    if request.method == "POST":
+        page_data["find_product_tab"] = False
+        page_data["add_product_tab"] = True
+        sku = request.form.get("SKU")
+        product_name = request.form.get("Product-Name")
+        description = request.form.get("Description")
+        unit_cost = request.form.get("Unit-Cost")
+        weight = request.form.get("Weight")
+        length = request.form.get("Length")
+        width = request.form.get("Width")
+        height = request.form.get("Height")
+        case_size = request.form.get("Case-Size")
+        whole_sale_price = request.form.get("Wholesale-Price")
+        retail_price = request.form.get("Retail-Price")
+        # TODO Missing Company Code
+
+        p = product.product(sku,product_name,description,retail_price, unit_cost, weight, company_code="DMD",
+                            length=None, width=None, height=None,case_size=case_size, wholesale_price=whole_sale_price,
+                            image_path=None, collection=None)
+        sql, data = p.insert_statement_and_data()
+        cursor = connection.cursor()
+        try:
+            cursor.execute(sql, data)
+            connection.commit()
+        except Exception as e:
+            print("There was an error saving the product to the database: ", e)
+            page_data["error"] = e
+        cursor.close()
+    else:
+        query = request.args.get("q")
+        if query is not None:
+            # Perform the query here and update
+            cursor = connection.cursor()
+            page_data["products"] = product.get_product(cursor, query)
+            cursor.close()
+
+
+    return render_template("locations.html", context=page_data)
 
 
 @app.route('/product.html', methods=["GET", "POST"])
