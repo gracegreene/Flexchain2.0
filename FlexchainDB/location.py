@@ -38,26 +38,36 @@ class location:
                 self.integration_id, self.coordinates, self.notes,self.company_code)
         return insert_location_sql, data
 
-def get_location(cursor, query):
+
+def get_locations(cursor, query):
     location_collection = list()
-    select_location_sql  = '''
-    SELECT location_id, loc_name, location_type, state, zipcode
-    FROM location
-    WHERE location_id = %s
-    OR loc_name like %s
-    '''
-    cursor.execute(select_location_sql, (query, query))
-    for (location_id, loc_name, location_type, state, zipcode) in cursor:
+    select_location_sql = '''
+        SELECT location_id, loc_name, state, zipcode, coordinates
+        FROM location
+        WHERE location_type=%s
+        '''
+    cursor.execute(select_location_sql, (query,))
+    for (location_id, loc_name, state, zipcode, coordinates) in cursor:
         location_collection.append({
             "location_id": location_id,
             "loc_name": loc_name,
-            "location_type": location_type,
             "state": state,
-            "zipcode": zipcode
+            "zipcode": zipcode,
+            "coordinates": coordinates,
         })
     return location_collection
 
 
+def get_store(cursor):
+    return get_locations(cursor, "store")
+
+
+def get_warehouse(cursor):
+    return get_locations(cursor, "warehouse")
+
+
+def get_customer(cursor):
+    return get_locations(cursor, "customer")
 
 
 if __name__ == "__main__":
@@ -70,11 +80,11 @@ if __name__ == "__main__":
     )
     cursor = connection.cursor()
     try:
-        for location in get_location(cursor, "NEWSK"):
-            print(location["location_id"])
-            print(location["loc_name"])
-            print(location["location_type"])
-            print(location["state"])
+        for location in get_store(cursor, "NEWSK"):
+            print(store["location_id"])
+            print(store["loc_name"])
+            print(store["location_type"])
+            print(store["state"])
     except Exception as e:
         print(e)
         cursor.close()

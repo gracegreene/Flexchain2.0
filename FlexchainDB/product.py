@@ -29,6 +29,17 @@ class product:
         else:
             self.image_path = image_path
 
+    def update(self, cursor):
+        update_product_sql = '''
+        UPDATE product
+        SET prod_name=%s, description=%s, unit_cost=%s, weight=%s, length=%s, width=%s, height=%s,
+        case_size=%s, wholesale_price=%s, retail_price=%s, collection=%s, company_code=%s, image_path=%s
+        WHERE sku =%s
+        '''
+        data = (self.prod_name, self.description, self.unit_cost, self.weight, self.length, self.width, self.height,
+                self.case_size, self.wholesale_price, self.retail_price, self.collection, self.company_code,
+                self.image_path, self.sku)
+        cursor.execute(update_product_sql, data)
         
     def insert_statement_and_data(self):
         insert_product_sql = (
@@ -42,15 +53,33 @@ class product:
         return insert_product_sql, data
 
 
+def get_single_product(cursor, query):
+    select_product_sql = '''
+    SELECT sku, prod_name, description, unit_cost, weight, length, width, height, case_size, wholesale_price, retail_price, collection, company_code, image_path
+    FROM product
+    WHERE sku = %s
+    LIMIT 1
+    '''
+    cursor.execute(select_product_sql, (query,))
+    for (sku, prod_name, description, unit_cost, weight, length, width, height, case_size, wholesale_price, retail_price, collection, company_code, image_path) in cursor:
+        p = product(sku, prod_name, description, retail_price, unit_cost, weight, company_code)
+        p.length = length
+        p.height = height
+        p.case_size = case_size
+        p.wholesale_price = wholesale_price
+        p.collection = collection
+        p.image_path = image_path
+        return p
+
 def get_product(cursor, query):
     product_collection = list()
-    select_product_sql  = '''
+    select_product_sql = '''
     SELECT sku, prod_name, description, image_path, weight
     FROM product
     WHERE sku = %s
-    OR prod_name like %s
+    OR prod_name like CONCAT("%", %s, "%")
     '''
-    cursor.execute(select_product_sql, (query, query))
+    cursor.execute(select_product_sql, (query, query.lower()))
     for (sku, prod_name, description, image_path, weight) in cursor:
         product_collection.append({
             "sku": sku,

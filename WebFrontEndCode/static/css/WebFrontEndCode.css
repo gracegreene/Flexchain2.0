@@ -170,7 +170,7 @@ body {
   font-family: Bitter, serif;
   color: #fccd98;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 400;
   text-align: center;
 }
 
@@ -180,7 +180,9 @@ body {
 }
 
 .primary-button.w--current {
-  color: #016d96;
+  background-color: #f08b48;
+  color: #fff;
+  font-weight: 700;
 }
 
 .page-header {
@@ -212,6 +214,7 @@ body {
   color: #fff;
   font-size: 16px;
   font-weight: 400;
+  text-align: center;
 }
 
 .page-subheader.ps_other {
@@ -229,7 +232,7 @@ body {
 
 .peach-text {
   margin-top: 0px;
-  margin-bottom: 0px;
+  margin-bottom: 7px;
   padding-top: 10px;
   font-family: Ubuntu, Helvetica, sans-serif;
   color: #fccd98;
@@ -278,8 +281,9 @@ body {
 }
 
 .secondary-button {
-  margin-right: 10px;
-  margin-left: 0px;
+  display: inline-block;
+  margin: 10px 10px 0px 0px;
+  padding-bottom: 9px;
   border-radius: 8px;
   background-color: #016d96;
   box-shadow: 1px 1px 3px 0 #fff;
@@ -288,8 +292,13 @@ body {
 }
 
 .secondary-button.sb_other {
+  margin-top: 0px;
   margin-bottom: 10px;
   padding-bottom: 8px;
+}
+
+.secondary-button.sb_other:active {
+  color: #fccd98;
 }
 
 .secondary-button.ask_sb {
@@ -299,6 +308,15 @@ body {
   padding-bottom: 9px;
   background-color: #fccd98;
   color: #016d96;
+}
+
+.secondary-button.lo_buttongsales {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 10px;
 }
 
 .paragraph-text {
@@ -431,6 +449,7 @@ body {
 
 .text-field {
   width: auto;
+  margin-right: 10px;
 }
 
 .form {
@@ -461,8 +480,10 @@ body {
 }
 
 .form-block {
+  position: relative;
   width: 500px;
-  padding-left: 19px;
+  margin-bottom: 0px;
+  padding-left: 15px;
   text-align: left;
 }
 
@@ -543,6 +564,141 @@ body {
 .text-field-2 {
   width: 400px;
   padding-left: 12px;
+}
+
+.button {
+  background-color: transparent;
+}
+
+.simple-link {
+  position: relative;
+  margin-top: 15px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.select-field-2 {
+  width: 500px;
+}
+
+.form-4 {
+  margin-top: 0px;
+  padding-top: 19px;
+}
+
+.text-field-3 {
+  width: 150px;
+}
+
+.div-block-4 {
+  position: relative;
+  display: block;
+  margin-right: 0px;
+  margin-left: 0px;
+  float: none;
+  text-align: center;
+  -o-object-fit: fill;
+  object-fit: fill;
+}
+
+.field-label {
+  font-family: Ubuntu, Helvetica, sans-serif;
+  color: #fff;
+}
+
+.form-field-label {
+  font-family: Ubuntu, Helvetica, sans-serif;
+  color: #fff;
+  font-weight: 400;
+}
+
+.paragraph {
+  margin-top: -5px;
+  margin-bottom: 0px;
+  font-family: Ubuntu, Helvetica, sans-serif;
+  color: #fff;
+  font-size: 10px;
+  font-style: italic;
+}
+
+.grid {
+  grid-auto-flow: column;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  -ms-grid-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-rows: auto auto auto auto;
+  grid-template-rows: auto auto auto auto;
+}
+
+.form-5 {
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  grid-auto-columns: 1fr;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  -ms-grid-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-rows: auto auto auto auto auto auto;
+  grid-template-rows: auto auto auto auto auto auto;
+}
+
+.form-5.logsales {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+.text-field-4 {
+  width: 300px;
+}
+
+.text-field-5 {
+  width: 150px;
+  margin-left: 0px;
+  padding-left: 6px;
+  border-radius: 5px;
+}
+
+.select-field-3 {
+  display: block;
+  width: 300px;
+  margin-right: 10px;
+  margin-bottom: 0px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.text-field-6 {
+  width: 200px;
+  -webkit-box-ordinal-group: 0;
+  -webkit-order: -1;
+  -ms-flex-order: -1;
+  order: -1;
+}
+
+.select-field-4 {
+  width: 300px;
+  margin-left: -14px;
+}
+
+.div-block-5 {
+  height: 50px;
+}
+
+.div-block-6 {
+  height: 50px;
 }
 
 @media (max-width: 991px) {

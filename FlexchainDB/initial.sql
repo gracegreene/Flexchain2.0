@@ -54,6 +54,18 @@ CREATE TABLE `inventory`(
     REFERENCES `location` (`location`) ON DELETE CASCADE
     )
 
+CREATE TABLE current_inventory (
+    `current_inventory_id` int(11) NOT NULL AUTO_INCREMENT,
+    `sku` char(5) NOT NULL,
+    `quantity` int(6) NOT NULL,
+    `location_id` int(11) NOT NULL,
+    PRIMARY KEY(`current_inventory_id`),
+    CONSTRAINT `current_inventory_sku` FOREIGN KEY (`sku`)
+    REFERENCES `product` (`sku`) ON DELETE CASCADE,
+    CONSTRAINT `current_inventory_location` FOREIGN KEY (`location_id`)
+    REFERENCES `location` (`location_id`) ON DELETE CASCADE
+    )
+
 CREATE TABLE `forecast`(
     `forecast_id` int(11) NOT NULL AUTO_INCREMENT,
     `sku` char(5) NOT NULL,
@@ -111,7 +123,7 @@ CREATE TABLE `transaction_sku`(
     )
 
 ALTER TABLE `transaction` ADD CONSTRAINT `transaction_txn_sku` FOREIGN KEY (`transaction_sku_id`)
-    REFERENCES `transaction_sku` (`transaction_sku_id`) ON DELETE CASCADE,
+    REFERENCES `transaction_sku` (`transaction_sku_id`) ON DELETE CASCADE
 
 CREATE TABLE `shipping_cost`(
     `costing_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -125,3 +137,5 @@ CREATE TABLE `shipping_cost`(
     CONSTRAINT `shipping_cost_location_id2` FOREIGN KEY (`location2`)
     REFERENCES `location` (`location_id`) ON DELETE CASCADE
     )
+
+ALTER TABLE `product` ADD COLUMN archive BOOL DEFAULT false;
