@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}Locations{% endblock %}
+{% include 'nav.html' %}
+{% block content %}
+  <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
+    <div class="container w-container"><a href="index.html" class="brand w-nav-brand"></a>
+      <nav role="navigation" class="w-nav-menu"><a href="index.html" class="nav-link w-nav-link">Dashboard</a><a href="#" class="nav-link-3 w-nav-link">Product</a><a href="locations.html" class="nav-link-3 w-nav-link w--current">Locations</a><a href="#" class="nav-link-3 w-nav-link">Settings</a><a href="#" class="nav-link-3 w-nav-link">Account</a></nav>
+      <div class="w-nav-button">
+        <div class="icon w-icon-nav-menu"></div>
+      </div>
+    </div>
+  </div>
+  <div id="Charts">
+    <div class="top-container-2 tc2_location w-container">
+      <div class="div-block-3">
+        <div class="page-header ph_other">Locations</div>
+        <h3 class="paragraph-text pt_other">Manage any geolocation that goods are retrieved from, stored in or sent to.<br>You can view and update existing, add new and archive defunct warehouse, supplier factory and customer address.</h3>
+      </div>
+    </div>
+  </div>
+  <div id="Top-Stats">
+    <div class="top-container w-container">
+      <div data-duration-in="300" data-duration-out="100" class="w-tabs">
+        <div class="w-tab-content">
+          <div data-w-tab="Tab 2" class="w-tab-pane"></div>
+          <div data-w-tab="Tab 3" class="w-tab-pane"></div>
+        </div>
+      </div>
+      <div data-duration-in="300" data-duration-out="100" class="w-tabs">
+        <div class="tabs-menu w-tab-menu">
+          <a data-w-tab="Store" class="primary-button w-inline-block w-tab-link">
+            <div>Store</div>
+          </a>
+          <a data-w-tab="Warehouse" class="primary-button w-inline-block w-tab-link">
+            <div>Warehouse</div>
+          </a>
+          <a data-w-tab="Customer" class="primary-button w-inline-block w-tab-link">
+            <div>Customer</div>
+          </a>
+          <a data-w-tab="Adjust Inventory" class="primary-button w-inline-block w-tab-link w--current">
+            <div>Adjust Inventory</div>
+          </a>
+          <a data-w-tab="Archive Location" class="primary-button w-inline-block w-tab-link">
+            <div>Archive Location</div>
+          </a>
+        </div>
+        <div class="w-tab-content">
+          <div data-w-tab="Store" class="w-tab-pane">
+            <h1 class="peach-text">Enter the SKU or name of the product. Leave blank if you want to return all products.</h1>
+            <div class="w-form">
+              <form id="email-form" name="email-form" data-name="Email Form" class="form"><input type="text" class="text-field w-input" maxlength="256" name="name" data-name="Name" id="name"><input type="submit" value="Search" data-wait="Please wait..." class="secondary-button sb_other w-button"></form>
+              <div class="w-form-done">
+                <div>Thank you! Your submission has been received!</div>
+              </div>
+              <div class="w-form-fail">
+                <div>Oops! Something went wrong while submitting the form.</div>
+              </div>
+            </div>
+          </div>
+          <div data-w-tab="Warehouse" class="w-tab-pane">
+            <div class="form-block w-form">
+              <form id="email-form-2" name="email-form-2" data-name="Email Form 2"><label for="name-2">SKU</label><input type="text" class="w-input" maxlength="256" name="name-2" data-name="Name 2" id="name-2"><label for="email">Product Name</label><input type="email" class="w-input" maxlength="256" name="email" data-name="Email" id="email" required=""><label for="email-6">Description</label><input type="email" class="w-input" maxlength="256" name="email-5" data-name="Email 5" id="email-5" required=""><label for="email-6">Unit Cost</label><input type="email" class="w-input" maxlength="256" name="email-4" data-name="Email 4" id="email-4" required=""><label for="email-6">Weight</label><input type="email" class="w-input" maxlength="256" name="email-3" data-name="Email 3" id="email-3" required=""><label for="email-6">Dimension</label><input type="email" class="w-input" maxlength="256" name="email-2" data-name="Email 2" id="email-2" required=""><label for="email-6">Case Size</label><input type="email" class="w-input" maxlength="256" name="email-2" data-name="Email 2" id="email-2" required=""><label for="email-6">Wholesale Price</label><input type="email" class="w-input" maxlength="256" name="email-2" data-name="Email 2" id="email-2" required=""><label for="email-6">Retail Price</label><input type="email" class="w-input" maxlength="256" name="email-2" data-name="Email 2" id="email-2" required=""><input type="submit" value="Submit" data-wait="Please wait..." class="secondary-button w-button"></form>
+              <div class="w-form-done">
+                <div>Thank you! Your submission has been received!</div>
+              </div>
+              <div class="w-form-fail">
+                <div>Oops! Something went wrong while submitting the form.</div>
+              </div>
+            </div>
+          </div>
+          <div data-w-tab="Customer" class="w-tab-pane">
+            <h1 class="peach-text">Enter the SKU or name of the product that you want to update. Leave blank if you want to return all products.</h1>
+            <div class="w-form">
+              <form id="email-form" name="email-form" data-name="Email Form" class="form"><input type="text" class="text-field w-input" maxlength="256" name="name-3" data-name="Name 3" id="name-3"><input type="submit" value="Search" data-wait="Please wait..." class="secondary-button sb_other w-button"></form>
+              <div class="w-form-done">
+                <div>Thank you! Your submission has been received!</div>
+              </div>
+              <div class="w-form-fail">
+                <div>Oops! Something went wrong while submitting the form.</div>
+              </div>
+            </div>
+          </div>
+          <div data-w-tab="Adjust Inventory" class="w-tab-pane w--tab-active">
+            <div class="w-form">
+              <form id="wf-form-Adjust-Inventory" name="wf-form-Adjust-Inventory" data-name="Adjust Inventory" method="get" class="form-4"><label for="Location" class="peach-text">Select location where inventory will be adjusted</label><select id="Location" name="Location" required="" data-name="Location" class="select-field-2 w-select"><option value="">Select one...</option><option value="First">First Choice</option><option value="Second">Second Choice</option><option value="Third">Third Choice</option></select><input type="submit" value="Load Inventory List" data-wait="Please wait..." class="secondary-button w-button"></form>
+              <div class="w-form-done">
+                <div>Thank you! Your submission has been received!</div>
+              </div>
+              <div class="w-form-fail">
+                <div>Oops! Something went wrong while submitting the form.</div>
+              </div>
+            </div>
+          </div>
+          <div data-w-tab="Archive Location" class="w-tab-pane">
+            <h1 class="peach-text">Enter the location code you want to archive. Leave blank if you want to return all locations.</h1>
+            <div class="w-form">
+              <form id="email-form" name="email-form" data-name="Email Form" class="form"><input type="text" class="text-field w-input" maxlength="256" name="name-3" data-name="Name 3" id="name-3"><input type="submit" value="Search" data-wait="Please wait..." class="secondary-button sb_other w-button"></form>
+              <div class="w-form-done">
+                <div>Thank you! Your submission has been received!</div>
+              </div>
+              <div class="w-form-fail">
+                <div>Oops! Something went wrong while submitting the form.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-form">
+        <form id="wf-form-Adjust-Inventory-2" name="wf-form-Adjust-Inventory-2" data-name="Adjust Inventory 2"><label for="name-4" class="peach-text">Select item</label><select id="Location-2" name="Location-2" required="" data-name="Location 2" class="select-field-2 w-select"><option value="">Select one...</option><option value="First">First Choice</option><option value="Second">Second Choice</option><option value="Third">Third Choice</option></select><label for="email-6" class="peach-text">Select adjustment reason</label><select id="Location-2" name="Location-2" required="" data-name="Location 2" class="select-field-2 w-select"><option value="">Select one...</option><option value="First">First Choice</option><option value="Second">Second Choice</option><option value="Third">Third Choice</option></select><label for="email-6" class="peach-text">Enter quantity</label><input type="number" class="text-field-3 w-input" maxlength="256" name="Adjustment-Quantity" data-name="Adjustment Quantity" placeholder="Quantity" id="Adjustment-Quantity" required=""><input type="submit" value="Submit" data-wait="Please wait..." class="secondary-button w-button"></form>
+        <div class="w-form-done">
+          <div>Thank you! Your submission has been received!</div>
+        </div>
+        <div class="w-form-fail">
+          <div>Oops! Something went wrong while submitting the form.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="js/webflow.js" type="text/javascript"></script>
+  <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
+{% endblock %}

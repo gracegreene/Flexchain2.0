@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% include 'nav.html' %}
+{% block content %}
+<body class="body">
+  <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
+    <div class="container w-container"><a href="../index.html" class="brand w-nav-brand"></a>
+      <nav role="navigation" class="w-nav-menu"><a href="../index.html" class="nav-link w-nav-link">Dashboard</a><a href="#" class="nav-link-3 w-nav-link">Product</a><a href="../locations.html" class="nav-link-3 w-nav-link">Locations</a><a href="#" class="nav-link-3 w-nav-link">Settings</a><a href="#" class="nav-link-3 w-nav-link">Account</a></nav>
+      <div class="w-nav-button">
+        <div class="icon w-icon-nav-menu"></div>
+      </div>
+    </div>
+  </div>
+  <div id="Charts">
+    <div class="top-container-2 tc2_product w-container">
+      <div class="div-block-2">
+        <h1 class="page-header ph_other">Products</h1>
+        <h3 class="page-subheader ps_other">You can manage the data for each product you have or will have in inventory. You can view, update details, add and archive product here.</h3>
+      </div>
+    </div>
+  </div>
+  <div class="top-container w-container">
+    <div class="div-block-4"><a href="ct.html" class="primary-button w-button">Find Product</a><a href="t.html" class="primary-button w-button">Add Product</a><a href="duct.html" class="primary-button w-button">Update Product</a><a href="oduct.html" class="primary-button w-button">Archive Product</a><a href="html" class="primary-button w-button">Log Sales</a></div>
+  </div>
+  <div id="Top-Stats">
+    <div class="top-container w-container">
+      <div class="peach-text">Update the product details for {{context.product.prod_name }} and hit submit once done. Please note that SKU cannot be updates here. Contact you system admin for that change.</div>
+      <div class="form-block w-form">
+        <form method="POST" action="/product/update-form.html"><input type="hidden" name="SKU" value="{{ context.sku }}"/><label for="Product-Name-3" class="form-field-label">Product Name</label><input type="text" maxlength="256" name="Product-Name" data-name="Product Name" id="Product-Name-3" value="{{ context.product.prod_name }}" class="w-input"><label for="Description-3" class="form-field-label">Description</label><input type="text" maxlength="256" value="{{ context.product.description }}" name="Description" data-name="Description" id="Description-3" class="w-input"><label for="Unit-Cost-2" class="form-field-label">Unit Cost</label><input type="text" maxlength="256" value="{{ context.product.unit_cost }}" name="Unit-Cost-2" data-name="Unit Cost 2" id="Unit-Cost-2" class="w-input"><label for="Weight-3" class="form-field-label">Weight (lb)</label><input type="text" maxlength="256" value="{{ context.product.weight }}" name="Weight" data-name="Weight" id="Weight-3" class="w-input"><label for="Length" class="form-field-label">Length (in)</label><input type="text" maxlength="256" value="{% if context.product.length %}}{{ context.product.length }}{% endif %}" name="Length" data-name="Length" id="Length" class="w-input"><label for="Width" class="form-field-label">Width (in)</label><input type="text" maxlength="256" value="{% if context.product.width %}{{ context.product.width }}{% endif %}" name="Width" data-name="Width" id="Width" class="w-input"><label for="Height" class="form-field-label">Height (in)</label><input type="text" value="{% if context.product.height %}{{ context.product.height }}{% endif %}" maxlength="256" name="Height" data-name="Height" id="Height" class="w-input"><label for="Case-Size-3" class="form-field-label">Case Size</label><input type="number" maxlength="256" value="{{ context.product.case_size }}" name="Case-Size" data-name="Case Size" id="Case-Size-3" class="w-input"><label for="Wholesale-Price-3" class="form-field-label">Wholesale Price</label><input type="text"  value="{{ context.product.wholesale_price }}" maxlength="256" name="Wholesale-Price" data-name="Wholesale Price" id="Wholesale-Price-3" class="w-input"><label for="Retail-Price-3" class="form-field-label">Retail Price</label><input type="text" maxlength="256" value="{{ context.product.retail_price }}" name="Retail-Price" data-name="Retail Price" id="Retail-Price-3" class="w-input"><label for="Image-Path" class="form-field-label">Image Path</label><input type="text" value="{{ context.product.image_path }}" maxlength="256" name="Image-Path" data-name="Image Path" id="Image-Path" class="w-input"><label for="Collection" class="form-field-label">Collection</label><input type="text" value="{{ context.product.collection }}" maxlength="256" name="Collection" data-name="Collection" id="Collection" class="w-input"><input type="submit" value="Submit" data-wait="Please wait..." class="secondary-button w-button"></form>
+        <div class="w-form-done">
+          <div>Thank you! Your submission has been received!</div>
+        </div>
+        <div class="w-form-fail">
+          <div>Oops! Something went wrong while submitting the form.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="../js/webflow.js" type="text/javascript"></script>
+  <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
+{% endblock %}

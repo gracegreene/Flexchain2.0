@@ -1,0 +1,4 @@
+include flexchain/schema.sql
+graft flexchain/static
+graft flexchain/templates
+global-exclude *.pyc
