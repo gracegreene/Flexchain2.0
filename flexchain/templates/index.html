@@ -1,68 +1,82 @@
 {% extends 'base.html' %}
 {% include 'nav.html' %}
 {% block content %}
-  <div id="Greeting">
+<div id="Greeting">
     <div class="top-container w-container">
-      <div class="columns-7 w-row">
-        <div class="column-7 w-col w-col-3"><img src="images/scm-girl.png" alt="scm girl" srcset="images/scm-girl-p-500.png 500w, images/scm-girl-p-800.png 800w, images/scm-girl-p-1080.png 1080w, images/scm-girl-p-1600.png 1600w, images/scm-girl-p-2000.png 2000w, images/scm-girl-p-2600.png 2600w, images/scm-girl-p-3200.png 3200w, images/scm-girl.png 5000w" sizes="177px" class="image-5"></div>
-        <div class="w-col w-col-9">
-          <h3 class="peach-text">Hi Grace, welcome to Flexchain! We noticed the following events requiring your attention.</h3>
-          <div class="columns-6 w-row">
-            <div class="column-8 w-col w-col-4">
-              <div class="dashboard-tile w-row">
-                <div class="column-5 w-col w-col-3">
-                  <h1 class="heading-4">5</h1>
+        <div class="columns-7 w-row">
+            <div class="column-7 w-col w-col-3"><img src="{ url_for('static', filename='images/scm-girl.png') }}"
+                                                     alt="scm girl"
+                                                     srcset="images/scm-girl-p-500.png 500w, images/scm-girl-p-800.png 800w, images/scm-girl-p-1080.png 1080w, images/scm-girl-p-1600.png 1600w, images/scm-girl-p-2000.png 2000w, images/scm-girl-p-2600.png 2600w, images/scm-girl-p-3200.png 3200w, images/scm-girl.png 5000w"
+                                                     sizes="177px" class="image-5"></div>
+            <div class="w-col w-col-9">
+                <h3 class="peach-text">Hi Grace, welcome to Flexchain! We noticed the following events requiring your
+                    attention.</h3>
+                <div class="columns-6 w-row">
+                    <div class="column-8 w-col w-col-4">
+                        <div class="dashboard-tile w-row">
+                            <div class="column-5 w-col w-col-3">
+                                <h1 class="heading-4">5</h1>
+                            </div>
+                            <div class="column-6 w-col w-col-9">
+                                <div class="paragraph-text pt_homepage">Out of Stock Items</div>
+                                <a href="/insight/stock-level" class="secondary-cta">View Now</a></div>
+                        </div>
+                    </div>
+                    <div class="column-9 w-col w-col-4">
+                        <div class="dashboard-tile w-row">
+                            <div class="column-5 w-col w-col-3">
+                                <h1 class="heading-4 yellow">17</h1>
+                            </div>
+                            <div class="w-col w-col-9">
+                                <div class="paragraph-text pt_homepage">Low Supply Items</div>
+                                <a href="/insight/stock-level" class="secondary-cta">See Order Strategy</a></div>
+                        </div>
+                    </div>
+                    <div class="w-col w-col-4">
+                        <div class="dashboard-tile w-row">
+                            <div class="column-5 w-col w-col-3">
+                                <h1 class="heading-4 yellow">2</h1>
+                            </div>
+                            <div class="w-col w-col-9">
+                                <div class="paragraph-text pt_homepage">Missing Sales Data</div>
+                                <a href="/product/log" class="secondary-cta">Enter Data</a></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="column-6 w-col w-col-9">
-                  <div class="paragraph-text pt_homepage">Out of Stock Items</div><a href="#" class="secondary-cta">Order Now</a></div>
-              </div>
             </div>
-            <div class="column-9 w-col w-col-4">
-              <div class="dashboard-tile w-row">
-                <div class="column-5 w-col w-col-3">
-                  <h1 class="heading-4 yellow">17</h1>
+        </div>
+    </div>
+</div>
+<div id="Charts">
+    <div class="top-container w-container">
+        <div class="page-header">Quick Actions</div>
+        <a href="/product/log" class="secondary-button w-button">Log Sales</a><a href="/product/add"
+                                                                                 class="secondary-button w-button">Add
+        Product</a><a href="/location/adjust-inventory" class="secondary-button w-button">Update Inventory</a><a
+            href="/insight" class="secondary-button w-button">Ask a Question</a></div>
+</div>
+<div id="Top-Stats">
+    <div class="top-container w-container">
+        <h1 class="page-header">Analytics</h1>
+        <div class="w-row">
+            <div class="w-col w-col-8">
+                <div class="w-embed w-iframe">
+                    <iframe width="600" height="371" seamless="" frameborder="0" scrolling="no"
+                            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTBHt3vLpbiMDEX9acnyja8Tb8J6-BT4bUxpYxtT5Ch54eJl1zNlw4skr_d8kymeKfe7Hc8vF0ozpnT/pubchart?oid=1403136994&amp;format=interactive"></iframe>
                 </div>
-                <div class="w-col w-col-9">
-                  <div class="paragraph-text pt_homepage">Low Supply Items</div><a href="#" class="secondary-cta">See Order Strategy</a></div>
-              </div>
             </div>
             <div class="w-col w-col-4">
-              <div class="dashboard-tile w-row">
-                <div class="column-5 w-col w-col-3">
-                  <h1 class="heading-4 yellow">2</h1>
+                <h1 class="page-subheader">Most Critical Supply Levels</h1>
+                <div class="w-dyn-list">
+                    <div class="w-dyn-items">
+                        <div class="w-dyn-item"></div>
+                    </div>
+                    <div class="w-dyn-empty">
+                        <div>No items found.</div>
+                    </div>
                 </div>
-                <div class="w-col w-col-9">
-                  <div class="paragraph-text pt_homepage">Missing Sales Data</div><a href="#" class="secondary-cta">Enter Data</a></div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div id="Charts">
-    <div class="top-container w-container">
-      <div class="page-header">Quick Actions</div><a href="#" class="secondary-button w-button">Log Sales</a><a href="#" class="secondary-button w-button">Add Product</a><a href="#" class="secondary-button w-button">Update Inventory</a><a href="ask.html" class="secondary-button w-button">Ask a Question</a></div>
-  </div>
-  <div id="Top-Stats">
-    <div class="top-container w-container">
-      <h1 class="page-header">Analytics</h1>
-      <div class="w-row">
-        <div class="w-col w-col-8">
-          <div class="w-embed w-iframe"><iframe width="600" height="371" seamless="" frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTBHt3vLpbiMDEX9acnyja8Tb8J6-BT4bUxpYxtT5Ch54eJl1zNlw4skr_d8kymeKfe7Hc8vF0ozpnT/pubchart?oid=1403136994&amp;format=interactive"></iframe></div>
-        </div>
-        <div class="w-col w-col-4">
-          <h1 class="page-subheader">Most Critical Supply Levels</h1>
-          <div class="w-dyn-list">
-            <div class="w-dyn-items">
-              <div class="w-dyn-item"></div>
-            </div>
-            <div class="w-dyn-empty">
-              <div>No items found.</div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
