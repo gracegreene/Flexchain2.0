@@ -2,7 +2,10 @@ from flask import (
     Blueprint, render_template
 )
 
-bp = Blueprint('location', __name__ , url_prefix='/location')
+from db import get_db
+from models import location
+
+bp = Blueprint('location', __name__, url_prefix='/location')
 
 
 @bp.route('add-warehouse')
@@ -17,7 +20,16 @@ def adjust_inventory():
 
 @bp.route('find-store')
 def find_store():
-    return render_template("location/find-store.html")
+    page_data = {
+        'stores': list()
+    }
+    connection = get_db()
+    cursor = connection.cursor()
+    try:
+        page_data['stores'] = location.get_store(cursor)
+    except Exception as e:
+        print(e)
+    return render_template("location/find-store.html", context=page_data)
 
 
 @bp.route('find-warehouse')
