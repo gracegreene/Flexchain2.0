@@ -2,8 +2,7 @@ from flask import (
     Blueprint, flash, redirect, render_template, request
 )
 
-from models import location
-from models import product, transaction, mysql_generic
+from .models import product, transaction, mysql_generic, location
 from .db import get_db
 
 bp = Blueprint('product', __name__, url_prefix='/product')

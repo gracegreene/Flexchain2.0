@@ -23,7 +23,7 @@ CREATE TABLE `config`(
 
 
 CREATE TABLE `product`(
-    `sku`char(5) NOT NULL,
+    `sku`char(50) NOT NULL,
     `prod_name`varchar(40) NOT NULL,
     `description`varchar(100) NOT NULL,
     `unit_cost` float(10,2) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `product`(
 
 CREATE TABLE `inventory`(
     `inventory_id` int(11) NOT NULL AUTO_INCREMENT,
-    `sku` char(5) NOT NULL,
+    `sku` char(50) NOT NULL,
     `month` int(2) NOT NULL,
     `year` int(4) NOT NULL,
     `quantity` int(6) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE `inventory`(
 
 CREATE TABLE current_inventory (
     `current_inventory_id` int(11) NOT NULL AUTO_INCREMENT,
-    `sku` char(5) NOT NULL,
+    `sku` char(50) NOT NULL,
     `quantity` int(6) NOT NULL,
     `location_id` int(11) NOT NULL,
     PRIMARY KEY(`current_inventory_id`),
@@ -68,7 +68,7 @@ CREATE TABLE current_inventory (
 
 CREATE TABLE `forecast`(
     `forecast_id` int(11) NOT NULL AUTO_INCREMENT,
-    `sku` char(5) NOT NULL,
+    `sku` char(50) NOT NULL,
     `month1` int(6) NOT NULL,
     `month2` int(6) NOT NULL,
     `month3` int(6) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE `forecast`(
 CREATE TABLE `location`(
      `location_id` int(11) NOT NULL AUTO_INCREMENT,
      `integration_id` varchar(40),
-     `location_type` enum('store','warehouse','customer','other') NOT NULL,
+     `location_type` enum('store','warehouse','customer','supplier','other') NOT NULL,
      `loc_name` varchar(50) NOT NULL,
      `country` varchar(30) NOT NULL,
      `state` varchar(30) NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE `transaction`(
 CREATE TABLE `transaction_sku`(
     `transaction_sku_id` int(11) NOT NULL AUTO_INCREMENT,
     `transaction_id` int(11) NOT NULL,
-    `sku` char(5) NOT NULL,
+    `sku` char(50) NOT NULL,
     `quantity` int(7) NOT NULL,
     `amount_override` float(7,2),
     PRIMARY KEY(`transaction_sku_id`),
