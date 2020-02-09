@@ -4,7 +4,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 
-from models import product
+from .models import product
 from .db import get_db
 
 bp = Blueprint('product', __name__ , url_prefix='/product')
