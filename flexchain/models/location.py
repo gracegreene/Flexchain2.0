@@ -1,6 +1,3 @@
-import mysql.connector
-
-
 class location:
     def __init__(self, location_id,location_type,loc_name,country,state,street_address,zipcode,
                  integration_id=None, coordinates=None, notes=None, company_code=None):
@@ -87,28 +84,3 @@ def get_warehouse(cursor):
 
 def get_customer(cursor):
     return get_locations(cursor, "customer")
-
-
-if __name__ == "__main__":
-    connection = mysql.connector.connect(
-        host="flexchain-db.c9c4zw0dc4zn.us-east-2.rds.amazonaws.com",
-        port=3306,
-        user="admin",
-        password='w0BtB6lVyAnqG2zMg4R5',
-        database='innodb'
-    )
-    cursor = connection.cursor()
-    try:
-        for location in get_store(cursor, "NEWSK"):
-            print(store["location_id"])
-            print(store["loc_name"])
-            print(store["location_type"])
-            print(store["state"])
-    except Exception as e:
-        print(e)
-        cursor.close()
-        connection.close()
-
-    connection.commit()
-    cursor.close()
-    connection.close()

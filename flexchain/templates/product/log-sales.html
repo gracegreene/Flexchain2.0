@@ -1,50 +1,76 @@
 {% extends 'base.html' %}
 {% include 'nav.html' %}
 {% block content %}
-  <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
-    <div class="container w-container"><a href="../index.html" class="brand w-nav-brand"></a>
-      <nav role="navigation" class="w-nav-menu"><a href="../index.html" class="nav-link w-nav-link">Dashboard</a><a href="#" class="nav-link-3 w-nav-link">Product</a><a href="../locations.html" class="nav-link-3 w-nav-link">Locations</a><a href="#" class="nav-link-3 w-nav-link">Settings</a><a href="#" class="nav-link-3 w-nav-link">Account</a></nav>
-      <div class="w-nav-button">
-        <div class="icon w-icon-nav-menu"></div>
-      </div>
-    </div>
-  </div>
-  <div id="Charts">
+<div id="Charts">
     <div class="top-container-2 tc2_product w-container">
-      <div class="div-block-2">
-        <h1 class="page-header ph_other">Products</h1>
-        <h3 class="page-subheader ps_other">You can manage the data for each product you have or will have in inventory. You can view, update details, add and archive product here.</h3>
-      </div>
-    </div>
-  </div>
-  <div class="top-container w-container">
-    <div class="div-block-4"><a href="ct.html" class="primary-button w-button">Find Product</a><a href="t.html" class="primary-button w-button">Add Product</a><a href="duct.html" class="primary-button w-button">Update Product</a><a href="#" class="primary-button w-button">Archive Product</a><a href="/log-sales.html" class="primary-button w-button w--current">Log Sales</a></div>
-  </div>
-  <div id="Top-Stats">
-    <div class="top-container w-container">
-      <div class="peach-text">Each submission corresponds to a single sales transaction.</div>
-      <div class="div-block-sales">
-        <div class="w-form">
-          <form method="POST" action="/product/log-sales.html" id="wf-form-Sales-Data" name="wf-form-Sales-Data" data-name="Sales Data" class="form-5 logsales"><input type="text" class="text-field-6 w-input" maxlength="256" name="Date" data-name="Date" placeholder="Date" id="Date" required="">
-              <div><input type="text" class="text-field-6 w-input" maxlength="256" name="Total-Amount" data-name="Total Amount" placeholder="Total Amount" id="Total-Amount" required=""></div><select id="Location-2" name="Location" data-name="Location" required="" class="select-field-4 w-select">{% for location in context.locations%}<option value="{{ location.location_id }}">{{ location.loc_name }}</option>{% endfor %}</select>
-              <select id="SKU-0" name="SKU-0" data-name="SKU" class="select-field-3 w-select">{% for product in context.products %}<option value="{{ product.sku }}">{{ product.product_name }}</option>{% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256" name="Quantity-0" data-name="Location 3" placeholder="Quantity Sold" id="Location-3" required="">
-            <div class="div-block-5"></div><select id="SKU-1" name="SKU-1" data-name="SKU 2" class="select-field-3 w-select">{% for product in context.products %}<option value="{{ product.sku }}">{{ product.product_name }}</option>{% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256" name="Quantity-1" data-name="Location 4" placeholder="Quantity Sold" id="Location-4">
-            <div class="div-block-6"></div><select id="SKU-2" name="SKU-2" data-name="SKU 2" class="select-field-3 w-select">{% for product in context.products %}<option value="{{ product.sku }}">{{ product.product_name }}</option>{% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256" name="Quantity-2" data-name="Location" placeholder="Quantity Sold" id="Location" >
-            <div class="div-block-6"></div><select id="SKU-3" name="SKU-3" data-name="SKU 2" class="select-field-3 w-select">{% for product in context.products %}<option value="{{ product.sku }}">{{ product.product_name }}</option>{% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256" name="Quantity-3" data-name="Location 5" placeholder="Quantity Sold" id="Location-5">
-            <div class="div-block-6"></div>
-            <div class="div-block-6"></div>
-            <div class="div-block-6"></div><input type="submit" value="Submit" data-wait="Submit" class="secondary-button w-button"></form>
-          <div class="w-form-done">
-            <div>Thank you! Your submission has been received!</div>
-          </div>
-          <div class="w-form-fail">
-            <div>Oops! Something went wrong while submitting the form.</div>
-          </div>
+        <div class="div-block-2">
+            <h1 class="page-header ph_other">Products</h1>
+            <h3 class="page-subheader ps_other">You can manage the data for each product you have or will have in
+                inventory. You can view, update details, add and archive product here.</h3>
         </div>
-      </div>
     </div>
-  </div>
-  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="../js/webflow.js" type="text/javascript"></script>
+</div>
+<div class="top-container w-container">
+    {% include 'product/nav.html' %}
+</div>
+<div id="Top-Stats">
+    <div class="top-container w-container">
+        <div class="peach-text">Each submission corresponds to a single sales transaction.</div>
+        <div class="div-block-sales">
+            <div class="w-form">
+                <form method="POST" action="/product/log" id="wf-form-Sales-Data" name="wf-form-Sales-Data"
+                      data-name="Sales Data" class="form-5 logsales"><input type="text" class="text-field-6 w-input"
+                                                                            maxlength="256" name="Date" data-name="Date"
+                                                                            placeholder="Date" id="Date" required="">
+                    <div><input type="text" class="text-field-6 w-input" maxlength="256" name="Total-Amount"
+                                data-name="Total Amount" placeholder="Total Amount" id="Total-Amount" required=""></div>
+                    <select id="Location-2" name="Location" data-name="Location" required=""
+                            class="select-field-4 w-select">{% for location in context.locations%}
+                        <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
+                        {% endfor %}</select>
+                    <select id="SKU-0" name="SKU-0" data-name="SKU" class="select-field-3 w-select">{% for product in
+                        context.products %}
+                        <option value="{{ product.sku }}">{{ product.product_name }}</option>
+                        {% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256"
+                                                    name="Quantity-0" data-name="Location 3" placeholder="Quantity Sold"
+                                                    id="Location-3" required="">
+                    <div class="div-block-5"></div>
+                    <select id="SKU-1" name="SKU-1" data-name="SKU 2" class="select-field-3 w-select">{% for product in
+                        context.products %}
+                        <option value="{{ product.sku }}">{{ product.product_name }}</option>
+                        {% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256"
+                                                    name="Quantity-1" data-name="Location 4" placeholder="Quantity Sold"
+                                                    id="Location-4">
+                    <div class="div-block-6"></div>
+                    <select id="SKU-2" name="SKU-2" data-name="SKU 2" class="select-field-3 w-select">{% for product in
+                        context.products %}
+                        <option value="{{ product.sku }}">{{ product.product_name }}</option>
+                        {% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256"
+                                                    name="Quantity-2" data-name="Location" placeholder="Quantity Sold"
+                                                    id="Location">
+                    <div class="div-block-6"></div>
+                    <select id="SKU-3" name="SKU-3" data-name="SKU 2" class="select-field-3 w-select">{% for product in
+                        context.products %}
+                        <option value="{{ product.sku }}">{{ product.product_name }}</option>
+                        {% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256"
+                                                    name="Quantity-3" data-name="Location 5" placeholder="Quantity Sold"
+                                                    id="Location-5">
+                    <div class="div-block-6"></div>
+                    <div class="div-block-6"></div>
+                    <div class="div-block-6"></div>
+                    <input type="submit" value="Submit" data-wait="Submit" class="secondary-button w-button"></form>
+                <div class="w-form-done">
+                    <div>Thank you! Your submission has been received!</div>
+                </div>
+                <div class="w-form-fail">
+                    <div>Oops! Something went wrong while submitting the form.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="../js/webflow.js" type="text/javascript"></script>
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 {% endblock %}

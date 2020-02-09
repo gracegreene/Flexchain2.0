@@ -11,8 +11,10 @@
     </div>
   </div>
 ## Product navigation
+
   <div class="top-container w-container">
-    <div class="div-block-4"><a href="/find-product.html" class="primary-button w-button w--current">Find Product</a><a href="t.html" class="primary-button w-button">Add Product</a><a href="duct.html" class="primary-button w-button">Update Product</a><a href="oduct.html" class="primary-button w-button">Archive Product</a><a href="html" class="primary-button w-button">Log Sales</a></div>
+    {% block subnav %}{% endblock %}
+    {% include 'product/nav.html' %}
   </div>
   <div id="Top-Stats">
     <div class="top-container w-container">
@@ -22,9 +24,13 @@
           <div data-w-tab="Tab 3" class="w-tab-pane"></div>
         </div>
       </div>
-      <h1 class="peach-text">Enter the SKU or name of the product. Leave blank if you want to return all products.</h1>
+      <h1 class="peach-text">Enter the SKU or name of the product. Leave blank if you want to return all
+        products.</h1>
       <div class="w-form">
-        <form action="/product" method="GET" id="email-form" name="email-form" data-name="Email Form" method="get" class="form"><input type="text" class="text-field w-input" maxlength="256" name="name" data-name="Name" id="name"><input type="submit" value="Search" data-wait="Please wait..." class="secondary-button sb_other w-button"></form>
+        <form action="/product" method="GET" id="email-form" name="email-form" data-name="Email Form" method="get"
+              class="form"><input type="text" class="text-field w-input" maxlength="256" name="name" data-name="Name"
+                                  id="name"><input type="submit" value="Search" data-wait="Please wait..."
+                                                   class="secondary-button sb_other w-button"></form>
         <div class="w-form-done">
           <div>Thank you! Your submission has been received!</div>
         </div>

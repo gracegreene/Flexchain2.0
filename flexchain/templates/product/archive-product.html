@@ -1,88 +1,140 @@
 {% extends 'base.html' %}
 {% include 'nav.html' %}
 {% block content %}
-  <div id="Charts">
+<div id="Charts">
     <div class="top-container-2 tc2_product w-container">
-      <div class="div-block-2">
-        <h1 class="page-header ph_other">Products</h1>
-        <h3 class="page-subheader ps_other">You can manage the data for each product you have or will have in inventory. You can view, update details, add and archive product here.</h3>
-      </div>
+        <div class="div-block-2">
+            <h1 class="page-header ph_other">Products</h1>
+            <h3 class="page-subheader ps_other">You can manage the data for each product you have or will have in
+                inventory. You can view, update details, add and archive product here.</h3>
+        </div>
     </div>
-  </div>
-  <div class="top-container w-container">
-    <div class="div-block-4"><a href="ct.html" class="primary-button w-button">Find Product</a><a href="t.html" class="primary-button w-button">Add Product</a><a href="duct.html" class="primary-button w-button">Update Product</a><a href="/archive-product.html" class="primary-button w-button w--current">Archive Product</a><a href="#" class="primary-button w-button">Log Sales</a></div>
-  </div>
-  <div id="Top-Stats">
+</div>
+<div class="top-container w-container">
+    {% include 'product/nav.html' %}
+</div>
+<div id="Top-Stats">
     <div class="top-container w-container">
-      <div data-duration-in="300" data-duration-out="100" class="w-tabs">
-        <div class="w-tab-content">
-          <div data-w-tab="Tab 2" class="w-tab-pane"></div>
-          <div data-w-tab="Tab 3" class="w-tab-pane"></div>
-        </div>
-      </div>
-      <div data-duration-in="300" data-duration-out="100" class="w-tabs">
-        <div class="w-tab-content">
-          <div data-w-tab="Add Product" class="tab-pane-add-product w-tab-pane"><a href="#" class="secondary-cta">Upload Products in Bulk</a>
-            <div class="form-block w-form">
-              <form id="email-form-2" name="email-form-2" data-name="Email Form 2" class="form-2"><label for="SKU">SKU</label><input type="text" class="w-input" maxlength="256" name="SKU" data-name="SKU" id="SKU"><label for="Product-Name">Product Name</label><input type="email" class="w-input" maxlength="256" name="Product-Name" data-name="Product Name" id="Product-Name" required=""><label for="Description">Description</label><input type="text" class="w-input" maxlength="256" name="Description" data-name="Description" id="Description" required=""><label for="Unit-Cost">Unit Cost</label><input type="number" class="w-input" maxlength="256" name="Unit-Cost" data-name="Unit Cost" id="Unit-Cost" required=""><label for="Weight">Weight</label><input type="number" class="w-input" maxlength="256" name="Weight" data-name="Weight" id="Weight" required=""><label for="Dimension">Dimension</label><input type="number" class="w-input" maxlength="256" name="Dimension" data-name="Dimension" id="Dimension" required=""><label for="Case-Size">Case Size</label><input type="number" maxlength="256" name="Case-Size" data-name="Case Size" id="Case-Size" class="w-input"><label for="Wholesale-Price">Wholesale Price</label><input type="number" class="w-input" maxlength="256" name="Wholesale-Price" data-name="Wholesale Price" id="Wholesale-Price" required=""><label for="Retail-Price">Retail Price</label><input type="number" class="w-input" maxlength="256" name="Retail-Price" data-name="Retail Price" id="Retail-Price" required=""><input type="submit" value="Submit" data-wait="Please wait..." class="secondary-button w-button"></form>
-              <div class="w-form-done">
-                <div>Thank you! Your submission has been received!</div>
-              </div>
-              <div class="w-form-fail">
-                <div>Oops! Something went wrong while submitting the form.</div>
-              </div>
+        <div data-duration-in="300" data-duration-out="100" class="w-tabs">
+            <div class="w-tab-content">
+                <div data-w-tab="Tab 2" class="w-tab-pane"></div>
+                <div data-w-tab="Tab 3" class="w-tab-pane"></div>
             </div>
-          </div>
-          <div data-w-tab="Update Product" class="w-tab-pane">
-            <h1 class="peach-text">Enter the SKU or name of the product that you want to update. Leave blank if you want to return all products.</h1>
-            <div class="w-form">
-              <form method="GET" id="email-form" name="email-form" data-name="Email Form" class="form"><input type="text" class="text-field w-input" maxlength="256" name="sku" data-name="Name 3" id="name-3"><input type="submit" value="Search" data-wait="Please wait..." class="secondary-button sb_other w-button"></form>
-              <div class="w-form-done">
-                <div>Thank you! Your submission has been received!</div>
-              </div>
-              <div class="w-form-fail">
-                <div>Oops! Something went wrong while submitting the form.</div>
-              </div>
+        </div>
+        <div data-duration-in="300" data-duration-out="100" class="w-tabs">
+            <div class="w-tab-content">
+                <div data-w-tab="Add Product" class="tab-pane-add-product w-tab-pane"><a href="#" class="secondary-cta">Upload
+                    Products in Bulk</a>
+                    <div class="form-block w-form">
+                        <form method="GET" action="" id="email-form-2" name="email-form-2" data-name="Email Form 2"
+                              class="form-2"><label for="SKU">SKU</label><input type="text" class="w-input"
+                                                                                maxlength="256" name="SKU"
+                                                                                data-name="SKU" id="SKU"><label
+                                for="Product-Name">Product Name</label><input type="email" class="w-input"
+                                                                              maxlength="256" name="Product-Name"
+                                                                              data-name="Product Name" id="Product-Name"
+                                                                              required=""><label for="Description">Description</label><input
+                                type="text" class="w-input" maxlength="256" name="Description" data-name="Description"
+                                id="Description" required=""><label for="Unit-Cost">Unit Cost</label><input
+                                type="number" class="w-input" maxlength="256" name="Unit-Cost" data-name="Unit Cost"
+                                id="Unit-Cost" required=""><label for="Weight">Weight</label><input type="number"
+                                                                                                    class="w-input"
+                                                                                                    maxlength="256"
+                                                                                                    name="Weight"
+                                                                                                    data-name="Weight"
+                                                                                                    id="Weight"
+                                                                                                    required=""><label
+                                for="Dimension">Dimension</label><input type="number" class="w-input" maxlength="256"
+                                                                        name="Dimension" data-name="Dimension"
+                                                                        id="Dimension" required=""><label
+                                for="Case-Size">Case Size</label><input type="number" maxlength="256" name="Case-Size"
+                                                                        data-name="Case Size" id="Case-Size"
+                                                                        class="w-input"><label for="Wholesale-Price">Wholesale
+                            Price</label><input type="number" class="w-input" maxlength="256" name="Wholesale-Price"
+                                                data-name="Wholesale Price" id="Wholesale-Price" required=""><label
+                                for="Retail-Price">Retail Price</label><input type="number" class="w-input"
+                                                                              maxlength="256" name="Retail-Price"
+                                                                              data-name="Retail Price" id="Retail-Price"
+                                                                              required=""><input type="submit"
+                                                                                                 value="Submit"
+                                                                                                 data-wait="Please wait..."
+                                                                                                 class="secondary-button w-button">
+                        </form>
+                        <div class="w-form-done">
+                            <div>Thank you! Your submission has been received!</div>
+                        </div>
+                        <div class="w-form-fail">
+                            <div>Oops! Something went wrong while submitting the form.</div>
+                        </div>
+                    </div>
+                </div>
+                <div data-w-tab="Update Product" class="w-tab-pane">
+                    <h1 class="peach-text">Enter the SKU or name of the product that you want to update. Leave blank if
+                        you want to return all products.</h1>
+                    <div class="w-form">
+                        <form method="GET" id="email-form" name="email-form" data-name="Email Form" class="form"><input
+                                type="text" class="text-field w-input" maxlength="256" name="sku" data-name="Name 3"
+                                id="name-3"><input type="submit" value="Search" data-wait="Please wait..."
+                                                   class="secondary-button sb_other w-button"></form>
+                        <div class="w-form-done">
+                            <div>Thank you! Your submission has been received!</div>
+                        </div>
+                        <div class="w-form-fail">
+                            <div>Oops! Something went wrong while submitting the form.</div>
+                        </div>
+                    </div>
+                </div>
+                <div data-w-tab="Archive Product" class="w-tab-pane">
+                    <h1 class="peach-text">Enter the SKU or name of the product you want to archive. Leave blank if you
+                        want to return all products.</h1>
+                    <div class="w-form">
+                        <form id="email-form" name="email-form" data-name="Email Form" class="form"><input type="text"
+                                                                                                           class="text-field w-input"
+                                                                                                           maxlength="256"
+                                                                                                           name="name-3"
+                                                                                                           data-name="Name 3"
+                                                                                                           id="name-3"><input
+                                type="submit" value="Search" data-wait="Please wait..."
+                                class="secondary-button sb_other w-button"></form>
+                        <div class="w-form-done">
+                            <div>Thank you! Your submission has been received!</div>
+                        </div>
+                        <div class="w-form-fail">
+                            <div>Oops! Something went wrong while submitting the form.</div>
+                        </div>
+                    </div>
+                </div>
+                <div data-w-tab="Log Sales" class="w-tab-pane"></div>
             </div>
-          </div>
-          <div data-w-tab="Archive Product" class="w-tab-pane">
-            <h1 class="peach-text">Enter the SKU or name of the product you want to archive. Leave blank if you want to return all products.</h1>
-            <div class="w-form">
-              <form id="email-form" name="email-form" data-name="Email Form" class="form"><input type="text" class="text-field w-input" maxlength="256" name="name-3" data-name="Name 3" id="name-3"><input type="submit" value="Search" data-wait="Please wait..." class="secondary-button sb_other w-button"></form>
-              <div class="w-form-done">
+        </div>
+        <h1 class="peach-text">Enter the SKU or name of the product you want to archive. <br></h1>
+        <div class="w-form">
+            <form action="/product/archive" id="email-form" name="email-form" data-name="Email Form" method="GET"
+                  class="form"><input type="text" class="text-field w-input" maxlength="256" name="sku"
+                                      data-name="Name 4" id="name-4"><input type="submit" value="Search"
+                                                                            data-wait="Please wait..."
+                                                                            class="secondary-button sb_other w-button">
+            </form>
+            <div class="w-form-done">
                 <div>Thank you! Your submission has been received!</div>
-              </div>
-              <div class="w-form-fail">
-                <div>Oops! Something went wrong while submitting the form.</div>
-              </div>
             </div>
-          </div>
-          <div data-w-tab="Log Sales" class="w-tab-pane"></div>
+            <div class="w-form-fail">
+                <div>Oops! Something went wrong while submitting the form.</div>
+            </div>
         </div>
-      </div>
-      <h1 class="peach-text">Enter the SKU or name of the product you want to archive. <br></h1>
-      <div class="w-form">
-        <form action="/product/archive-product" id="email-form" name="email-form" data-name="Email Form" method="GET" class="form"><input type="text" class="text-field w-input" maxlength="256" name="sku" data-name="Name 4" id="name-4"><input type="submit" value="Search" data-wait="Please wait..." class="secondary-button sb_other w-button"></form>
-        <div class="w-form-done">
-          <div>Thank you! Your submission has been received!</div>
-        </div>
-        <div class="w-form-fail">
-          <div>Oops! Something went wrong while submitting the form.</div>
-        </div>
-      </div>
-      <p class="paragraph">Archiving means that the product can no longer be attached to a sales transaction.</p>
+        <p class="paragraph">Archiving means that the product can no longer be attached to a sales transaction.</p>
     </div>
-  </div>
-  <div class="top-container w-container">
+</div>
+<div class="top-container w-container">
     <div class="w-row">
-      <div class="w-col w-col-1">
-        <div class="page-subheader">SKU</div>
-      </div>
-      <div class="w-col w-col-3">
-        <div class="page-subheader">Product Name</div>
-      </div>
-      <div class="w-col w-col-3">
-        <div class="page-subheader">Description</div>
+        <div class="w-col w-col-1">
+            <div class="page-subheader">SKU</div>
+        </div>
+        <div class="w-col w-col-3">
+            <div class="page-subheader">Product Name</div>
+        </div>
+        <div class="w-col w-col-3">
+            <div class="page-subheader">Description</div>
       </div>
       <div class="w-col w-col-1">
         <div class="page-subheader">Weight</div>

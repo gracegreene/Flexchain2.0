@@ -1,10 +1,6 @@
-import functools
-
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, render_template
 )
-
-from .db import get_db
 
 bp = Blueprint('location', __name__ , url_prefix='/location')
 
@@ -42,3 +38,8 @@ def update_warehouse():
 @bp.route('warehouse')
 def warehouse():
     return render_template("location/warehouse.html")
+
+
+@bp.route('')
+def location_index():
+    return render_template("location/index.html")

@@ -30,7 +30,10 @@ def create_app(test_config=None):
 
     @app.route('/')
     def home_page():
-        return render_template("index.html")
+        page_data = {
+            'dashboard': True
+        }
+        return render_template("index.html", context=page_data)
 
     @app.route('/ask')
     def ask_page():
@@ -49,5 +52,14 @@ def create_app(test_config=None):
 
     from . import product
     app.register_blueprint(product.bp)
+
+    from . import account
+    app.register_blueprint(account.bp)
+
+    from . import insights
+    app.register_blueprint(insights.bp)
+
+    from . import settings
+    app.register_blueprint(settings.bp)
 
     return app

@@ -3,15 +3,17 @@
 {% include 'nav.html' %}
 {% block content %}
 <div id="Charts">
-    <div class="top-container-2 tc2_settings tc2_account w-container">
-        <div class="div-block-2">
-            <h1 class="page-header ph_other ph_settings">Account Page</h1>
-            <h3 class="page-subheader ps_other">You can manage application, calculation and display settings in this
-                page. The cost matrix where all shipping costs are estimated can also be maintained here.</h3>
+    <div class="top-container-2 tc2_location w-container">
+        <div class="div-block-3">
+            <div class="page-header ph_other">Locations</div>
+            <h3 class="paragraph-text pt_other">Manage any geolocation that goods are retrieved from, stored in or sent
+                to.<br>You can view and update existing, add new and archive defunct warehouse, supplier factory and
+                customer address.</h3>
         </div>
     </div>
 </div>
-<div class="top-container w-container"></div>
+{% include 'location/nav.html' %}
+
 <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="js/webflow.js" type="text/javascript"></script>

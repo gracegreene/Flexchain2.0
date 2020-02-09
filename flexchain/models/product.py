@@ -1,6 +1,3 @@
-import mysql.connector
-
-
 class product:
     def __init__(self,sku,prod_name,description,retail_price, unit_cost, weight, company_code, length=None, width=None,
                  height=None,case_size=None,wholesale_price=None, collection=None, image_path=None, archive=False):
@@ -114,28 +111,3 @@ def get_product(cursor, query, archive=False):
             "archive": archive,
         })
     return product_collection
-
-
-if __name__ == "__main__":
-    connection = mysql.connector.connect(
-        host="flexchain-db.c9c4zw0dc4zn.us-east-2.rds.amazonaws.com",
-        port=3306,
-        user="admin",
-        password='w0BtB6lVyAnqG2zMg4R5',
-        database='innodb'
-    )
-    cursor = connection.cursor()
-    try:
-        for product in get_product(cursor, "NEWSK"):
-            print(product["sku"])
-            print(product["product_name"])
-            print(product["description"])
-            print(product["image_path"])
-    except Exception as e:
-        print(e)
-        cursor.close()
-        connection.close()
-
-    connection.commit()
-    cursor.close()
-    connection.close()
