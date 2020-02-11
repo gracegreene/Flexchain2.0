@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Locations{% endblock %}
+{% include 'nav.html' %}
+{% block content %}
+<div id="Charts">
+    <div class="top-container-2 tc2_location w-container">
+        <div class="div-block-3">
+            <div class="page-header ph_other">Locations</div>
+            <h3 class="paragraph-text pt_other">Manage any geolocation that goods are retrieved from, stored in or sent
+                to.<br>You can view and update existing, add new and archive defunct warehouse, supplier factory and
+                customer address.</h3>
+        </div>
+    </div>
+</div>
+{% include 'location/nav.html' %}
+<div id="Top-Stats">
+    <div class="top-container w-container">
+        <h4 class="page-header locationph">Add New Store</h4>
+        <div class="peach-text locationpt">Enter details and submit to create new store.</div>
+        <div class="form-block w-form">
+            <form id="email-form-2" name="email-form-2" data-name="Email Form 2"><label for="Integration-ID"
+                                                                                        class="form-field-label">Integration
+                ID</label><input type="text" class="w-input" maxlength="256" name="Integration-ID"
+                                 data-name="Integration ID" id="Integration-ID"><label for="Store-Name"
+                                                                                       class="form-field-label">Store
+                Name</label><input type="text" class="w-input" maxlength="256" name="Store-Name" data-name="Store Name"
+                                   id="Store-Name" required=""><label for="Country"
+                                                                      class="form-field-label">Country</label><input
+                    type="text" class="w-input" maxlength="256" name="Country" data-name="Country" id="Country"
+                    required=""><label for="State" class="form-field-label">State</label><input type="text"
+                                                                                                class="w-input"
+                                                                                                maxlength="256"
+                                                                                                name="State"
+                                                                                                data-name="State"
+                                                                                                id="State"
+                                                                                                required=""><label
+                    for="Street-Address" class="form-field-label">Street Address</label><input type="text"
+                                                                                               class="w-input"
+                                                                                               maxlength="256"
+                                                                                               name="Street-Address"
+                                                                                               data-name="Street Address"
+                                                                                               id="Street-Address"
+                                                                                               required=""><label
+                    for="Zip-Code" class="form-field-label">Zip Code</label><input type="text" class="w-input"
+                                                                                   maxlength="256" name="Zip-Code"
+                                                                                   data-name="Zip Code" id="Zip-Code"
+                                                                                   required=""><label for="Coordinates"
+                                                                                                      class="form-field-label">Coordinates</label><input
+                    type="text" maxlength="256" name="Coordinates" data-name="Coordinates" id="Coordinates"
+                    class="w-input"><label for="Notes" class="form-field-label">Notes</label><input type="text"
+                                                                                                    maxlength="256"
+                                                                                                    name="Notes"
+                                                                                                    data-name="Notes"
+                                                                                                    id="Notes"
+                                                                                                    class="w-input"><input
+                    type="submit" value="Submit" data-wait="Please wait..." class="secondary-button w-button"></form>
+            <div class="w-form-done">
+                <div>Thank you! Your submission has been received!</div>
+            </div>
+            <div class="w-form-fail">
+                <div>Oops! Something went wrong while submitting the form.</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="../js/webflow.js" type="text/javascript"></script>
+<!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
+{% endblock %}

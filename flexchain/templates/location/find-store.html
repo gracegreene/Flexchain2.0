@@ -13,7 +13,7 @@
 </div>
 {% include 'location/nav.html' %}
 <div class="top-container w-container">
-    <div class="div-block-7"><a href="/location/find-warehouse">Add New Store</a></div>
+    <div class="div-block-7"><a href="/location/add-store">Add New Store</a></div>
     <div class="w-row">
         <div class="w-col w-col-2">
             <div class="page-subheader">Location ID</div>
@@ -32,9 +32,9 @@
     </div>
     <div class="w-row">
         {% for store in context.stores %}
-        <div class="w-col w-col-2">{{ store.id }}</div>
-        <div class="w-col w-col-2">{{ store.name }}</div>
-        <div class="w-col w-col-2">{{ store.country }}</div>
+        <div class="w-col w-col-2">{{ store.location_id }}</div>
+        <div class="w-col w-col-2">{{ store.loc_name }}</div>
+        <div class="w-col w-col-2">{{ store.state }}</div>
         <div class="w-col w-col-2">{{ store.coordinates }}</div>
         <div class="w-col w-col-2"><a href="/location/update-store" class="simple-link w-button">Update
             Details</a></div>

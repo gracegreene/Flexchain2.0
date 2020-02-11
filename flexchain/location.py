@@ -8,6 +8,11 @@ from models import location
 bp = Blueprint('location', __name__, url_prefix='/location')
 
 
+@bp.route('add-store')
+def add_store_page():
+    return render_template("location/add-store.html")
+
+
 @bp.route('add-warehouse')
 def add_warehouse():
     return render_template("location/add-warehouse.html")
@@ -27,6 +32,7 @@ def find_store():
     cursor = connection.cursor()
     try:
         page_data['stores'] = location.get_store(cursor)
+        print(page_data)
     except Exception as e:
         print(e)
     return render_template("location/find-store.html", context=page_data)
@@ -45,11 +51,6 @@ def update_store():
 @bp.route('update-warehouse')
 def update_warehouse():
     return render_template("location/update-warehouse.html")
-
-
-@bp.route('warehouse')
-def warehouse():
-    return render_template("location/warehouse.html")
 
 
 @bp.route('')
