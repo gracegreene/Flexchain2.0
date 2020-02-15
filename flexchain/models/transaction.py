@@ -25,3 +25,6 @@ class TransactionSKU:
         self.transaction_id = transaction_id
         insert_sql = "INSERT INTO " + self.table_name + "(" + ",".join(self.table_fields) + ") VALUES (DEFAULT, %s, %s ,%s , %s)"
         cursor.execute(insert_sql, (transaction_id, self.sku, self.quantity, self.amount_override))
+
+
+

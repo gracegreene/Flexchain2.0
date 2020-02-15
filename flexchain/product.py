@@ -2,7 +2,7 @@ from flask import (
     Blueprint, flash, redirect, render_template, request
 )
 
-from .models import product, transaction, mysql_generic, location
+from .models import product, transaction, mysql_generic, location, current_inventory
 from .db import get_db
 
 bp = Blueprint('product', __name__, url_prefix='/product')
@@ -120,9 +120,11 @@ def log_sales():
             new_transaction.create(cursor, "deplete", "sale")
             new_transaction_id = mysql_generic.get_last_insert_id(cursor)[0]
             for sale in product_sales:
-                if sale['sku'] is not None and sale['quantity'] is not None:
+                if sale['sku'] != "" and sale['quantity'] is not None:
                     transaction_sku = transaction.TransactionSKU(sale['sku'], sale['quantity'])
                     transaction_sku.create(cursor, new_transaction_id)
+                    ci = current_inventory.current_inventory(sale['sku'], sale['quantity'], selected_location)
+                    ci.deplete(cursor)
             connection.commit()
         except Exception as e:
             print(e)

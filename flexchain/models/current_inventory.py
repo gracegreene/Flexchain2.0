@@ -11,9 +11,10 @@ class current_inventory:
         insert_sql = "INSERT INTO " + self.table_name + "(" + ",".join(self.table_fields) + ") VALUES (DEFAULT, %s ,%s , %s)"
         cursor.execute(insert_sql, ( self.sku, self.quantity, self.location_id))
 
-    def deplete(self, cursor, quantity, sku, location_id):
-        deplete_sql = "UPDATE " +  self.table_name + " SET quantity = quantity - %s WHERE sku = %s AND location_id = %s"
-        cursor.execute(deplete_sql, (quantity, sku, location_id))
+    def deplete(self, cursor):
+        deplete_sql = "UPDATE " + self.table_name + " SET quantity = quantity - %s WHERE sku = %s AND location_id = %s"
+        print(deplete_sql % (self.quantity, self.sku, self.location_id))
+        cursor.execute(deplete_sql, (self.quantity, self.sku, self.location_id))
 
     def transfer(self ,cursor, quantity, sku, from_location_id, to_location_id):
         self.deplete(cursor,quantity,sku,from_location_id)
@@ -24,6 +25,6 @@ class current_inventory:
         replenish_sql = "UPDATE " + self.table_name + " SET quantity = quantity + %s WHERE sku = %s AND location_id = %s"
         cursor.execute(replenish_sql, (quantity, sku, location_id))
 
-    
+
 
 

@@ -28,29 +28,33 @@
                             class="select-field-4 w-select">{% for location in context.locations%}
                         <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
                         {% endfor %}</select>
-                    <select id="SKU-0" name="SKU-0" data-name="SKU" class="select-field-3 w-select">{% for product in
-                        context.products %}
+                    <select id="SKU-0" name="SKU-0" data-name="SKU" class="select-field-3 w-select">
+                        <option value="">--------</option>
+                        {% for product in context.products %}
                         <option value="{{ product.sku }}">{{ product.product_name }}</option>
                         {% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256"
                                                     name="Quantity-0" data-name="Location 3" placeholder="Quantity Sold"
                                                     id="Location-3" required="">
                     <div class="div-block-5"></div>
-                    <select id="SKU-1" name="SKU-1" data-name="SKU 2" class="select-field-3 w-select">{% for product in
-                        context.products %}
+                    <select id="SKU-1" name="SKU-1" data-name="SKU 2" class="select-field-3 w-select">
+                        <option value="">--------</option>
+                        {% for product in context.products %}
                         <option value="{{ product.sku }}">{{ product.product_name }}</option>
                         {% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256"
                                                     name="Quantity-1" data-name="Location 4" placeholder="Quantity Sold"
                                                     id="Location-4">
                     <div class="div-block-6"></div>
-                    <select id="SKU-2" name="SKU-2" data-name="SKU 2" class="select-field-3 w-select">{% for product in
-                        context.products %}
+                    <select id="SKU-2" name="SKU-2" data-name="SKU 2" class="select-field-3 w-select">
+                        <option value="">--------</option>
+                        {% for product in context.products %}
                         <option value="{{ product.sku }}">{{ product.product_name }}</option>
                         {% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256"
                                                     name="Quantity-2" data-name="Location" placeholder="Quantity Sold"
                                                     id="Location">
                     <div class="div-block-6"></div>
-                    <select id="SKU-3" name="SKU-3" data-name="SKU 2" class="select-field-3 w-select">{% for product in
-                        context.products %}
+                    <select id="SKU-3" name="SKU-3" data-name="SKU 2" class="select-field-3 w-select">
+                        <option value="">--------</option>
+                        {% for product in context.products %}
                         <option value="{{ product.sku }}">{{ product.product_name }}</option>
                         {% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256"
                                                     name="Quantity-3" data-name="Location 5" placeholder="Quantity Sold"
