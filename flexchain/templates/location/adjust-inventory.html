@@ -16,52 +16,40 @@
 <div id="Top-Stats">
     <div class="top-container w-container">
         <div class="w-form">
-            <form id="wf-form-Adjust-Inventory" name="wf-form-Adjust-Inventory" data-name="Adjust Inventory"
-                  method="get" class="form-4"><label for="Location-3" class="peach-text">Select location where inventory
-                will be adjusted</label><select id="Location-3" name="Location-3" required="" data-name="Location 3"
-                                                class="select-field-2 w-select">
-                <option value="">Select one...</option>
-                <option value="First">First Choice</option>
-                <option value="Second">Second Choice</option>
-                <option value="Third">Third Choice</option>
-            </select><input type="submit" value="Continue" data-wait="Please wait..." class="secondary-button w-button">
-            </form>
-            <div class="w-form-done">
-                <div>Thank you! Your submission has been received!</div>
-            </div>
-            <div class="w-form-fail">
-                <div>Oops! Something went wrong while submitting the form.</div>
-            </div>
-        </div>
-    </div>
-    <div class="top-container w-container">
-        <div class="w-form">
-            <form id="wf-form-Adjust-Inventory-2" name="wf-form-Adjust-Inventory-2" data-name="Adjust Inventory 2">
-                <label for="name-5" class="peach-text">Select item</label><select id="Location-2" name="Location-2"
-                                                                                  required="" data-name="Location 2"
-                                                                                  class="select-field-2 w-select">
-                <option value="">Select one...</option>
-                <option value="First">First Choice</option>
-                <option value="Second">Second Choice</option>
-                <option value="Third">Third Choice</option>
-            </select><label for="email-7" class="peach-text">Select adjustment reason</label><select id="Location-2"
-                                                                                                     name="Location-2"
-                                                                                                     required=""
-                                                                                                     data-name="Location 2"
-                                                                                                     class="select-field-2 w-select">
-                <option value="">Select one...</option>
-                <option value="First">First Choice</option>
-                <option value="Second">Second Choice</option>
-                <option value="Third">Third Choice</option>
-            </select><label for="email-7" class="peach-text">Enter quantity</label><input type="number"
-                                                                                          class="text-field-3 w-input"
-                                                                                          maxlength="256"
-                                                                                          name="Adjustment-Quantity-2"
-                                                                                          data-name="Adjustment Quantity 2"
-                                                                                          placeholder="Quantity"
-                                                                                          id="Adjustment-Quantity-2"
-                                                                                          required=""><input
-                    type="submit" value="Submit" data-wait="Please wait..." class="secondary-button w-button"></form>
+            <form name="adjust-inventory-form" action="/location/adjust-inventory" method="POST" class="form-4">
+                <label for="From-Location" class="peach-text">Select location where inventory
+                    will be adjusted from</label>
+                <select id="From-Location" name="location-from" required="" data-name="Location 3"
+                        class="select-field-2 w-select">
+                    {% for location in context.locations %}
+                    <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="To-Location" class="peach-text">Select location where inventory will be adjusted to</label>
+                <select id="To-Location" name="location-to" data-name="Location 3" class="select-field-2 w-select">
+                    {% for location in context.locations %}
+                    <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="product" class="peach-text">Select item</label>
+                <select id="Location-2" name="product" required="" data-name="Location 2"
+                        class="select-field-2 w-select">
+                    {% for item in context.products%}
+                    <option value="{{ item.sku }}">{{ item.product_name }}</option>
+                    {% endfor %}
+
+                </select><label for="email-7" class="peach-text">Select adjustment reason</label>
+                <select id="Location-2" name="reason" required="" data-name="Location 2"
+                        class="select-field-2 w-select">
+                    {% for reason in context.adjustment_reasons %}
+                    <option value="{{ loop.index }}">{{ reason }}</option>
+                    {% endfor %}
+
+                </select><label for="email-7" class="peach-text">Enter quantity</label>
+                <input type="number" class="text-field-3 w-input" maxlength="256" name="quantity"
+                       data-name="Adjustment Quantity 2" placeholder="Quantity" id="Adjustment-Quantity-2" required="">
+                <input type="submit" value="Submit" data-wait="Please wait..." class="secondary-button w-button"></form>
             <div class="w-form-done">
                 <div>Inventory adjustment is successful.</div>
             </div>

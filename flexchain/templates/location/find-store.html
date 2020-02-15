@@ -36,9 +36,10 @@
         <div class="w-col w-col-2">{{ store.loc_name }}</div>
         <div class="w-col w-col-2">{{ store.state }}</div>
         <div class="w-col w-col-2">{{ store.coordinates }}</div>
-        <div class="w-col w-col-2"><a href="/location/update-store" class="simple-link w-button">Update
+        <div class="w-col w-col-2"><a href="/location/update-store?id={{ store.location_id }}"
+                                      class="simple-link w-button">Update
             Details</a></div>
-        <div class="w-col w-col-2"><a href="/location/archive?id={{ store.id }}" class="simple-link w-button">Archive
+        <div class="w-col w-col-2"><a href="/location/archive?id={{ store.location_id }}" class="simple-link w-button">Archive
             Store</a></div>
         {% endfor %}
     </div>

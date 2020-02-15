@@ -23,25 +23,30 @@
       <div class="w-col w-col-3">
         <div class="page-subheader">Warehouse Name</div>
       </div>
-      <div class="w-col w-col-1">
-        <div class="page-subheader">Country</div>
-      </div>
-      <div class="w-col w-col-2">
-        <div class="page-subheader">Coordinates</div>
-      </div>
-      <div class="w-col w-col-2"></div>
-      <div class="w-col w-col-3"></div>
+        <div class="w-col w-col-1">
+            <div class="page-subheader">Country</div>
+        </div>
+        <div class="w-col w-col-2">
+            <div class="page-subheader">Coordinates</div>
+        </div>
+        <div class="w-col w-col-2"></div>
+        <div class="w-col w-col-3"></div>
     </div>
     <div class="w-row">
-      <div class="w-col w-col-1"></div>
-      <div class="w-col w-col-3"></div>
-      <div class="w-col w-col-1"></div>
-      <div class="w-col w-col-2"></div>
-      <div class="w-col w-col-2"><a href="../location/update-warehouse.html" class="simple-link w-button">Update Details</a></div>
-      <div class="w-col w-col-3"><a href="#" class="simple-link w-button">Archive Warehouse</a></div>
+        {% for warehouse in context.warehouses %}
+        <div class="w-col w-col-1">{{ warehouse.location_id }}</div>
+        <div class="w-col w-col-3">{{ warehouse.loc_name }}</div>
+        <div class="w-col w-col-1">{{ warehouse.state }}</div>
+        <div class="w-col w-col-2">{{ warehouse.coordinates }}</div>
+        <div class="w-col w-col-2"><a href="/location/update-warehouse?id={{ warehouse.location_id }}"
+                                      class="simple-link w-button">Update Details</a></div>
+        <div class="w-col w-col-3"><a href="/location/archive?id={{ warehouse.location_id }}"
+                                      class="simple-link w-button">Archive Warehouse</a></div>
+        {% endfor %}
     </div>
-  </div>
-  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="../js/webflow.js" type="text/javascript"></script>
-  <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
+</div>
+<script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="../js/webflow.js" type="text/javascript"></script>
+<!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 {% endblock %}

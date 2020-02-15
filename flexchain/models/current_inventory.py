@@ -7,9 +7,10 @@ class current_inventory:
         self.quantity = quantity
         self.location_id = location_id
 
-    def create(self, cursor, sku, quantity, location_id):
-        insert_sql = "INSERT INTO " + self.table_name + "(" + ",".join(self.table_fields) + ") VALUES (DEFAULT, %s ,%s , %s)"
-        cursor.execute(insert_sql, ( self.sku, self.quantity, self.location_id))
+    def create(self, cursor):
+        insert_sql = "INSERT INTO " + self.table_name + "(" + ",".join(
+            self.table_fields) + ") VALUES (DEFAULT, %s ,%s , %s)"
+        cursor.execute(insert_sql, (self.sku, self.quantity, self.location_id))
 
     def deplete(self, cursor, quantity, sku, location_id):
         deplete_sql = "UPDATE " +  self.table_name + " SET quantity = quantity - %s WHERE sku = %s AND location_id = %s"
