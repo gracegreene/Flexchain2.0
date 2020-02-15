@@ -13,7 +13,7 @@
 </div>
 {% include 'location/nav.html' %}
 <div class="top-container w-container">
-    <div class="div-block-7"><a href="../location/find-warehouse.html">Add New Store</a></div>
+    <div class="div-block-7"><a href="/location/add-store">Add New Store</a></div>
     <div class="w-row">
         <div class="w-col w-col-2">
             <div class="page-subheader">Location ID</div>
@@ -31,13 +31,17 @@
         <div class="w-col w-col-2"></div>
     </div>
     <div class="w-row">
-        <div class="w-col w-col-2"></div>
-        <div class="w-col w-col-2"></div>
-        <div class="w-col w-col-2"></div>
-        <div class="w-col w-col-2"></div>
-        <div class="w-col w-col-2"><a href="../location/update-store.html" class="simple-link w-button">Update
+        {% for store in context.stores %}
+        <div class="w-col w-col-2">{{ store.location_id }}</div>
+        <div class="w-col w-col-2">{{ store.loc_name }}</div>
+        <div class="w-col w-col-2">{{ store.state }}</div>
+        <div class="w-col w-col-2">{{ store.coordinates }}</div>
+        <div class="w-col w-col-2"><a href="/location/update-store?id={{ store.location_id }}"
+                                      class="simple-link w-button">Update
             Details</a></div>
-        <div class="w-col w-col-2"><a href="#" class="simple-link w-button">Archive Store</a></div>
+        <div class="w-col w-col-2"><a href="/location/archive?id={{ store.location_id }}" class="simple-link w-button">Archive
+            Store</a></div>
+        {% endfor %}
     </div>
 </div>
 <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript"

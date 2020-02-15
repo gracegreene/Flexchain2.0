@@ -1,5 +1,5 @@
 class location:
-    def __init__(self, location_id,location_type,loc_name,country,state,street_address,zipcode,
+    def __init__(self, location_id, location_type, loc_name, country, state, street_address, zipcode,
                  integration_id=None, coordinates=None, notes=None, company_code=None):
         self.location_id = location_id
         self.location_type = location_type
@@ -25,15 +25,16 @@ class location:
         else:
             self.company_code = company_code
 
-    def insert_statement_and_data(self):
+    def insert(self, cursor):
         insert_location_sql = (
             "INSERT INTO location"
             "(location_id, location_type, loc_name, country, state, street_address, zipcode, integration_id, coordinates, notes,company_code)"
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            "VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         )
-        data = (self.location_id, self.location_type, self.loc_name, self.country, self.state, self.street_address, self.zipcode,
-                self.integration_id, self.coordinates, self.notes,self.company_code)
-        return insert_location_sql, data
+        data = (self.location_type, self.loc_name, self.country, self.state, self.street_address, self.zipcode,
+                self.integration_id, self.coordinates, self.notes, self.company_code)
+        cursor.execute(insert_location_sql, data)
+        return
 
 
 def get_locations(cursor, query):

@@ -2,8 +2,8 @@ from flask import (
     Blueprint, flash, redirect, render_template, request
 )
 
-from .models import product, transaction, mysql_generic, location, current_inventory
 from .db import get_db
+from .models import product, transaction, mysql_generic, location, current_inventory
 
 bp = Blueprint('product', __name__, url_prefix='/product')
 
@@ -38,7 +38,12 @@ def add_product_page():
         cursor = connection.cursor()
         try:
             cursor.execute(sql, data)
-            get_db().commit()
+            locations = location.get_all_locations(cursor)
+            for l in locations:
+                loc_id = l['location_id']
+                inventory = current_inventory.current_inventory(sku, 0, loc_id)
+                inventory.create(cursor)
+            connection.commit()
         except Exception as e:
             flash("There was an error saving the product to the database: ", e)
             page_data["errors"] = e
