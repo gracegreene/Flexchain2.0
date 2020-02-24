@@ -28,19 +28,21 @@
 
                 <label for="To-Location" class="peach-text">Select location where inventory will be adjusted to</label>
                 <select id="To-Location" name="location-to" data-name="Location 3" class="select-field-2 w-select">
+                    <option value="">--------</option>
                     {% for location in context.locations %}
                     <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
                     {% endfor %}
                 </select>
                 <label for="product" class="peach-text">Select item</label>
-                <select id="Location-2" name="product" required="" data-name="Location 2"
+                <select id="product" name="product" required="" data-name="product"
                         class="select-field-2 w-select">
+                     <option value="">--------</option>
                     {% for item in context.products%}
                     <option value="{{ item.sku }}">{{ item.product_name }}</option>
                     {% endfor %}
 
-                </select><label for="email-7" class="peach-text">Select adjustment reason</label>
-                <select id="Location-2" name="reason" required="" data-name="Location 2"
+                </select><label for="reason" class="peach-text">Select adjustment reason</label>
+                <select id="reason" name="reason" required="" data-name="reason"
                         class="select-field-2 w-select">
                     {% for reason in context.adjustment_reasons %}
                     <option value="{{ loop.index }}">{{ reason }}</option>

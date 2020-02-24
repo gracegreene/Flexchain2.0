@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, render_template
+from .models.product import get_product_out, get_product_low
 
 
 def create_app(test_config=None):
@@ -31,8 +32,17 @@ def create_app(test_config=None):
     @app.route('/')
     def home_page():
         page_data = {
-            'dashboard': True
+            'dashboard': True,
+            "count_stockout": 0,
+            "count_critical": 0,
+            "count_missingsales": 0
         }
+        connection = db.get_db()
+        cursor = connection.cursor()
+        page_data["count_stockout"] = len(get_product_out(cursor))
+        page_data["count_critical"] = len(get_product_low(cursor))
+        # page_data["count_missingsales"] = len(get_missingdata(cursor))
+
         return render_template("index.html", context=page_data)
 
     @app.route('/ask')

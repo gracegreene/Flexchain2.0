@@ -15,27 +15,27 @@
                     <div class="column-8 w-col w-col-4">
                         <div class="dashboard-tile w-row">
                             <div class="column-5 w-col w-col-3">
-                                <h1 class="heading-4">5</h1>
+                                <h1 class="heading-4">{{ context.count_stockout }}</h1>
                             </div>
                             <div class="column-6 w-col w-col-9">
                                 <div class="paragraph-text pt_homepage">Out of Stock Items</div>
-                                <a href="/insight/stock-level" class="secondary-cta">View Now</a></div>
+                                <a href="/insight/stock-level?type=out" class="secondary-cta">View Now</a></div>
                         </div>
                     </div>
                     <div class="column-9 w-col w-col-4">
                         <div class="dashboard-tile w-row">
                             <div class="column-5 w-col w-col-3">
-                                <h1 class="heading-4 yellow">17</h1>
+                                <h1 class="heading-4 yellow">{{ context.count_critical }}</h1>
                             </div>
                             <div class="w-col w-col-9">
                                 <div class="paragraph-text pt_homepage">Low Supply Items</div>
-                                <a href="/insight/stock-level" class="secondary-cta">See Order Strategy</a></div>
+                                <a href="/insight/stock-level?type=low" class="secondary-cta">See Order Strategy</a></div>
                         </div>
                     </div>
                     <div class="w-col w-col-4">
                         <div class="dashboard-tile w-row">
                             <div class="column-5 w-col w-col-3">
-                                <h1 class="heading-4 yellow">2</h1>
+                                <h1 class="heading-4 yellow">{{ context.count_missingsales }}</h1>
                             </div>
                             <div class="w-col w-col-9">
                                 <div class="paragraph-text pt_homepage">Missing Sales Data</div>

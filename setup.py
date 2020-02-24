@@ -8,6 +8,8 @@ setup(
     zip_safe=False,
     install_requires=[
         'Flask',
-        'mysql-connector'
+        'mysql-connector',
+        'pandas',
+        'matplotlib'
     ]
 )

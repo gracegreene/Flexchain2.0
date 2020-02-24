@@ -2,8 +2,8 @@ from flask import (
     Blueprint, render_template,
     request)
 
-from db import get_db
-from models import location, product, current_inventory
+from .db import get_db
+from .models import location, product, current_inventory
 
 bp = Blueprint('location', __name__, url_prefix='/location')
 
@@ -74,32 +74,31 @@ def adjust_inventory():
         from_location = request.form.get('location-from')
         to_location = request.form.get('location-to')
         prod = request.form.get('product')
-        reason = request.form.get('reason')
+        reason = int(request.form.get('reason')) - 1
         quantity = request.form.get('quantity')
+        print(from_location, to_location, prod, reason, quantity)
         try:
             # Reduction
             if reason == 0 or reason == 1 or reason == 4 or reason == 7:
-                inventory = current_inventory.current_inventory(prod, 0, from_location)
-                inventory.deplete(cursor, quantity, prod, from_location)
+                inventory = current_inventory.current_inventory(prod, quantity, from_location)
+                inventory.deplete(cursor)
             # Addition
             if reason == 3 or reason == 5:
                 inventory = current_inventory.current_inventory(prod, 0, from_location)
                 inventory.replenish(cursor, quantity, prod, from_location)
             # Transfer
             if reason == 2 or reason == 6:
-                inventory = current_inventory.current_inventory(prod, 0, from_location)
+                inventory = current_inventory.current_inventory(prod, quantity, from_location)
                 inventory.transfer(cursor, quantity, prod, from_location, to_location)
         except Exception as e:
             print(e)
-        cursor.close()
-        connection.commit()
-        return render_template("location/adjust-inventory.html", context=page_data)
     try:
         page_data['locations'] = location.get_all_locations(cursor)
         page_data['products'] = product.get_all_products(cursor)
     except Exception as e:
         print(e)
     cursor.close()
+    connection.commit()
     return render_template("location/adjust-inventory.html", context=page_data)
 
 

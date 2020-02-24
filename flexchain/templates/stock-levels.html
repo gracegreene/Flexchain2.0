@@ -29,44 +29,27 @@
           <div class="form-field-label headerstock">Order Strategy</div>
         </div>
       </div>
+      {% for product in context.products %}
       <div class="w-row">
         <div class="w-col w-col-3">
-          <div class="form-field-label">Marble Stationery Set</div>
+          <div class="form-field-label">{{ product.product_name }}</div>
         </div>
         <div class="w-col w-col-2">
-          <div class="form-field-label">Image</div>
+          <div class="form-field-label"><img src="{{ product.image_path }}" alt="{{ product.product_name}}" /></div>
         </div>
         <div class="w-col w-col-2">
           <div class="form-field-label">
-            <h4 class="heading-6 redalert">ZERO INVENTORY</h4>
+            <h4 class="heading-6 redalert">{{ product.alert }}</h4>
           </div>
         </div>
         <div class="w-col w-col-3">
-          <div class="form-field-label">120</div>
+          <div class="form-field-label">{{ product.demand }}</div>
         </div>
         <div class="w-col w-col-2">
-          <div class="form-field-label">Order 240 deliver to Chengdu</div>
+          <div class="form-field-label">{{ product.action }}</div>
         </div>
       </div>
-      <div class="w-row">
-        <div class="w-col w-col-3">
-          <div class="form-field-label">Rose Gold Pen</div>
-        </div>
-        <div class="w-col w-col-2">
-          <div class="form-field-label">Image</div>
-        </div>
-        <div class="w-col w-col-2">
-          <div class="form-field-label">
-            <h4 class="heading-6 yellowalert">CRITICAL LEVEL</h4>
-          </div>
-        </div>
-        <div class="w-col w-col-3">
-          <div class="form-field-label">35<br>‍</div>
-        </div>
-        <div class="w-col w-col-2">
-          <div class="form-field-label">Order 240 deliver to Orlando Warehouse</div>
-        </div>
-      </div>
+      {% endfor %}
   </div>
   <div id="Critical-Supply"></div>
 </div>

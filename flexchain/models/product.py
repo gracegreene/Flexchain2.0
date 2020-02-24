@@ -90,7 +90,7 @@ def get_all_products(cursor):
     return product_collection
 
 
-def get_product(cursor, query, archive=False):
+def get_product(cursor, sku, archive=False):
     product_collection = list()
     select_product_sql = '''
     SELECT sku, prod_name, description, image_path, weight, archive
@@ -100,7 +100,7 @@ def get_product(cursor, query, archive=False):
     OR prod_name like CONCAT("%", %s, "%")
     AND archive = %s
     '''
-    cursor.execute(select_product_sql, (query, archive, query.lower(), archive))
+    cursor.execute(select_product_sql, (sku, archive, query.lower(), archive))
     for (sku, prod_name, description, image_path, weight, archive) in cursor:
         product_collection.append({
             "sku": sku,
@@ -111,3 +111,65 @@ def get_product(cursor, query, archive=False):
             "archive": archive,
         })
     return product_collection
+
+
+def get_ROP(sku):
+    return 1000
+
+def get_product_low(cursor):
+    product_collection = list()
+    ROP_temp_list = list()
+    skus = list()
+
+    select_allsku_sql = '''        
+                SELECT sku from product;        
+                '''
+
+    cursor.execute(select_allsku_sql)
+    for sku in cursor:
+        skus.append(sku[0])
+
+    for sku in skus:
+        rop = get_ROP(sku)
+
+        select_product_sql = '''        
+                SELECT product, name, image, total_inventory FROM
+                    (select current_inventory.sku as product, p.prod_name as name,p.image_path as image, sum(quantity) as total_inventory
+                        from location join current_inventory on location.location_id = current_inventory.location_id
+                        join product p on current_inventory.sku = p.sku
+                        group by p.sku) as inventory
+                WHERE total_inventory < %s 
+                AND product = %s;        
+                '''
+        cursor.execute(select_product_sql, (rop, sku))
+        for s, name, image, unused in cursor:
+            product_collection.append({
+                "sku": s,
+                "product_name": name,
+                "image_path": image,
+                "alert": "CRITICAL LEVEL"
+            })
+
+    return product_collection
+
+
+def get_product_out(cursor):
+    product_collection = list()
+    select_product_sql = '''        
+        SELECT sku,name,image FROM
+            (select current_inventory.sku as sku,p.prod_name as name,p.image_path as image, sum(quantity) as total_inventory
+                from location join current_inventory on location.location_id = current_inventory.location_id
+                join product p on current_inventory.sku = p.sku
+                group by p.sku) as inventory
+        WHERE inventory.total_inventory < 1;        
+        '''
+    cursor.execute(select_product_sql)
+    for sku, name, image in cursor:
+        product_collection.append({
+            "sku": sku,
+            "product_name": name,
+            "image_path": image,
+            "alert": "Out of Inventory"
+        })
+    return product_collection
+
