@@ -12,21 +12,24 @@ bp = Blueprint('location', __name__, url_prefix='/location')
 def add_store_page():
     connection = get_db()
     cursor = connection.cursor()
-    if request.method == "POST":
-        integration_id = request.form.get("")
-        store_name = request.form.get()
-        country = request.form.get()
-        state = request.form.get()
-        street_address = request.form.get()
-        zip_code = request.form.get()
-        coordinates = request.form.get()
-        notes = request.form.get()
-        loc = location.location(0, "store", store_name, country, state, street_address, zip_code, integration_id,
-                                coordinates, notes, "Dress My Desk")
-        sql = loc.insert(cursor)
-        connection.commit()
-        cursor.close()
-        # redirect
+    try:
+        if request.method == "POST":
+            integration_id = request.form.get("Integration-ID")
+            store_name = request.form.get("Store-Name")
+            country = request.form.get("Country")
+            state = request.form.get("State")
+            street_address = request.form.get("Street-Address")
+            zip_code = request.form.get("Zip-Code")
+            coordinates = request.form.get("Coordinates")
+            notes = request.form.get("Notes")
+            loc = location.location(0, "store", store_name, country, state, street_address, zip_code, integration_id,
+                                    coordinates, notes, "Dress My Desk")
+            loc.insert(cursor)
+            connection.commit()
+            cursor.close()
+    except Exception as e:
+        print(e)
+
     return render_template("location/add-store.html")
 
 
@@ -34,21 +37,24 @@ def add_store_page():
 def add_warehouse():
     connection = get_db()
     cursor = connection.cursor()
-    if request.method == "POST":
-        integration_id = request.form.get("")
-        store_name = request.form.get()
-        country = request.form.get()
-        state = request.form.get()
-        street_address = request.form.get()
-        zip_code = request.form.get()
-        coordinates = request.form.get()
-        notes = request.form.get()
-        loc = location.location(0, "warehouse", store_name, country, state, street_address, zip_code, integration_id,
-                                coordinates, notes, "Dress My Desk")
-        sql = loc.insert(cursor)
-        connection.commit()
-        cursor.close()
-        # redirect
+    try:
+        if request.method == "POST":
+            integration_id = request.form.get("Integration-ID")
+            store_name = request.form.get("Store-Name")
+            country = request.form.get("Country")
+            state = request.form.get("State")
+            street_address = request.form.get("Street-Address")
+            zip_code = request.form.get("Zip-Code")
+            coordinates = request.form.get("Coordinates")
+            notes = request.form.get("Notes")
+            loc = location.location(0, "warehouse", store_name, country, state, street_address, zip_code, integration_id,
+                                    coordinates, notes, "Dress My Desk")
+            loc.insert(cursor)
+            connection.commit()
+            cursor.close()
+    except Exception as e:
+        print(e)
+        
     return render_template("location/add-warehouse.html")
 
 

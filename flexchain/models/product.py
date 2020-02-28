@@ -1,3 +1,5 @@
+from scipy.stats import norm
+
 class product:
     def __init__(self,sku,prod_name,description,retail_price, unit_cost, weight, company_code, length=None, width=None,
                  height=None,case_size=None,wholesale_price=None, collection=None, image_path=None, archive=False):
@@ -115,6 +117,21 @@ def get_product(cursor, sku, archive=False):
 
 def get_ROP(sku):
     return 1000
+    #R= NORMSINV(service level) x Standard Dev of demand for SKU
+    z = norm.ppf(0.95, loc=10, scale=2)
+
+    sql = '''select STR_TO_DATE(concat_ws("-",month(transaction.date),year(transaction.date),"01"), "%m-%Y-%d") as monthofsale,sum(quantity)
+                    from transaction join transaction_sku on transaction.transaction_id = transaction_sku.transaction_id
+                    join product on transaction_sku.sku = product.sku
+                    where product.sku='{}'
+                    and transaction.reason = 'Sale'
+                    group by monthofsale,prod_name
+                    order by transaction.date;
+    '''.format(sku)
+    series = read_sql(sql, con=connection, parse_dates=0, index_col=["monthofsale"])
+    sales = series.values
+    sigma = np.std(sales)
+    return z*sigma
 
 def get_product_low(cursor):
     product_collection = list()
