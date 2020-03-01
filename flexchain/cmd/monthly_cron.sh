@@ -1,0 +1,1 @@
+DATABASE_HOST=flexchain-db.c9c4zw0dc4zn.us-east-2.rds.amazonaws.com DATABASE_PORT=3306 DATABASE_USER=admin DATABASE_PASSWORD=w0BtB6lVyAnqG2zMg4R5 DATABASE=innodb FLASK_APP=flexchain flask monthly-cron-inventory

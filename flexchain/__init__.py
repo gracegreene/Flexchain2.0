@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, render_template
+
 from .models.product import get_product_out, get_product_low
 
 
@@ -28,6 +29,9 @@ def create_app(test_config=None):
 
     from . import db
     db.init_app(app)
+
+    from . import inventory
+    inventory.init_app(app)
 
     @app.route('/')
     def home_page():

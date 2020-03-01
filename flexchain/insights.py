@@ -1,17 +1,37 @@
 import math
-from .db import get_db
-from .forecast import forecast
-from .models.product import get_product_out, get_product_low
+
 from flask import (
     Blueprint, render_template, request
 )
+
+from .db import get_db
+from .forecast import forecast
+from .models import location
+from .models.product import get_product_out, get_product_low, get_all_products
 
 bp = Blueprint('insight', __name__, url_prefix="/insight")
 
 
 @bp.route('/')
 def get_insight_page():
-    return render_template("ask.html")
+    page_data = {
+        'products': list(),
+        'locations': list(),
+        "count_stockout": 0,
+        "count_critical": 0,
+        "count_missingsales": 0
+    }
+    connection = get_db()
+    cursor = connection.cursor()
+    try:
+        page_data["count_stockout"] = len(get_product_out(cursor))
+        page_data["count_critical"] = len(get_product_low(cursor))
+        # page_data["count_missingsales"] = len(get_missingdata(cursor))
+        page_data['products'] = get_all_products(cursor)
+        page_data['locations'] = location.get_all_locations(cursor)
+    except Exception as e:
+        print(e)
+    return render_template("ask.html", context=page_data)
 
 
 @bp.route('stock-level')

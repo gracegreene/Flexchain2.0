@@ -2,6 +2,7 @@
 {% block title %}Locations{% endblock %}
 {% include 'nav.html' %}
 {% block content %}
+<link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet" type="text/css">
 <div id="Greeting">
     <div class="top-container w-container">
         <div class="columns-7 w-row">
@@ -16,117 +17,165 @@
                     <div class="column-8 w-col w-col-4">
                         <div class="dashboard-tile w-row">
                             <div class="column-5 w-col w-col-3">
-                                <h1 class="heading-4">5</h1>
+                                <h1 class="heading-4">{{ context.count_stockout }}</h1>
                             </div>
                             <div class="column-6 w-col w-col-9">
                                 <div class="paragraph-text pt_homepage">Out of Stock Items</div>
-                                <a href="#" class="secondary-cta">Order Now</a></div>
+                                <a href="/insight/stock-level?type=out" class="secondary-cta">Order Now</a></div>
                         </div>
                     </div>
                     <div class="column-9 w-col w-col-4">
                         <div class="dashboard-tile w-row">
                             <div class="column-5 w-col w-col-3">
-                                <h1 class="heading-4 yellow">17</h1>
+                                <h1 class="heading-4 yellow">{{ context.count_critical }}</h1>
                             </div>
                             <div class="w-col w-col-9">
                                 <div class="paragraph-text pt_homepage">Low Supply Items</div>
-                                <a href="#" class="secondary-cta">See Order Strategy</a></div>
+                                <a href="/insight/stock-level?type=low" class="secondary-cta">See Order Strategy</a>
+                            </div>
                         </div>
-            </div>
-            <div class="w-col w-col-4">
-              <div class="dashboard-tile w-row">
-                <div class="column-5 w-col w-col-3">
-                  <h1 class="heading-4 yellow">2</h1>
+                    </div>
+                    <div class="w-col w-col-4">
+                        <div class="dashboard-tile w-row">
+                            <div class="column-5 w-col w-col-3">
+                                <h1 class="heading-4 yellow">{{ context.count_missingsales }}</h1>
+                            </div>
+                            <div class="w-col w-col-9">
+                                <div class="paragraph-text pt_homepage">Missing Sales Data</div>
+                                <a href="/product/log" class="secondary-cta">Enter Data</a></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-col w-col-9">
-                  <div class="paragraph-text pt_homepage">Missing Sales Data</div><a href="#" class="secondary-cta">Enter Data</a></div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div id="Charts">
+</div>
+<div id="Charts">
     <div class="top-container w-container">
-      <div class="page-subheader ask_sh">Flexchain can provide smart recommendations for your order strategy.<br>Select the question you want to ask.</div>
-      <div class="w-form">
-        <form id="email-form" name="email-form" data-name="Email Form" class="form-3"><label class="peach-text ask_pt">Selling</label><label class="radio-button-field w-radio"><input type="radio" data-name="Radio" id="What should I sell?" name="radio" value="What should I sell?" class="w-form-formradioinput w-radio-input"><span for="What should I sell?" class="paragraph-text ask_pt w-form-label">What should I sell?</span></label><label class="radio-button-field-2 w-radio"><input type="radio" data-name="Radio" id="What should I sell?" name="radio" value="What should I sell?" class="w-form-formradioinput w-radio-input"><span for="What should I sell?-2" class="paragraph-text ask_pt w-form-label">Where should I sell?</span></label><label class="radio-button-field-3 w-radio"><input type="radio" data-name="Radio" id="What should I sell?" name="radio" value="What should I sell?" class="w-form-formradioinput w-radio-input"><span for="What should I sell?-2" class="paragraph-text ask_pt w-form-label">Should I sell this item?</span></label><input type="submit" value="Ask Now" data-wait="Please wait..." class="secondary-button ask_sb w-button"></form>
-        <div class="w-form-done">
-          <div>Thank you! Your submission has been received!</div>
+        <div class="page-subheader ask_sh">Flexchain can provide smart recommendations for your order strategy.<br>Select
+            the question you want to ask.
         </div>
-        <div class="w-form-fail">
-          <div>Oops! Something went wrong while submitting the form.</div>
-        </div>
-      </div>
-      <div class="w-form">
-        <form id="email-form" name="email-form" data-name="Email Form" class="form-3"><label class="peach-text ask_pt">Purchasing</label><label class="radio-button-field w-radio"><input type="radio" data-name="Radio" id="What should I sell?" name="radio" value="What should I sell?" class="w-form-formradioinput w-radio-input"><span for="What should I sell?-2" class="paragraph-text ask_pt w-form-label">Where should I order?</span></label><label class="radio-button-field-2 w-radio"><input type="radio" data-name="Radio" id="How much should I order?" name="radio" value="How much should I order?" class="w-form-formradioinput w-radio-input"><span for="How much should I order?" class="paragraph-text ask_pt w-form-label">How much should I order?</span></label><label class="radio-button-field-3 w-radio"><input type="radio" data-name="Radio" id="radio" name="radio" class="w-form-formradioinput w-radio-input"><span for="radio" class="paragraph-text ask_pt w-form-label">When should I order?</span></label><input type="submit" value="Ask Now" data-wait="Please wait..." class="secondary-button ask_sb w-button"></form>
-        <div class="w-form-done">
-          <div>Thank you! Your submission has been received!</div>
-        </div>
-        <div class="w-form-fail">
-          <div>Oops! Something went wrong while submitting the form.</div>
-        </div>
-      </div>
+        <label class="peach-text ask_pt">Selling</label><label class="radio-button-field w-radio"><input type="radio"
+                                                                                                         data-name="Radio"
+                                                                                                         id="What should I sell?"
+                                                                                                         name="radio"
+                                                                                                         value="What should I sell?"
+                                                                                                         class="w-form-formradioinput w-radio-input"><span
+            for="What should I sell?"
+            class="paragraph-text ask_pt w-form-label">What should I sell?</span></label><label
+            class="radio-button-field-2 w-radio"><input type="radio" data-name="Radio" id="What should I sell?"
+                                                        name="radio" value="What should I sell?"
+                                                        class="w-form-formradioinput w-radio-input"><span
+            for="What should I sell?-2"
+            class="paragraph-text ask_pt w-form-label">Where should I sell?</span></label><label
+            class="radio-button-field-3 w-radio"><input type="radio" data-name="Radio" id="What should I sell?"
+                                                        name="radio" value="What should I sell?"
+                                                        class="w-form-formradioinput w-radio-input"><span
+            for="What should I sell?-2"
+            class="paragraph-text ask_pt w-form-label">Should I sell this item?</span></label>
+        <button id="Ask-Button-2" type="submit" class="secondary-button ask_sb w-button ask-now">Ask Now</button>
+        <br><br>
+        <label class="peach-text ask_pt">Purchasing</label><label class="radio-button-field w-radio"><input type="radio"
+                                                                                                            data-name="Radio"
+                                                                                                            id="What should I sell?"
+                                                                                                            name="radio"
+                                                                                                            value="What should I sell?"
+                                                                                                            class="w-form-formradioinput w-radio-input"><span
+            for="What should I sell?-2"
+            class="paragraph-text ask_pt w-form-label">Where should I order?</span></label><label
+            class="radio-button-field-2 w-radio"><input type="radio" data-name="Radio" id="How much should I order?"
+                                                        name="radio" value="How much should I order?"
+                                                        class="w-form-formradioinput w-radio-input"><span
+            for="How much should I order?"
+            class="paragraph-text ask_pt w-form-label">How much should I order?</span></label><label
+            class="radio-button-field-3 w-radio"><input type="radio" data-name="Radio" id="radio" name="radio"
+                                                        class="w-form-formradioinput w-radio-input"><span for="radio"
+                                                                                                          class="paragraph-text ask_pt w-form-label">When should I order?</span></label>
+        <button id="Ask-Button" class="secondary-button ask_sb w-button ask-now">Ask Now</button>
     </div>
-      <div class="top-container w-container">
-          <div class="w-form">
-              <form id="email-form" name="email-form" data-name="Email Form" class="form-3"><label
-                      class="peach-text ask_pt">Where should I order?</label>
-                  <div class="paragraph-text ask_pt2">Enter all necessary information for Flexchain to provide you
-                      valuable insights.
-                  </div>
-                  <label for="Product" class="formlabel">Select the item you want to order</label><select id="Product"
-                                                                                                          name="Product"
-                                                                                                          required=""
-                                                                                                          data-name="Product"
-                                                                                                          class="select-field w-select">
-                      <option value="">MG10001</option>
-                      <option value="First">First Choice</option>
-                      <option value="Second">Second Choice</option>
-                      <option value="Third">Third Choice</option>
-                  </select><label for="Quantity" class="formlabel">Enter quantity needed</label><input type="text"
-                                                                                                       class="text-field-2 w-input"
-                                                                                                       maxlength="256"
-                                                                                                       name="Quantity"
-                                                                                                       data-name="Quantity"
-                                                                                                       placeholder="At least 1"
-                                                                                                       id="Quantity"
-                                                                                                       required=""><label
-                          for="Product-2" class="formlabel">Select locations to consider</label><label
-                          class="radio-button-field w-radio"><input type="radio" data-name="Radio"
-                                                                    id="What should I sell?" name="radio"
-                                                                    value="What should I sell?"
-                                                                    class="w-form-formradioinput w-radio-input"><span
-                          for="What should I sell?-2"
-                          class="paragraph-text ask_pt w-form-label">Chengdu</span></label><label
-                          class="radio-button-field-2 w-radio"><input type="radio" data-name="Radio"
-                                                                      id="What should I sell?" name="radio"
-                                                                      value="What should I sell?"
-                                                                      class="w-form-formradioinput w-radio-input"><span
-                          for="What should I sell?-2"
-                          class="paragraph-text ask_pt w-form-label">Orlando</span></label><label
-                          class="radio-button-field-3 w-radio"><input type="radio" data-name="Radio"
-                                                                      id="What should I sell?" name="radio"
-                                                                      value="What should I sell?"
-                                                                      class="w-form-formradioinput w-radio-input"><span
-                          for="What should I sell?-2" class="paragraph-text ask_pt w-form-label">New York</span></label><input
-                          type="submit" value="Get suggestion" data-wait="Please wait..."
-                          class="secondary-button ask_sb w-button"></form>
-              <div class="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
-              </div>
-              <div class="w-form-fail">
-                  <div>Oops! Something went wrong while submitting the form.</div>
-              </div>
-          </div>
-      </div>
-  </div>
-<div id="Top-Stats">
-    <div>This is some text inside of a div block.</div>
+</div>
+<div id="Modal" class="modal">
+    <div class="top-container w-container">
+        <div class="modal-content">
+            <div class="w-form">
+                <form id="email-form" name="email-form" data-name="Email Form" class="form-3"><label
+                        class="peach-text ask_pt">Where should I order?</label>
+                    <div class="paragraph-text ask_pt2">Enter all necessary information for Flexchain to provide you
+                        valuable insights.
+                    </div>
+                    <label for="Product" class="formlabel">Select the item you want to order</label><select id="Product"
+                                                                                                            name="Product"
+                                                                                                            required=""
+                                                                                                            data-name="Product"
+                                                                                                            class="select-field w-select">
+                        {% for product in context.products%}
+                        <option value="{{ product.sku }}">{{ product.product_name }}</option>
+                        {% endfor %}
+                    </select><label for="Quantity" class="formlabel">Enter quantity needed</label><input type="text"
+                                                                                                         class="text-field-2 w-input"
+                                                                                                         maxlength="256"
+                                                                                                         name="Quantity"
+                                                                                                         data-name="Quantity"
+                                                                                                         placeholder="At least 1"
+                                                                                                         id="Quantity"
+                                                                                                         required="">
+                    {% for location in context.locations %}
+                    <div class="checkbox">
+                        <label for="{{ location.location_id }}-checkbox">
+                            <input type="checkbox" id="{{ location.location_id }}-checkbox"
+                                   name="location-{{ loop.index }}" value="{{ location.location_id }}"/>
+                            {{ location.loc_name }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                    <br>
+                    <button class="close secondary-button ask_sb w-button">Cancel</button>
+                    <input type="submit" value="Get suggestion" data-wait="Please wait..."
+                           class="secondary-button ask_sb w-button"></form>
+                <div class="w-form-done">
+                    <div>Thank you! Your submission has been received!</div>
+                </div>
+                <div class="w-form-fail">
+                    <div>Oops! Something went wrong while submitting the form.</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="{{ url_for('static', filename='js/webflow.js') }}" type="text/javascript"></script>
 <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
+<script type="text/javascript">
+    // Get the modal
+    var modal = document.getElementById("Modal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("Ask-Button");
+    var btn2 = document.getElementById("Ask-Button-2");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    };
+
+    btn2.onclick = function () {
+        modal.style.display = "block";
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 {% endblock %}

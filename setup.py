@@ -10,6 +10,7 @@ setup(
         'Flask',
         'mysql-connector',
         'pandas',
-        'matplotlib'
+        'matplotlib',
+        'statsmodels'
     ]
 )

@@ -1,4 +1,4 @@
-from scipy.stats import norm
+
 
 class product:
     def __init__(self,sku,prod_name,description,retail_price, unit_cost, weight, company_code, length=None, width=None,
