@@ -57,6 +57,11 @@ def what_should_sell():
             filtered_itr = [itr for itr in filtered_location_itr if itr['sku'] not in product_filter]
             # TODO redirect to html page where this can be structured.
             return filtered_itr
+            # Answer: Flexchain recommends selling the following products as they are in stock and have a high inventory turnover ratio in the location you indicated
+            # 1. Product Name
+            # 2. Product Name
+            # 3. Product Name
+
         # If date is more than 3 months:
         # get products and rank them according to ITR return top 3, filter out products in critical
         # and inform the user to order them ASAP
@@ -72,7 +77,10 @@ def what_should_sell():
 
             # TODO redirect to html page where this can be structured.
             return filtered_location_itr
-
+            # Answer: Flexchain recommends selling the following products as they have a high inventory turnover ratio in the location you indicated. You still have enough time to order more stocks for those in low supply.
+            # 1. Product Name
+            # 2. Product Name
+            # 3. Product Name
     except Exception as e:
         print(e)
 
@@ -95,6 +103,7 @@ def where_should_sell():
         filtered_itr = [itr for itr in product_itr if itr['location'] == form_location]
         # TODO figure out how to get the form products loop over the products and then find them in itr.
         cursor.close()
+    #Answer: Flexchain recommends selling from or shipping from <insert location>. Data shows that the specific product you indicated sells really well in <insert location>.
     except Exception as e:
         print(e)
     pass

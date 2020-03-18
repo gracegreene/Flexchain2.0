@@ -49,9 +49,10 @@ def create_app(test_config=None):
 
         return render_template("index.html", context=page_data)
 
-    @app.route('/ask')
-    def ask_page():
-        return render_template("ask.html")
+
+    @app.route('/answer')
+    def answer_page():
+        return render_template("answers.html")
 
     @app.route('/404')
     def not_found_page():
