@@ -25,7 +25,3 @@ class current_inventory:
     def replenish(self, cursor, quantity, sku, location_id):
         replenish_sql = "UPDATE " + self.table_name + " SET quantity = quantity + %s WHERE sku = %s AND location_id = %s"
         cursor.execute(replenish_sql, (quantity, sku, location_id))
-
-
-
-
