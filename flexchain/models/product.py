@@ -1,4 +1,4 @@
-
+from datetime import datetime, timedelta
 
 class product:
     def __init__(self,sku,prod_name,description,retail_price, unit_cost, weight, company_code, length=None, width=None,
@@ -190,3 +190,28 @@ def get_product_out(cursor):
         })
     return product_collection
 
+def get_itr(cursor):
+    itr_by_location = list()
+    sql = '''SELECT DISTINCT sales.sku, sales.location, 2*(sales.unit_cost*sales.sum)/(end_inventory.quantity+start_inventory.quantity) AS ITR FROM (SELECT sku, quantity, location_id FROM inventory
+            WHERE month = month(curdate())-1
+            AND year = year(curdate())-1) AS start_inventory
+            JOIN (select sku, quantity, location_id from inventory
+            where month = month(curdate())-1 and year = year(curdate())) AS end_inventory
+            ON start_inventory.sku=end_inventory.sku AND start_inventory.location_id=end_inventory.location_id
+            JOIN (SELECT sales.*, product.unit_cost FROM (SELECT product.sku, transaction.location1 AS location, sum(quantity) AS sum
+                                    FROM transaction JOIN transaction_sku ON transaction.transaction_id = transaction_sku.transaction_id
+                                    JOIN product ON transaction_sku.sku = product.sku
+                                    AND transaction.reason = 'sale'
+            AND transaction.date < date_add(date_add(LAST_DAY(CURDATE()),interval 1 DAY),interval -2 MONTH)
+            AND transaction.date > date_add(date_add(date_add(LAST_DAY(CURDATE()),interval 1 DAY),interval -2 MONTH), interval -1 YEAR)
+            GROUP BY location1, product.sku) AS sales JOIN product on sales.sku = product.sku) AS sales
+            ON sales.sku=start_inventory.sku AND sales.location=start_inventory.location_id
+            ORDER BY ITR DESC;'''
+    cursor.execute(sql)
+    for (sku, location, itr) in cursor:
+        itr_by_location.append({
+            'sku': sku,
+            'location': location,
+            'itr': itr
+        })
+    return itr_by_location
