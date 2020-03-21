@@ -123,8 +123,11 @@ def where_should_sell():
     return render_template("answers.html", answer=answer)
 
 
-@bp.route('/ask/sell/should',  methods=["POST"])
+@bp.route('/ask/sell/should', methods=["POST"])
 def should_sell_item():
+    answer = '''
+    {} has {} turns per year. It is taking 12/{} months to sell and replace inventory.
+    '''
     form_product = request.form.get('product', None)
     form_location = request.form.get('location', None)
     # Get ITR of specific to store
@@ -132,7 +135,7 @@ def should_sell_item():
         connection = get_db()
         cursor = connection.cursor()
         product_itr = get_itr(cursor)
-        
+
         cursor.close()
     except Exception as e:
         print(e)
