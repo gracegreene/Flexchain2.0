@@ -175,7 +175,7 @@ def when_order():
     # get current inventory-next month forecast
     # if < reorder point
     # return month 1 and demand for next month that needs to be fulfilled, repeat loop until less than reorder point
-    #Answer: 
+    #Answer:
     pass
 
 
