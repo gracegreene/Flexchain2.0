@@ -1,3 +1,6 @@
+from pandas import read_sql
+from math import sqrt
+
 class product:
     def __init__(self,sku,prod_name,description,retail_price, unit_cost, weight, company_code, length=None, width=None,
                  height=None,case_size=None,wholesale_price=None, collection=None, image_path=None, archive=False):
@@ -216,3 +219,26 @@ def get_itr(cursor):
             'name': name
         })
     return itr_by_location
+
+def get_order_quantity(connection,cursor,sku):
+
+    sql = '''select unit_cost from product where sku = '%s';'''
+    cursor.execute(sql, (sku))
+    for (unit_cost,) in cursor:
+        unit_cost = unit_cost
+    ordering_cost = 0.1 * unit_cost
+    holding_cost = 0.25 * unit_cost
+
+    sql = '''select STR_TO_DATE(concat_ws("-",month(transaction.date),year(transaction.date),"01"), "%m-%Y-%d") as monthofsale,sum(quantity)
+                from transaction join transaction_sku on transaction.transaction_id = transaction_sku.transaction_id
+                join product on transaction_sku.sku = product.sku
+                where product.sku='{}'
+                and transaction.reason = 'Sale'
+                group by monthofsale,prod_name
+                order by transaction.date;
+    '''.format(sku)
+    series = read_sql(sql, con=connection, parse_dates=0, index_col=["monthofsale"])
+    sales = series.values
+
+    q = sqrt((sales.mean() * ordering_cost)/holding_cost)
+    return q
