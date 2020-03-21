@@ -1,5 +1,3 @@
-from datetime import datetime, timedelta
-
 class product:
     def __init__(self,sku,prod_name,description,retail_price, unit_cost, weight, company_code, length=None, width=None,
                  height=None,case_size=None,wholesale_price=None, collection=None, image_path=None, archive=False):
@@ -192,13 +190,14 @@ def get_product_out(cursor):
 
 def get_itr(cursor):
     itr_by_location = list()
-    sql = '''SELECT DISTINCT sales.sku, sales.location, 2*(sales.unit_cost*sales.sum)/(end_inventory.quantity+start_inventory.quantity) AS ITR FROM (SELECT sku, quantity, location_id FROM inventory
+    sql = '''SELECT DISTINCT sales.sku, sales.prod_name, sales.location, 2*(sales.unit_cost*sales.sum)/(end_inventory.quantity+start_inventory.quantity) AS ITR FROM (
+            SELECT sku, quantity, location_id FROM inventory
             WHERE month = month(curdate())-1
             AND year = year(curdate())-1) AS start_inventory
             JOIN (select sku, quantity, location_id from inventory
             where month = month(curdate())-1 and year = year(curdate())) AS end_inventory
             ON start_inventory.sku=end_inventory.sku AND start_inventory.location_id=end_inventory.location_id
-            JOIN (SELECT sales.*, product.unit_cost FROM (SELECT product.sku, transaction.location1 AS location, sum(quantity) AS sum
+            JOIN (SELECT sales.*, product.unit_cost FROM (SELECT product.sku, product.prod_name, transaction.location1 AS location, sum(quantity) AS sum
                                     FROM transaction JOIN transaction_sku ON transaction.transaction_id = transaction_sku.transaction_id
                                     JOIN product ON transaction_sku.sku = product.sku
                                     AND transaction.reason = 'sale'
@@ -208,10 +207,11 @@ def get_itr(cursor):
             ON sales.sku=start_inventory.sku AND sales.location=start_inventory.location_id
             ORDER BY ITR DESC;'''
     cursor.execute(sql)
-    for (sku, location, itr) in cursor:
+    for (sku, name, location, itr) in cursor:
         itr_by_location.append({
             'sku': sku,
             'location': location,
-            'itr': itr
+            'itr': itr,
+            'name': name
         })
     return itr_by_location

@@ -1,15 +1,14 @@
 import math
+from datetime import datetime, timedelta
 
 from flask import (
-    Blueprint, render_template, request
+    Blueprint, render_template, request, redirect, url_for
 )
 
 from .db import get_db
 from .forecast import forecast
-from .models.product import get_product_out, get_product_low, get_all_products, get_product, get_itr, get_ROP
 from .models.location import get_all_locations
-from datetime import datetime, timedelta
-
+from .models.product import get_product_out, get_product_low, get_all_products, get_itr, get_ROP
 
 bp = Blueprint('insight', __name__, url_prefix="/insight")
 
@@ -38,6 +37,7 @@ def get_insight_page():
 
 @bp.route('/ask/sell/what',  methods=["POST"])
 def what_should_sell():
+    answer = 'Flexchain recommends selling the following products as they have a high inventory turnover ratio in the location you indicated. You still have enough time to order more stocks for those in low supply.'
     form_location = request.form.get('location', None)
     form_date = request.form.get('date', None)
     sale_date = None
@@ -53,14 +53,18 @@ def what_should_sell():
         if current_date + timedelta(days=90) > sale_date:
             product_itr = get_itr(cursor)
             product_filter = get_product_low(cursor)
-            filtered_location_itr = [itr for itr in product_itr if itr['location'] == form_location]
+            filtered_location_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
+            print(filtered_location_itr)
             filtered_itr = [itr for itr in filtered_location_itr if itr['sku'] not in product_filter]
             # TODO redirect to html page where this can be structured.
-            return filtered_itr
-            # Answer: Flexchain recommends selling the following products as they are in stock and have a high inventory turnover ratio in the location you indicated
-            # 1. Product Name
-            # 2. Product Name
-            # 3. Product Name
+            if len(filtered_itr) > 0:
+                answer += "<ol>"
+
+            for product in filtered_itr[0:3]:
+                answer += '<li>' + product['name'] + '</li>'
+
+            if len(filtered_itr) > 0:
+                answer += "</ol>"
 
         # If date is more than 3 months:
         # get products and rank them according to ITR return top 3, filter out products in critical
@@ -68,45 +72,55 @@ def what_should_sell():
         else:
             product_itr = get_itr(cursor)
             product_filter = get_product_low(cursor)
-            filtered_location_itr = [itr for itr in product_itr if itr['location'] == form_location]
+            filtered_location_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
             for itr in filtered_location_itr:
                 if itr['sku'] in product_filter:
-                    itr['level']='critical'
+                    itr['level'] = 'critical'
                 else:
-                    itr['level']='stable'
+                    itr['level'] = 'stable'
 
             # TODO redirect to html page where this can be structured.
-            return filtered_location_itr
-            # Answer: Flexchain recommends selling the following products as they have a high inventory turnover ratio in the location you indicated. You still have enough time to order more stocks for those in low supply.
-            # 1. Product Name
-            # 2. Product Name
-            # 3. Product Name
+            if len(filtered_location_itr) > 0:
+                answer += "<ol>"
+
+            for product in filtered_location_itr[0:3]:
+                answer += '<li>' + product['name'] + '</li>'
+
+            if len(filtered_location_itr) > 0:
+                answer += "</ol>"
+
     except Exception as e:
         print(e)
-
-    pass
+    return redirect(url_for('answer_page', answer=answer))
 
 
 @bp.route('/ask/sell/where', methods=["POST"])
 def where_should_sell():
+    answer = "Flexchain recommends selling from or shipping from <insert location>. Data shows that the specific product you indicated sells really well in <insert location>."
     form_location = request.form.get('location', None)
-    form_product = request.form.get('product', None)
     items = list()
-    if form_location is None or form_product is None:
+    if form_location is None:
         # Need to redirect back with error here.
+        print('Form location was blank 500.')
         return
     # Calculate ITR of 3 items in each location return location with highest ITR
     try:
         connection = get_db()
         cursor = connection.cursor()
+        products = get_all_products(cursor)
+        for p in products:
+            include = request.form.get(p["sku"], None)
+            if include is not None:
+                items.append(p["sku"])
         product_itr = get_itr(cursor)
         filtered_itr = [itr for itr in product_itr if itr['location'] == form_location]
-        # TODO figure out how to get the form products loop over the products and then find them in itr.
+        filtered_item_itr = [itr for itr in filtered_itr if itr['sku'] in items]
+        print(filtered_item_itr
         cursor.close()
-    #Answer: Flexchain recommends selling from or shipping from <insert location>. Data shows that the specific product you indicated sells really well in <insert location>.
+        # Answer: Flexchain recommends selling from or shipping from <insert location>. Data shows that the specific product you indicated sells really well in <insert location>.
     except Exception as e:
         print(e)
-    pass
+    return render_template("answers.html", answer=answer)
 
 
 @bp.route('/ask/sell/should',  methods=["POST"])

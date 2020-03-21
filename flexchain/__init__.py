@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 from .models.product import get_product_out, get_product_low
 
@@ -49,10 +49,10 @@ def create_app(test_config=None):
 
         return render_template("index.html", context=page_data)
 
-
     @app.route('/answer')
     def answer_page():
-        return render_template("answers.html")
+        answer = request.args.get('answer', '')
+        return render_template("answers.html", answer=answer)
 
     @app.route('/404')
     def not_found_page():

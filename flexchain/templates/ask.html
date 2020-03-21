@@ -109,7 +109,7 @@
                 </form>
             </div>
             <div style="display:none;" class="where-should-sell">
-                <form>
+                <form action="/insight/ask/sell/where" method="POST">
                     <label class="peach-text ask_pt">Where should I sell?</label>
                     <label for="location">Location
                         <select name="location">
@@ -120,7 +120,7 @@
                     </label>
                     <label for="top-three-products"> Top Three Products <br>
                         {% for product in context.products %}
-                        <input type="checkbox" name="{{ sku }}"/> {{ product.product_name }}
+                        <input type="checkbox" name="{{ product.sku }}"/> {{ product.product_name }}
                         <br>
                         {% endfor %}
                     </label>
