@@ -148,6 +148,7 @@ def should_sell_item():
 def suggest_order_quantity():
     # Return order quantity and ROP (to tell the user that when current inventory in store x is below top,
     # you should order x amount
+    # Answer: Flexchain recommends ordering x amount of <product name> once available inventory is below <ROP>
     form_product = request.form.get('product', None)
     form_location = request.form.get('location', None)
     try:
@@ -175,7 +176,7 @@ def when_order():
     # get current inventory-next month forecast
     # if < reorder point
     # return month 1 and demand for next month that needs to be fulfilled, repeat loop until less than reorder point
-    #Answer:
+    #Answer: Order <insert product name> next month. While you still have x in your current inventory, it will not be enough to cover the demand anticipated for next month which is at x units.
     pass
 
 
