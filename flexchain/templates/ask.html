@@ -130,13 +130,13 @@
                 </form>
             </div>
             <div style="display:none;" class="should-sell">
-                <form>
+                <form action="/insight/ask/sell/should" method="POST">
                     <label class="peach-text ask_pt">Should I sell this item?</label>
                     <label for="product">
                         <select name="product">
-                        {% for product in context.products %}
+                            {% for product in context.products %}
                             <option value="{{ product.sku }}">{{ product.product_name }}</option>
-                        {% endfor %}
+                            {% endfor %}
                         </select>
                     </label>
                     <label for="location">

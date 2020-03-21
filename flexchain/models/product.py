@@ -100,7 +100,7 @@ def get_product(cursor, sku, archive=False):
     OR prod_name like CONCAT("%", %s, "%")
     AND archive = %s
     '''
-    cursor.execute(select_product_sql, (sku, archive, query.lower(), archive))
+    cursor.execute(select_product_sql, (sku, archive, sku.lower(), archive))
     for (sku, prod_name, description, image_path, weight, archive) in cursor:
         product_collection.append({
             "sku": sku,
@@ -187,6 +187,7 @@ def get_product_out(cursor):
             "alert": "Out of Inventory"
         })
     return product_collection
+
 
 def get_itr(cursor):
     itr_by_location = list()

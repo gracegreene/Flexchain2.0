@@ -85,3 +85,12 @@ def get_warehouse(cursor):
 
 def get_customer(cursor):
     return get_locations(cursor, "customer")
+
+
+def get_location_name_by_id(cursor, id):
+    name = ''
+    sql = 'SELECT loc_name FROM location WHERE location_id=%s'
+    cursor.execute(sql, (id,))
+    for n in cursor:
+        name = n
+    return name[0]

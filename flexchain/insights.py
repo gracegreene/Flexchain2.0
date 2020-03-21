@@ -7,8 +7,8 @@ from flask import (
 
 from .db import get_db
 from .forecast import forecast
-from .models.location import get_all_locations
-from .models.product import get_product_out, get_product_low, get_all_products, get_itr, get_ROP
+from .models.location import get_all_locations, get_location_name_by_id
+from .models.product import get_product_out, get_product_low, get_all_products, get_itr, get_ROP, get_product
 
 bp = Blueprint('insight', __name__, url_prefix="/insight")
 
@@ -96,7 +96,8 @@ def what_should_sell():
 
 @bp.route('/ask/sell/where', methods=["POST"])
 def where_should_sell():
-    answer = "Flexchain recommends selling from or shipping from <insert location>. Data shows that the specific product you indicated sells really well in <insert location>."
+    answer = ''
+    answer_template = "Flexchain recommends selling from or shipping from {}. Data shows that the {} you indicated sells really well in {}."
     form_location = request.form.get('location', None)
     items = list()
     if form_location is None:
@@ -113,11 +114,12 @@ def where_should_sell():
             if include is not None:
                 items.append(p["sku"])
         product_itr = get_itr(cursor)
-        filtered_itr = [itr for itr in product_itr if itr['location'] == form_location]
+        filtered_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
         filtered_item_itr = [itr for itr in filtered_itr if itr['sku'] in items]
-        print(filtered_item_itr
+        for i in filtered_item_itr[0:len(items)]:
+            location_name = get_location_name_by_id(cursor, i['location'])
+            answer += answer_template.format(location_name, i['name'], location_name) + '<br><br>'
         cursor.close()
-        # Answer: Flexchain recommends selling from or shipping from <insert location>. Data shows that the specific product you indicated sells really well in <insert location>.
     except Exception as e:
         print(e)
     return render_template("answers.html", answer=answer)
@@ -125,8 +127,9 @@ def where_should_sell():
 
 @bp.route('/ask/sell/should', methods=["POST"])
 def should_sell_item():
+    choosen_itr = None
     answer = '''
-    {} has {} turns per year. It is taking 12/{} months to sell and replace inventory.
+    {} has {:0.3} cycles per year. It is taking {:0.3} months to sell and replace inventory.
     '''
     form_product = request.form.get('product', None)
     form_location = request.form.get('location', None)
@@ -135,7 +138,25 @@ def should_sell_item():
         connection = get_db()
         cursor = connection.cursor()
         product_itr = get_itr(cursor)
-
+        filtered_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
+        for itr in filtered_itr:
+            if str(itr['sku']) == str(form_product):
+                choosen_itr = itr
+        if choosen_itr is None:
+            answer = 'There is not enough sales and/or inventory data to provide a smart recommendation.'
+            return render_template('answers.html', answer=answer)
+        skus = [itr['sku'] for itr in filtered_itr[0:3]]
+        product_name = get_product(cursor, form_product)[0]['product_name']
+        location_name = get_location_name_by_id(cursor, form_location)
+        answer = answer.format(product_name, choosen_itr['itr'], 12.0 / float(choosen_itr['itr']))
+        if form_product in skus:
+            answer += '<br>' + 'You should definitely sell {} as it is one of  your top selling items in {}.'.format(
+                product_name, location_name
+            )
+        else:
+            answer += '<br>' + 'It is best to find another item as {} is not selling well in {}.'.format(
+                product_name, location_name
+            )
         cursor.close()
     except Exception as e:
         print(e)
@@ -144,7 +165,7 @@ def should_sell_item():
     # Answer: <Insert name of product> has <ITR> turns per year. It is taking 12/<ITR> months to sell and replace inventory.
     # Answer: If item is in top 3 ITR: You should definitely sell <Insert product name> as it is one of your top selling item in <location>
     # Answer: If item is bottom in ITR rank: It is best to find another item as <insert product name> is not selling well in <location>
-    pass
+    return render_template('answers.html', answer=answer)
 
 
 @bp.route('/ask/order/quantity',  methods=["POST"])
@@ -152,6 +173,8 @@ def suggest_order_quantity():
     # Return order quantity and ROP (to tell the user that when current inventory in store x is below top,
     # you should order x amount
     # Answer: Flexchain recommends ordering x amount of <product name> once available inventory is below <ROP>
+    # order quantity function for x
+    answer = 'Flexchain recommends ordering {} amount of {} once available inventory is below {}.'
     form_product = request.form.get('product', None)
     form_location = request.form.get('location', None)
     try:
@@ -161,8 +184,7 @@ def suggest_order_quantity():
         cursor.close()
     except Exception as e:
         print(e)
-
-    pass
+    return render_template('answers.html', answer=answer)
 
 
 @bp.route('/ask/order/when',  methods=["POST"])
@@ -180,6 +202,7 @@ def when_order():
     # if < reorder point
     # return month 1 and demand for next month that needs to be fulfilled, repeat loop until less than reorder point
     #Answer: Order <insert product name> next month. While you still have x in your current inventory, it will not be enough to cover the demand anticipated for next month which is at x units.
+    answer = 'Order {} next month. While you still have {} in your current inventory, it will not be enough to cover the demand anticipated for the next month which is at {} units.'
     pass
 
 
