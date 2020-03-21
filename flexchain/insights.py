@@ -138,6 +138,9 @@ def should_sell_item():
         print(e)
     # GET ITR of the rest of the items
     # Return rank of ITR of item with respect to the rest of the store and current inventory level
+    # Answer: <Insert name of product> has <ITR> turns per year. It is taking 12/<ITR> months to sell and replace inventory.
+    # Answer: If item is in top 3 ITR: You should definitely sell <Insert product name> as it is one of your top selling item in <location>
+    # Answer: If item is bottom in ITR rank: It is best to find another item as <insert product name> is not selling well in <location>
     pass
 
 
@@ -164,6 +167,7 @@ def when_order():
     # if less than critical level:
     #    get next 3 month demand forecast
     #    return month 0 meaning to order now because of the demand forecasted is x for the next 3 months
+    #Answer: Order <product name> now as current available inventory is in critical level. In the next 3 months, Flexchain predicts that you will have a demand of x units.
 
     # If more than critical level:
     # get reorder point
@@ -171,6 +175,7 @@ def when_order():
     # get current inventory-next month forecast
     # if < reorder point
     # return month 1 and demand for next month that needs to be fulfilled, repeat loop until less than reorder point
+    #Answer: 
     pass
 
 
