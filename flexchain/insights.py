@@ -164,7 +164,7 @@ def suggest_order_quantity():
 
 @bp.route('/ask/order/when',  methods=["POST"])
 def when_order():
-    # Get current inventory of store
+    # Get current inventory
     # if less than critical level:
     #    get next 3 month demand forecast
     #    return month 0 meaning to order now because of the demand forecasted is x for the next 3 months
