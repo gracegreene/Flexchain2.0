@@ -1,9 +1,13 @@
-from pandas import read_sql
 from math import sqrt
 
+from pandas import read_sql, np
+from scipy.stats import norm
+
+
 class product:
-    def __init__(self,sku,prod_name,description,retail_price, unit_cost, weight, company_code, length=None, width=None,
-                 height=None,case_size=None,wholesale_price=None, collection=None, image_path=None, archive=False):
+    def __init__(self, sku, prod_name, description, retail_price, unit_cost, weight, company_code, length=None,
+                 width=None,
+                 height=None, case_size=None, wholesale_price=None, collection=None, image_path=None, archive=False):
         self.sku = sku
         self.prod_name = prod_name
         self.description = description
@@ -103,7 +107,7 @@ def get_product(cursor, sku, archive=False):
     OR prod_name like CONCAT("%", %s, "%")
     AND archive = %s
     '''
-    cursor.execute(select_product_sql, (sku, archive, query.lower(), archive))
+    cursor.execute(select_product_sql, (sku, archive, sku.lower(), archive))
     for (sku, prod_name, description, image_path, weight, archive) in cursor:
         product_collection.append({
             "sku": sku,
@@ -116,9 +120,8 @@ def get_product(cursor, sku, archive=False):
     return product_collection
 
 
-def get_ROP(sku):
-    return 1000
-    #R= NORMSINV(service level) x Standard Dev of demand for SKU
+def get_ROP(connection, sku):
+    # R= NORMSINV(service level) x Standard Dev of demand for SKU
     z = norm.ppf(0.95, loc=10, scale=2)
 
     sql = '''select STR_TO_DATE(concat_ws("-",month(transaction.date),year(transaction.date),"01"), "%m-%Y-%d") as monthofsale,sum(quantity)
@@ -132,9 +135,10 @@ def get_ROP(sku):
     series = read_sql(sql, con=connection, parse_dates=0, index_col=["monthofsale"])
     sales = series.values
     sigma = np.std(sales)
-    return z*sigma
+    return float(z * sigma)
 
-def get_product_low(cursor):
+
+def get_product_low(connection, cursor):
     product_collection = list()
     ROP_temp_list = list()
     skus = list()
@@ -148,7 +152,7 @@ def get_product_low(cursor):
         skus.append(sku[0])
 
     for sku in skus:
-        rop = get_ROP(sku)
+        rop = get_ROP(connection, sku)
 
         select_product_sql = '''        
                 SELECT product, name, image, total_inventory FROM
@@ -191,6 +195,7 @@ def get_product_out(cursor):
         })
     return product_collection
 
+
 def get_itr(cursor):
     itr_by_location = list()
     sql = '''SELECT DISTINCT sales.sku, sales.prod_name, sales.location, 2*(sales.unit_cost*sales.sum)/(end_inventory.quantity+start_inventory.quantity) AS ITR FROM (
@@ -219,14 +224,15 @@ def get_itr(cursor):
         })
     return itr_by_location
 
-def get_order_quantity(connection,cursor,sku):
 
-    sql = '''select unit_cost from product where sku = '%s';'''
-    cursor.execute(sql, (sku))
-    for (unit_cost,) in cursor:
-        unit_cost = unit_cost
-    ordering_cost = 0.1 * unit_cost
-    holding_cost = 0.25 * unit_cost
+def get_order_quantity(connection, cursor, sku):
+    uc = 0
+    sql = '''select unit_cost from product where sku = %s;'''
+    cursor.execute(sql, (sku,))
+    for unit_cost in cursor:
+        uc = unit_cost
+    ordering_cost = 0.1 * uc[0]
+    holding_cost = 0.25 * uc[0]
 
     sql = '''select STR_TO_DATE(concat_ws("-",month(transaction.date),year(transaction.date),"01"), "%m-%Y-%d") as monthofsale,sum(quantity)
                 from transaction join transaction_sku on transaction.transaction_id = transaction_sku.transaction_id
@@ -238,6 +244,5 @@ def get_order_quantity(connection,cursor,sku):
     '''.format(sku)
     series = read_sql(sql, con=connection, parse_dates=0, index_col=["monthofsale"])
     sales = series.values
-
     q = sqrt((sales.mean() * ordering_cost)/holding_cost)
     return q

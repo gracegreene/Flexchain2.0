@@ -7,8 +7,10 @@ from flask import (
 
 from .db import get_db
 from .forecast import forecast
-from .models.location import get_all_locations
-from .models.product import get_product_out, get_product_low, get_all_products, get_itr, get_ROP
+from .models.current_inventory import get_current_inventory
+from .models.location import get_all_locations, get_location_name_by_id
+from .models.product import get_product_out, get_product_low, get_all_products, get_itr, get_ROP, get_product, \
+    get_order_quantity
 
 bp = Blueprint('insight', __name__, url_prefix="/insight")
 
@@ -26,7 +28,7 @@ def get_insight_page():
     cursor = connection.cursor()
     try:
         page_data["count_stockout"] = len(get_product_out(cursor))
-        page_data["count_critical"] = len(get_product_low(cursor))
+        page_data["count_critical"] = len(get_product_low(connection, cursor))
         # page_data["count_missingsales"] = len(get_missingdata(cursor))
         page_data['products'] = get_all_products(cursor)
         page_data['locations'] = get_all_locations(cursor)
@@ -52,7 +54,7 @@ def what_should_sell():
         # filter out products in critical level and return up to 3
         if current_date + timedelta(days=90) > sale_date:
             product_itr = get_itr(cursor)
-            product_filter = get_product_low(cursor)
+            product_filter = get_product_low(connection, cursor)
             filtered_location_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
             print(filtered_location_itr)
             filtered_itr = [itr for itr in filtered_location_itr if itr['sku'] not in product_filter]
@@ -71,7 +73,7 @@ def what_should_sell():
         # and inform the user to order them ASAP
         else:
             product_itr = get_itr(cursor)
-            product_filter = get_product_low(cursor)
+            product_filter = get_product_low(connection, cursor)
             filtered_location_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
             for itr in filtered_location_itr:
                 if itr['sku'] in product_filter:
@@ -96,7 +98,8 @@ def what_should_sell():
 
 @bp.route('/ask/sell/where', methods=["POST"])
 def where_should_sell():
-    answer = "Flexchain recommends selling from or shipping from <insert location>. Data shows that the specific product you indicated sells really well in <insert location>."
+    answer = ''
+    answer_template = "Flexchain recommends selling from or shipping from {}. Data shows that the {} you indicated sells really well in {}."
     form_location = request.form.get('location', None)
     items = list()
     if form_location is None:
@@ -113,18 +116,23 @@ def where_should_sell():
             if include is not None:
                 items.append(p["sku"])
         product_itr = get_itr(cursor)
-        filtered_itr = [itr for itr in product_itr if itr['location'] == form_location]
+        filtered_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
         filtered_item_itr = [itr for itr in filtered_itr if itr['sku'] in items]
-        print(filtered_item_itr
+        for i in filtered_item_itr[0:len(items)]:
+            location_name = get_location_name_by_id(cursor, i['location'])
+            answer += answer_template.format(location_name, i['name'], location_name) + '<br><br>'
         cursor.close()
-        # Answer: Flexchain recommends selling from or shipping from <insert location>. Data shows that the specific product you indicated sells really well in <insert location>.
     except Exception as e:
         print(e)
     return render_template("answers.html", answer=answer)
 
 
-@bp.route('/ask/sell/should',  methods=["POST"])
+@bp.route('/ask/sell/should', methods=["POST"])
 def should_sell_item():
+    choosen_itr = None
+    answer = '''
+    {} has {:0.3} cycles per year. It is taking {:0.3} months to sell and replace inventory.
+    '''
     form_product = request.form.get('product', None)
     form_location = request.form.get('location', None)
     # Get ITR of specific to store
@@ -132,7 +140,25 @@ def should_sell_item():
         connection = get_db()
         cursor = connection.cursor()
         product_itr = get_itr(cursor)
-        
+        filtered_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
+        for itr in filtered_itr:
+            if str(itr['sku']) == str(form_product):
+                choosen_itr = itr
+        if choosen_itr is None:
+            answer = 'There is not enough sales and/or inventory data to provide a smart recommendation.'
+            return render_template('answers.html', answer=answer)
+        skus = [itr['sku'] for itr in filtered_itr[0:3]]
+        product_name = get_product(cursor, form_product)[0]['product_name']
+        location_name = get_location_name_by_id(cursor, form_location)
+        answer = answer.format(product_name, choosen_itr['itr'], 12.0 / float(choosen_itr['itr']))
+        if form_product in skus:
+            answer += '<br>' + 'You should definitely sell {} as it is one of  your top selling items in {}.'.format(
+                product_name, location_name
+            )
+        else:
+            answer += '<br>' + 'It is best to find another item as {} is not selling well in {}.'.format(
+                product_name, location_name
+            )
         cursor.close()
     except Exception as e:
         print(e)
@@ -141,7 +167,7 @@ def should_sell_item():
     # Answer: <Insert name of product> has <ITR> turns per year. It is taking 12/<ITR> months to sell and replace inventory.
     # Answer: If item is in top 3 ITR: You should definitely sell <Insert product name> as it is one of your top selling item in <location>
     # Answer: If item is bottom in ITR rank: It is best to find another item as <insert product name> is not selling well in <location>
-    pass
+    return render_template('answers.html', answer=answer)
 
 
 @bp.route('/ask/order/quantity',  methods=["POST"])
@@ -149,17 +175,20 @@ def suggest_order_quantity():
     # Return order quantity and ROP (to tell the user that when current inventory in store x is below top,
     # you should order x amount
     # Answer: Flexchain recommends ordering x amount of <product name> once available inventory is below <ROP>
+    # order quantity function for x
+    answer = 'Flexchain recommends ordering {:.03} amount of {} once available inventory is below {} order {:.03}.'
     form_product = request.form.get('product', None)
-    form_location = request.form.get('location', None)
     try:
         connection = get_db()
         cursor = connection.cursor()
-        rop = get_ROP(form_product)
+        rop = get_ROP(connection, form_product)
+        product = get_product(cursor, form_product)[0]
+        order_quantity = get_order_quantity(connection, cursor, form_product)
+        answer = answer.format(order_quantity, product['product_name'], rop, order_quantity)
         cursor.close()
     except Exception as e:
         print(e)
-
-    pass
+    return render_template('answers.html', answer=answer)
 
 
 @bp.route('/ask/order/when',  methods=["POST"])
@@ -168,7 +197,7 @@ def when_order():
     # if less than critical level:
     #    get next 3 month demand forecast
     #    return month 0 meaning to order now because of the demand forecasted is x for the next 3 months
-    #Answer: Order <product name> now as current available inventory is in critical level. In the next 3 months, Flexchain predicts that you will have a demand of x units.
+    # Answer: Order <product name> now as current available inventory is in critical level. In the next 3 months, Flexchain predicts that you will have a demand of x units.
 
     # If more than critical level:
     # get reorder point
@@ -176,8 +205,42 @@ def when_order():
     # get current inventory-next month forecast
     # if < reorder point
     # return month 1 and demand for next month that needs to be fulfilled, repeat loop until less than reorder point
-    #Answer: Order <insert product name> next month. While you still have x in your current inventory, it will not be enough to cover the demand anticipated for next month which is at x units.
-    pass
+    # Answer: Order <insert product name> next month. While you still have x in your current inventory, it will not be enough to cover the demand anticipated for next month which is at x units.
+    form_product = request.form.get('product', None)
+    try:
+        connection = get_db()
+        cursor = connection.cursor()
+        low_products = get_product_low(connection, cursor)
+        low_products_sku = [p['sku'] for p in low_products]
+        prod = get_product(cursor, form_product)[0]
+        current_inventory = get_current_inventory(cursor, form_product)
+        if form_product in low_products_sku:
+            fc = forecast(4, 1, 0, form_product, 3, connection)
+            answer = 'Order {} now as current available inventory is in critical level. In the next 3 months, ' \
+                     'Flexchain predicts you will have a demand of x units {} '
+            return render_template('answers.html', answer=answer.format(prod['product_name'], sum(fc)))
+        else:
+            reorder_point = get_ROP(connection, form_product)
+            fc = 0
+            months = 0
+            while float(reorder_point) < float(current_inventory) - float(fc):
+                if months == 12:
+                    return render_template('answers.html', answer="You will not have to order {} for at least another "
+                                                                  "year.".format(prod['product_name']))
+                months += 1
+                fc = sum(forecast(4, 1, 0, form_product, months, connection))
+                if fc == 0:
+                    print(forecast(4, 1, 0, form_product, months, connection))
+                    return render_template('answers.html', answer='Not enough data exists to determine when to '
+                                                                  'reorder {} again.'.format(prod['product_name']))
+                print(reorder_point, fc, months)
+            answer = 'Order {} in {} month(s). While you still have {} in your current inventory, it will be enough ' \
+                     'to cover the demand anticipated for the next {} month(s) which is {:0.1} units. '
+            return render_template('answers.html',
+                                   answer=answer.format(prod['product_name'], months, current_inventory, months, fc))
+    except Exception as e:
+        print(e)
+    return render_template('answers.html', answer=answer)
 
 
 @bp.route('stock-level')
@@ -192,10 +255,10 @@ def get_stock_level_page():
     if request.args.get("type") == "out":
         product_collection = get_product_out(cursor)
     elif request.args.get("type") == "low":
-        product_collection = get_product_low(cursor)
+        product_collection = get_product_low(connection, cursor)
     else:
         out_products = get_product_out(cursor)
-        low_products = get_product_low(cursor)
+        low_products = get_product_low(connection, cursor)
         for p in out_products:
             product_collection.append(p)
         for p in low_products:

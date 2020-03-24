@@ -25,3 +25,14 @@ class current_inventory:
     def replenish(self, cursor, quantity, sku, location_id):
         replenish_sql = "UPDATE " + self.table_name + " SET quantity = quantity + %s WHERE sku = %s AND location_id = %s"
         cursor.execute(replenish_sql, (quantity, sku, location_id))
+
+
+def get_current_inventory(cursor, sku):
+    sql = '''
+    SELECT SUM(quantity) FROM current_inventory WHERE sku= %s
+    '''
+    quantity = 0
+    cursor.execute(sql, (sku,))
+    for q, in cursor:
+        quantity = q
+    return quantity
