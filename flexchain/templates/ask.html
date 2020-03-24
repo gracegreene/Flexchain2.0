@@ -142,7 +142,7 @@
                     <label for="location">
                         <select name="location">
                             {% for location in context.locations %}
-                                <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
+                            <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
                             {% endfor %}
                         </select>
                     </label>
@@ -152,53 +152,38 @@
                 </form>
             </div>
             <div style="display:none;" class="how-much-order">
-                <label class="peach-text ask_pt">How much should I order?</label>
-                <label for="product">
-                    <select>
-                        {% for product in context.products %}
-                        <option value="{{ product.product_id }}">{{ product.product_name }}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-                <label for="location">
-                    <select>
-                        {% for location in context.locations %}
-                        <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-                <button class="close secondary-button ask_sb w-button">Cancel</button>
+                <form method="POST" action="/insight/ask/order/quantity">
+                    <label class="peach-text ask_pt">How much should I order?</label>
+                    <label for="product">
+                        Product
+                        <select name="product">
+                            {% for product in context.products %}
+                            <option value="{{ product.sku }}">{{ product.product_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <button type="button" class="close secondary-button ask_sb w-button">Cancel</button>
                     <input type="submit" value="Get suggestion" data-wait="Please wait..."
                            class="secondary-button ask_sb w-button">
+                </form>
             </div>
             <div style="display:none;" class="when-order">
                 <div class="w-form">
-                <form id="email-form" name="email-form" data-name="Email Form" class="form-3"><label
-                        class="peach-text ask_pt">When should I order?</label>
-                    <div class="paragraph-text ask_pt2">Enter all necessary information for Flexchain to provide you
-                        valuable insights.
-                    </div>
-                    <label for="Product" class="formlabel">Select the item you want to order</label><select id="Product"
-                                                                                                            name="Product"
-                                                                                                            required=""
-                                                                                                            data-name="Product"
-                                                                                                            class="select-field w-select">
-                        {% for product in context.products%}
-                        <option value="{{ product.sku }}">{{ product.product_name }}</option>
-                        {% endfor %}
-                    </select>
-                    {% for location in context.locations %}
-                    <div class="checkbox">
-                        <label for="{{ location.location_id }}-checkbox">
-                            <input type="checkbox" id="{{ location.location_id }}-checkbox"
-                                   name="location-{{ loop.index }}" value="{{ location.location_id }}"/>
-                            {{ location.loc_name }}
-                        </label>
-                    </div>
-                    {% endfor %}
-                    <br>
-                    <button class="close secondary-button ask_sb w-button">Cancel</button>
-                    <input type="submit" value="Get suggestion" data-wait="Please wait..."
+                    <form action="/insight/ask/order/when" method="POST"><label class="peach-text ask_pt">When should I
+                        order?</label>
+                        <label for="product" class="formlabel">Select the item you want to order</label><select
+                                id="Product"
+                                name="product"
+                                required=""
+                                data-name="Product"
+                                class="select-field w-select">
+                            {% for product in context.products%}
+                            <option value="{{ product.sku }}">{{ product.product_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <button class="close secondary-button ask_sb w-button">Cancel</button>
+                        <input type="submit" value="Get suggestion" data-wait="Please wait..."
                            class="secondary-button ask_sb w-button"></form>
                 <div class="w-form-done">
                     <div>Thank you! Your submission has been received!</div>

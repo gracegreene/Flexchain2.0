@@ -44,7 +44,7 @@ def create_app(test_config=None):
         connection = db.get_db()
         cursor = connection.cursor()
         page_data["count_stockout"] = len(get_product_out(cursor))
-        page_data["count_critical"] = len(get_product_low(cursor))
+        page_data["count_critical"] = len(get_product_low(connection, cursor))
         # page_data["count_missingsales"] = len(get_missingdata(cursor))
 
         return render_template("index.html", context=page_data)
