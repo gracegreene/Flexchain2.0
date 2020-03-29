@@ -53,10 +53,10 @@ def get_forecast_inventory(connection, cursor):
     for i, v in enumerate(data):
         if i == 0:
             continue
-        prediction = forecast(4, 1, 0, sku, 1, connection)
+        prediction = forecast(4, 1, 0, v[2], 1, connection)
         if len(prediction) >= 1:
             data[i][2] = prediction[0]
         else:
-            data[i][2] = None
+            data[i][2] = 0
 
     return data
