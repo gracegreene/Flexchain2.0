@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, render_template, request
 
-from models.chart_data import get_txn_amount
+from .models.chart_data import get_txn_amount, get_forecast_inventory
 from .models.product import get_product_out, get_product_low
 
 
@@ -41,7 +41,8 @@ def create_app(test_config=None):
             "count_stockout": 0,
             "count_critical": 0,
             "count_missingsales": 0,
-            "data": []
+            "data": [],
+            "forecast": []
         }
         connection = db.get_db()
         cursor = connection.cursor()
@@ -49,7 +50,8 @@ def create_app(test_config=None):
         page_data["count_critical"] = len(get_product_low(connection, cursor))
         # page_data["count_missingsales"] = len(get_missingdata(cursor))
         page_data['data'] = get_txn_amount(cursor)
-
+        page_data['forecast'] = get_forecast_inventory(connection, cursor)
+        print(page_data['forecast'])
         return render_template("index.html", context=page_data)
 
     @app.route('/answer')

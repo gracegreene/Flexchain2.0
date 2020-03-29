@@ -39,17 +39,24 @@ def get_txn_amount(cursor):
         complete_data.append(temp)
     return complete_data
 
+
 def get_forecast_inventory(connection, cursor):
-    data = list()
+    data = [['Product', 'Current Inventory', 'Forecast']]
     sql = '''SELECT prod_name as product,p.sku AS SKU, SUM(quantity) AS inventory
             FROM current_inventory
             JOIN product p on current_inventory.sku = p.sku
             GROUP BY p.sku;'''
     cursor.execute(sql)
-    for product, inventory in cursor:
-        data.append({
-            'product':product,
-            'forecast':forecast(4,1,0,1,connection),
-            'current_inventory':inventory
-        })
+    for product, sku, inventory in cursor:
+        data.append([product, int(inventory), sku])
+
+    for i, v in enumerate(data):
+        if i == 0:
+            continue
+        prediction = forecast(4, 1, 0, sku, 1, connection)
+        if len(prediction) >= 1:
+            data[i][2] = prediction[0]
+        else:
+            data[i][2] = None
+
     return data

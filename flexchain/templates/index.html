@@ -61,6 +61,14 @@
         <div class="w-row">
             <div class="w-col w-col-12">
                 <div class="w-embed w-iframe">
+                    <div id="forecast-chart" style="width:600px; height:371px;"></div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="w-row">
+            <div class="w-col w-col-12">
+                <div class="w-embed w-iframe">
                     <div id="chart" style="width:600px; height:371px;"></div>
                 </div>
             </div>
@@ -74,22 +82,15 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     google.charts.load('current', {
-        'packages': ['corechart'],
+        'packages': ['corechart', 'bar'],
     });
 
     google.charts.setOnLoadCallback(draw);
 
     function draw(response) {
-        console.log({;
-        {
+        var data = google.visualization.arrayToDataTable({{
             context.data | safe
-        }
-    })
-        var data = google.visualization.arrayToDataTable({;
-        {
-            context.data | safe
-        }
-    })
+        }});
         var chart = new google.visualization.ColumnChart(
                 document.getElementById('chart')
         );
@@ -101,6 +102,25 @@
             'height': 371
         };
         chart.draw(data, options)
+    }
+
+    google.charts.setOnLoadCallback(drawForecastChart);
+
+    function drawForecastChart() {
+        var data = google.visualization.arrayToDataTable({{
+            context.forecast | safe
+        }});
+
+        var options = {
+            chart: {
+                title: 'Next month Forecast and Current Inventory'
+            },
+            'width': 880,
+            'height': 371
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('forecast-chart'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
     }
 </script>
 {% endblock %}
