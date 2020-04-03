@@ -27,3 +27,8 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.form-field-product {
+  font-family: Ubuntu, Helvetica, sans-serif;
+  color: #fff;
+}

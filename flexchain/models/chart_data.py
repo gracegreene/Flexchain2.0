@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from forecast import forecast
+from ..forecast import forecast
 from .location import get_location_name_by_id
 
 
