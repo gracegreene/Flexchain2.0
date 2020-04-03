@@ -2,9 +2,10 @@ import math
 from datetime import datetime, timedelta
 
 from flask import (
-    Blueprint, render_template, request, redirect, url_for
+    Blueprint, render_template, request, redirect, url_for, session
 )
 
+from auth import login_required
 from .db import get_db
 from .forecast import forecast
 from .models.current_inventory import get_current_inventory
@@ -16,14 +17,17 @@ bp = Blueprint('insight', __name__, url_prefix="/insight")
 
 
 @bp.route('/')
+@login_required
 def get_insight_page():
     page_data = {
         'products': list(),
         'locations': list(),
         "count_stockout": 0,
         "count_critical": 0,
-        "count_missingsales": 0
+        "count_missingsales": 0,
+        "name": 'User'
     }
+    page_data = session['auth'][request.remote_addr]
     connection = get_db()
     cursor = connection.cursor()
     try:

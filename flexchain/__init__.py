@@ -1,7 +1,8 @@
 import os
 
-from flask import Flask, render_template, request
+from flask import session, Flask, render_template, request, redirect, url_for
 
+from .auth import login_required, perform_login
 from .models.chart_data import get_txn_amount, get_forecast_inventory
 from .models.product import get_product_out, get_product_low
 
@@ -35,6 +36,7 @@ def create_app(test_config=None):
     inventory.init_app(app)
 
     @app.route('/')
+    @login_required
     def home_page():
         page_data = {
             'dashboard': True,
@@ -42,7 +44,8 @@ def create_app(test_config=None):
             "count_critical": 0,
             "count_missingsales": 0,
             "data": [],
-            "forecast": []
+            "forecast": [],
+            "name": "User"
         }
         connection = db.get_db()
         cursor = connection.cursor()
@@ -51,6 +54,7 @@ def create_app(test_config=None):
         # page_data["count_missingsales"] = len(get_missingdata(cursor))
         page_data['data'] = get_txn_amount(cursor)
         page_data['forecast'] = get_forecast_inventory(connection, cursor)
+        page_data['name'] = session['auth'][request.remote_addr]
         print(page_data['forecast'])
         return render_template("index.html", context=page_data)
 
@@ -66,6 +70,29 @@ def create_app(test_config=None):
     @app.route('/account')
     def account_page():
         return render_template("account.html")
+
+    @app.route('/login')
+    def login():
+        return render_template('login.html')
+
+    @app.route('/login/attempt', methods=['POST'])
+    def login_attempt():
+        success = False
+        email = request.form.get('email', None)
+        password = request.form.get('password', None)
+        if email is None or password is None:
+            print(email, password)
+            print('Error here.')
+        try:
+            connection = db.get_db()
+            cursor = connection.cursor()
+            success = perform_login(cursor, email, password)
+            cursor.close()
+        except Exception as e:
+            print(e)
+        if success:
+            return redirect(url_for('home_page'))
+        return redirect(url_for('login'))
 
     from . import location
     app.register_blueprint(location.bp)
