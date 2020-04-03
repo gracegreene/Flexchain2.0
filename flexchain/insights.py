@@ -25,9 +25,8 @@ def get_insight_page():
         "count_stockout": 0,
         "count_critical": 0,
         "count_missingsales": 0,
-        "name": 'User'
+        "name": session['auth'][request.remote_addr]
     }
-    page_data = session['auth'][request.remote_addr]
     connection = get_db()
     cursor = connection.cursor()
     try:
@@ -273,13 +272,16 @@ def get_stock_level_page():
                     add = False
             if add:
                 product_collection.append(p)
-
     for prod in product_collection:
         fc = forecast(4, 1, 0, prod["sku"], 1, connection)
         if len(fc) != 0:
             prod["demand"] = math.ceil(fc[0])
+            rop = get_ROP(connection, prod['sku'])
+            order_quantity = get_order_quantity(connection, cursor, prod['sku'])
+            prod["action"] = "Order {} number of {} {} months from now".format(int(order_quantity), prod['product_name'], int(rop))
         else:
             prod["demand"] = "Forecast values cannot be generated at this time"
+            prod["action"] = ""
 
     page_data["products"] = product_collection
     # Create a function in the product model that returns the list of out of inventory / low items
