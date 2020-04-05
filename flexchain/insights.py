@@ -139,7 +139,7 @@ def where_should_sell():
 def should_sell_item():
     chosen_itr = None
     answer = '''
-    {} has {:0.f} cycles per year. It is taking {:0.2} months to sell and replace inventory.
+    {} has {:0.0f} cycles per year. It is taking {:0.2f} months to sell and replace inventory.
     '''
     form_product = request.form.get('product', None)
     form_location = request.form.get('location', None)

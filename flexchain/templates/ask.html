@@ -11,7 +11,7 @@
                                                      srcset="{{ url_for('static', filename='images/scm-girl-p-500.png') }} 500w, {{ url_for('static', filename='images/scm-girl-p-800.png') }} 800w, {{ url_for('static', filename='images/scm-girl-p-1080.png') }} 1080w, {{ url_for('static', filename='images/scm-girl-p-1600.png') }} 1600w, {{ url_for('static', filename='images/scm-girl-p-2000.png') }} 2000w, {{ url_for('static', filename='images/scm-girl-p-2600.png') }} 2600w, {{ url_for('static', filename='images/scm-girl-p-3200.png') }} 3200w, {{ url_for('static', filename='images/scm-girl-p-5000.png') }} 5000w"
                                                      sizes="177px" class="image-5"></div>
             <div class="w-col w-col-9">
-                <h3 class="peach-text">Hi Grace, welcome to Flexchain! We noticed the following events requiring your
+                <h3 class="peach-text">We noticed the following events requiring your
                     attention.</h3>
                 <div class="columns-6 w-row">
                     <div class="column-8 w-col w-col-4">
@@ -35,16 +35,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-col w-col-4">
-                        <div class="dashboard-tile w-row">
-                            <div class="column-5 w-col w-col-3">
-                                <h1 class="heading-4 yellow">{{ context.count_missingsales }}</h1>
-                            </div>
-                            <div class="w-col w-col-9">
-                                <div class="paragraph-text pt_homepage">Missing Sales Data</div>
-                                <a href="/product/log" class="secondary-cta">Enter Data</a></div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -52,9 +42,11 @@
 </div>
 <div id="Charts">
     <div class="top-container w-container">
-        <div class="page-subheader ask_sh">Flexchain can provide smart recommendations for your order strategy.<br>Select
+        <div class="page-subheader ask_sh">Flexchain can provide smart recommendations for your order strategy. <br>Select
             the question you want to ask.
         </div>
+        <hr class="rounded">
+        <br>
         <label class="page-header">Selling</label><label class="radio-button-field w-radio"><input type="radio"
                                                                                                          data-name="Radio"
                                                                                                          id="What should I sell?"
@@ -85,6 +77,7 @@
                                                         class="w-form-formradioinput w-radio-input"><span for="radio"
                                                                                                           class="paragraph-text ask_pt w-form-label">When should I order?</span></label>
         <button id="Ask-Button" class="secondary-button ask_sb w-button ask-now">Ask Now</button>
+        <br><br>
     </div>
 </div>
 <div id="Modal" class="modal">

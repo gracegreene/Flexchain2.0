@@ -32,3 +32,15 @@
   font-family: Ubuntu, Helvetica, sans-serif;
   color: #fff;
 }
+
+.header-white {
+    font-family: Ubuntu, Helvetica, sans-serif;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+}
+
+.rounded {
+    border-top: 8px solid #016d96;
+    border-radius: 5px;
+}
