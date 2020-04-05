@@ -138,15 +138,17 @@
             </div>
             <div style="display:none;" class="should-sell">
                 <form action="/insight/ask/sell/should" method="POST">
-                    <label class="peach-text ask_pt">Should I sell this item?</label>
-                    <label for="product">
+                    <label class="peach-text ask_pt"><br>Should I sell this item?<br></label>
+                    <p>Some products sell really well in some stores while others do not sell at all.
+                        Flexchain will suggest if it is a sound decision to sell an item in a certain location based on their inventory turnover ratio. </p>
+                    <label for="product">Select the product that you are planning to sell
                         <select name="product">
                             {% for product in context.products %}
                             <option value="{{ product.sku }}">{{ product.product_name }}</option>
                             {% endfor %}
                         </select>
                     </label>
-                    <label for="location">
+                    <label for="location"> Select shop location
                         <select name="location">
                             {% for location in context.locations %}
                             <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
@@ -160,7 +162,8 @@
             </div>
             <div style="display:none;" class="how-much-order">
                 <form method="POST" action="/insight/ask/order/quantity">
-                    <label class="peach-text ask_pt">How much should I order?</label>
+                    <label class="peach-text ask_pt"><br>How much should I order?<br></label>
+                    <p> Get a cost-efficient order quantity recommendation for a product based on holding cost, ordering cost and demand variability. </p>
                     <label for="product">
                         Product
                         <select name="product">
@@ -176,9 +179,14 @@
             </div>
             <div style="display:none;" class="when-order">
                 <div class="w-form">
-                    <form action="/insight/ask/order/when" method="POST"><label class="peach-text ask_pt">When should I
-                        order?</label>
-                        <label for="product" class="formlabel">Select the item you want to order</label><select
+                    <form action="/insight/ask/order/when" method="POST"><label class="peach-text ask_pt"><br>When should I
+                        order?<br></label>
+                        <p> In Flexchain, placing new orders is event-based and review policy is continuous.
+                            Therefore, to be on top of your inventory, you must evaluate regularly what is your reorder point.
+                            Reorder point is the threshold for current inventory.
+                            Once a product drops to this quantity, you must place an order to your supplier to restock. </p>
+                        <label for="product">Select the item you are planning to order</label>
+                        <select
                                 id="Product"
                                 name="product"
                                 required=""

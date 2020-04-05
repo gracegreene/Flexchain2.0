@@ -100,7 +100,8 @@
             'isStacked': true,
             'legend': 'bottom',
             'width': 880,
-            'height': 371
+            'height': 371,
+            'colors': ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
         };
         chart.draw(data, options)
     }
@@ -113,11 +114,10 @@
         }});
 
         var options = {
-            chart: {
-                title: 'Next month Forecast and Current Inventory'
-            },
+            'title': 'Next Month Forecast VS Current Inventory Level',
             'width': 880,
-            'height': 371
+            'height': 371,
+            'legend': { position: "none" }
         };
 
         var chart = new google.charts.Bar(document.getElementById('forecast-chart'));

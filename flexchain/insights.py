@@ -61,7 +61,6 @@ def what_should_sell():
             filtered_location_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
             print(filtered_location_itr)
             filtered_itr = [itr for itr in filtered_location_itr if itr['sku'] not in product_filter]
-            # TODO redirect to html page where this can be structured.
             if len(filtered_itr) > 0:
                 answer += "<ol>"
 
@@ -84,7 +83,6 @@ def what_should_sell():
                 else:
                     itr['level'] = 'stable'
 
-            # TODO redirect to html page where this can be structured.
             if len(filtered_location_itr) > 0:
                 answer += "<ol>"
 
@@ -139,9 +137,9 @@ def where_should_sell():
 
 @bp.route('/ask/sell/should', methods=["POST"])
 def should_sell_item():
-    choosen_itr = None
+    chosen_itr = None
     answer = '''
-    {} has {:0.3} cycles per year. It is taking {:0.3} months to sell and replace inventory.
+    {} has {:0.f} cycles per year. It is taking {:0.2} months to sell and replace inventory.
     '''
     form_product = request.form.get('product', None)
     form_location = request.form.get('location', None)
@@ -153,16 +151,16 @@ def should_sell_item():
         filtered_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
         for itr in filtered_itr:
             if str(itr['sku']) == str(form_product):
-                choosen_itr = itr
-        if choosen_itr is None:
+                chosen_itr = itr
+        if chosen_itr is None:
             answer = 'There is not enough sales and/or inventory data to provide a smart recommendation.'
             return render_template('answers.html', answer=answer)
         skus = [itr['sku'] for itr in filtered_itr[0:3]]
         product_name = get_product(cursor, form_product)[0]['product_name']
         location_name = get_location_name_by_id(cursor, form_location)
-        answer = answer.format(product_name, choosen_itr['itr'], 12.0 / float(choosen_itr['itr']))
+        answer = answer.format(product_name, chosen_itr['itr'], 12.0 / float(chosen_itr['itr']))
         if form_product in skus:
-            answer += '<br>' + 'You should definitely sell {} as it is one of  your top selling items in {}.'.format(
+            answer += '<br>' + 'You should definitely sell {} as it is one of your top selling items in {}.'.format(
                 product_name, location_name
             )
         else:
@@ -186,7 +184,7 @@ def suggest_order_quantity():
     # you should order x amount
     # Answer: Flexchain recommends ordering x amount of <product name> once available inventory is below <ROP>
     # order quantity function for x
-    answer = 'Flexchain recommends ordering {:.0f} amount of {} once available inventory is below {} order {:.0f}.'
+    answer = 'Flexchain recommends ordering {:.0f} amount of {} once available inventory is below {}.'
     form_product = request.form.get('product', None)
     try:
         connection = get_db()
@@ -227,7 +225,7 @@ def when_order():
         if form_product in low_products_sku:
             fc = forecast(4, 1, 0, form_product, 3, connection)
             answer = 'Order {} now as current available inventory is in critical level. In the next 3 months, ' \
-                     'Flexchain predicts you will have a demand of x units {} '
+                     'Flexchain predicts you will have a demand of {} units'
             return render_template('answers.html', answer=answer.format(prod['product_name'], sum(fc)))
         else:
             reorder_point = get_ROP(connection, form_product)
