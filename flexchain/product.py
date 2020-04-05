@@ -218,3 +218,23 @@ def update_form():
     page_data["sku"] = sku
     page_data['product'] = selected_product
     return render_template("/product/update-form.html", context=page_data)
+
+@bp.route('details', methods=["GET"])
+def get_product_details_page():
+    page_data = {
+        'product': None
+    }
+    sku = request.args.get('sku', None)
+    if sku is None:
+        # Note this should be an error
+        print("Someone accessed the details page without a sku.")
+        return
+    try:
+        connection = get_db()
+        cursor = connection.cursor()
+        page_data['product'] = product.get_product(cursor, sku)[0]
+        page_data['product']['current_inventory'] = current_inventory.get_current_inventory(cursor, sku)
+        cursor.close()
+    except Exception as e:
+        print(e)
+    return render_template("/product/product-details.html", context=page_data)

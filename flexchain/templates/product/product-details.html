@@ -4,19 +4,39 @@
 {% block content %}
   <div class="top-container w-container">
     <div class="w-form">
-      <form id="email-form" name="email-form" data-name="Email Form"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="image-7">
-        <div class="div-block-10"></div><label for="SKU" class="form-field-label">SKU</label><input type="text" class="text-field w-input" maxlength="256" name="SKU" data-name="SKU" id="SKU"><label for="Product-Name-4" class="form-field-label">Total Available Inventory</label><input type="text" class="text-field w-input" maxlength="256" name="Product-Name-3" data-name="Product Name 3" id="Product-Name-3" required=""><label for="Product-Name-2" class="form-field-label">Product Name</label><input type="text" class="text-field-2 w-input" maxlength="256" name="Product-Name" data-name="Product Name" id="Product-Name" required=""><label for="Description" class="form-field-label">Description </label><input type="text" class="text-field-2 longfield w-input" maxlength="256" name="Description" data-name="Description" id="Description" required=""><label for="Product-Name-2" class="form-field-label">Collection</label><input type="text" class="text-field w-input" maxlength="256" name="Product-Name-3" data-name="Product Name 3" id="Product-Name-3" required="">
+      <form id="email-form" name="email-form" data-name="Email Form">
+          <img width="150px" height="150px" src="{{ context.product.image_path }}" alt="" class="image-7">
+          <div class="row">&nbsp;</div>
+        <div class="div-block-10"></div>
+          <label for="SKU" class="form-field-label">SKU</label>
+          <input placeholder="{{ context.product.sku }}" type="text" class="text-field w-input" maxlength="256" name="SKU" data-name="SKU" id="SKU">
+          <label for="Product-Name-4" class="form-field-label">Total Available Inventory</label>
+          <input placeholder="{{ context.product.current_inventory }}" type="text" class="text-field w-input" maxlength="256" name="Product-Name-3" data-name="Product Name 3" id="Product-Name-3" required="">
+          <label for="Product-Name-2" class="form-field-label">Product Name</label>
+          <input placeholder="{{ context.product.product_name }}" type="text" class="text-field-2 w-input" maxlength="256" name="Product-Name" data-name="Product Name" id="Product-Name" required="">
+          <label for="Description" class="form-field-label">Description </label>
+          <input placeholder="{{ context.product.description }}" type="text" class="text-field-2 longfield w-input" maxlength="256" name="Description" data-name="Description" id="Description" required="">
+          <label for="Product-Name-2" class="form-field-label">Collection</label>
+          <input placeholder="{{ context.product.collection }}" type="text" class="text-field w-input" maxlength="256" name="Product-Name-3" data-name="Product Name 3" id="Product-Name-3" required="">
         <div class="w-row">
-          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Length</label><input type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
-          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Width</label><input type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
-          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Height</label><input type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
-          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Weight</label><input type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
+          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Length</label>
+              <input placeholder="{{ context.product.length }}" type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
+          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Width</label>
+              <input placeholder="{{ context.product.width }}" type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
+          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Height</label>
+              <input placeholder="{{ context.product.height }}" type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
+          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Weight</label>
+              <input placeholder="{{ context.product.width }}" type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
         </div>
         <div class="w-row">
-          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Unit Cost</label><input type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
-          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Retail Price</label><input type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
-          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Wholesale Price</label><input type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
-          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Case Size</label><input type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
+          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Unit Cost</label>
+              <input placeholder="{{ context.product.unit_cost }}" type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
+          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Retail Price</label>
+              <input placeholder="{{ context.product.retail_price }}" type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
+          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Wholesale Price</label>
+              <input placeholder="{{ context.product.wholesale_price }}" type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
+          <div class="w-col w-col-3"><label for="Product-Name-4" class="form-field-label">Case Size</label>
+              <input placeholder="{{ context.product.case_size }}" type="text" class="text-field-9 w-input" maxlength="256" name="Product-Name-2" data-name="Product Name 2" id="Product-Name-2" required=""></div>
         </div>
       </form>
       <div class="w-form-done">
@@ -29,6 +49,6 @@
   </div>
   <div></div>
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js?site=5d7d7d23a3db084495344214" type="text/javascript" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="js/webflow.js" type="text/javascript"></script>
+  <script src="{{ url_for('static', filename='js/webflow.js') }}" type="text/javascript"></script>
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 {% endblock %}

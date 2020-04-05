@@ -100,7 +100,7 @@ def get_all_products(cursor):
 def get_product(cursor, sku, archive=False):
     product_collection = list()
     select_product_sql = '''
-    SELECT sku, prod_name, description, image_path, weight, archive
+    SELECT sku, prod_name, description, image_path, weight, archive, collection, length, width, height, unit_cost, retail_price, wholesale_price, case_size 
     FROM product
     WHERE sku = %s
     AND archive = %s
@@ -108,7 +108,7 @@ def get_product(cursor, sku, archive=False):
     AND archive = %s
     '''
     cursor.execute(select_product_sql, (sku, archive, sku.lower(), archive))
-    for (sku, prod_name, description, image_path, weight, archive) in cursor:
+    for (sku, prod_name, description, image_path, weight, archive, collection, length, width, height, unit_cost, retail_price, wholesale_price, case_size) in cursor:
         product_collection.append({
             "sku": sku,
             "product_name": prod_name,
@@ -116,6 +116,14 @@ def get_product(cursor, sku, archive=False):
             "image_path": image_path,
             "weight": weight,
             "archive": archive,
+            "collection": collection,
+            "length": length,
+            "width": width,
+            "height": height,
+            "unit_cost": unit_cost,
+            "retail_price": retail_price,
+            "wholesale_price": wholesale_price,
+            "case_size": case_size
         })
     return product_collection
 
