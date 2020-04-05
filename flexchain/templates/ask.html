@@ -55,7 +55,7 @@
         <div class="page-subheader ask_sh">Flexchain can provide smart recommendations for your order strategy.<br>Select
             the question you want to ask.
         </div>
-        <label class="peach-text ask_pt">Selling</label><label class="radio-button-field w-radio"><input type="radio"
+        <label class="page-header">Selling</label><label class="radio-button-field w-radio"><input type="radio"
                                                                                                          data-name="Radio"
                                                                                                          id="What should I sell?"
                                                                                                          name="radio"
@@ -75,7 +75,7 @@
             class="paragraph-text ask_pt w-form-label">Should I sell this item?</span></label>
         <button id="Ask-Button-2" type="submit" class="secondary-button ask_sb w-button ask-now">Ask Now</button>
         <br><br>
-        <label class="peach-text ask_pt">Purchasing</label><label
+        <label class="page-header">Purchasing<br></label><label
             class="radio-button-field-2 w-radio"><input type="radio" data-name="Radio" id="How much should I order?"
                                                         name="radio" value="How much should I order?"
                                                         class="w-form-formradioinput w-radio-input"><span
@@ -91,7 +91,12 @@
     <div class="top-container w-container">
         <div class="modal-content">
             <div style="display:none;" class="what-should-sell">
-                <label class="peach-text ask_pt">What should I sell?</label>
+                <br>
+                <label class="peach-text ask_pt"><br>What should I sell?<br></label>
+                Are you planning to participate in a weekend market, pop-up shop or any temporary sales event and is not quite sure which items to sell?
+                Select the date of the event and the location where you are planning to pull the stock. Flexchain will recommend the best item/s to sell given past sales trends and stock availability.
+                <br>
+                <br>
                 <form action="/insight/ask/sell/what" method="POST">
                     <label for="location">Location
                         <select name="location">
@@ -110,7 +115,9 @@
             </div>
             <div style="display:none;" class="where-should-sell">
                 <form action="/insight/ask/sell/where" method="POST">
-                    <label class="peach-text ask_pt">Where should I sell?</label>
+                    <label class="peach-text ask_pt"><br>Where should I sell?<br></label>
+                    <p>Some products sell really well in some stores while others do not sell at all. Know where to sell an item to get the most revenue.
+                        You can use the insights you get here to help in supply planning decisions.</p>
                     <label for="location">Location
                         <select name="location">
                             {% for location in context.locations %}
@@ -118,7 +125,7 @@
                             {% endfor %}
                         </select>
                     </label>
-                    <label for="top-three-products"> Top Three Products <br>
+                    <label for="top-three-products"> Select Product(s) <br>
                         {% for product in context.products %}
                         <input type="checkbox" name="{{ product.sku }}"/> {{ product.product_name }}
                         <br>

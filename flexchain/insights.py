@@ -109,7 +109,7 @@ def where_should_sell():
         # Need to redirect back with error here.
         print('Form location was blank 500.')
         return
-    # Calculate ITR of 3 items in each location return location with highest ITR
+    # Calculate ITR of items in each location return location with highest ITR
     try:
         connection = get_db()
         cursor = connection.cursor()
@@ -121,9 +121,16 @@ def where_should_sell():
         product_itr = get_itr(cursor)
         filtered_itr = [itr for itr in product_itr if int(itr['location']) == int(form_location)]
         filtered_item_itr = [itr for itr in filtered_itr if itr['sku'] in items]
+        skus = [itr['sku'] for itr in filtered_item_itr]
         for i in filtered_item_itr[0:len(items)]:
             location_name = get_location_name_by_id(cursor, i['location'])
             answer += answer_template.format(location_name, i['name'], location_name) + '<br><br>'
+        for item in items:
+            if item not in skus:
+                product = get_product(cursor, item)[0]
+                answer += "There is not enough inventory or sales data to provide a recommendation for {}.<br><br>".format(
+                    product['product_name']
+                )
         cursor.close()
     except Exception as e:
         print(e)
@@ -179,7 +186,7 @@ def suggest_order_quantity():
     # you should order x amount
     # Answer: Flexchain recommends ordering x amount of <product name> once available inventory is below <ROP>
     # order quantity function for x
-    answer = 'Flexchain recommends ordering {:.03} amount of {} once available inventory is below {} order {:.03}.'
+    answer = 'Flexchain recommends ordering {:.0f} amount of {} once available inventory is below {} order {:.0f}.'
     form_product = request.form.get('product', None)
     try:
         connection = get_db()
@@ -237,10 +244,10 @@ def when_order():
                     return render_template('answers.html', answer='Not enough data exists to determine when to '
                                                                   'reorder {} again.'.format(prod['product_name']))
                 print(reorder_point, fc, months)
-            answer = 'Order {} in {} month(s). While you still have {} in your current inventory, it will be enough ' \
-                     'to cover the demand anticipated for the next {} month(s) which is {:0.1} units. '
+            answer = 'Order {} in {} month(s). You have {} in your current inventory to ' \
+                     'to cover the demand anticipated for the next {} month(s) which is {:.0f} units. '
             return render_template('answers.html',
-                                   answer=answer.format(prod['product_name'], months, current_inventory, months, fc))
+                                   answer=answer.format(prod['product_name'], months-1, current_inventory, months, fc))
     except Exception as e:
         print(e)
     return render_template('answers.html', answer=answer)
@@ -278,7 +285,7 @@ def get_stock_level_page():
             prod["demand"] = math.ceil(fc[0])
             rop = get_ROP(connection, prod['sku'])
             order_quantity = get_order_quantity(connection, cursor, prod['sku'])
-            prod["action"] = "Order {} number of {} {} months from now".format(int(order_quantity), prod['product_name'], int(rop))
+            prod["action"] = "Order {} units of {} once current inventory hits below {} units.".format(int(order_quantity), prod['product_name'], int(rop))
         else:
             prod["demand"] = "Forecast values cannot be generated at this time"
             prod["action"] = ""
