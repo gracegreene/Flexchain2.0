@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% include 'nav.html' %}
 {% block content %}
+<link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet" type="text/css">
 <div id="Greeting">
     <div class="top-container w-container">
         <div class="columns-7 w-row">
@@ -32,16 +33,6 @@
                                 <a href="/insight/stock-level?type=low" class="secondary-cta">See Order Strategy</a></div>
                         </div>
                     </div>
-                    <div class="w-col w-col-4">
-                        <div class="dashboard-tile w-row">
-                            <div class="column-5 w-col w-col-3">
-                                <h1 class="heading-4 yellow">{{ context.count_missingsales }}</h1>
-                            </div>
-                            <div class="w-col w-col-9">
-                                <div class="paragraph-text pt_homepage">Missing Sales Data</div>
-                                <a href="/product/log" class="secondary-cta">Enter Data</a></div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -58,6 +49,7 @@
 <div id="Top-Stats">
     <div class="top-container w-container">
         <h1 class="page-header">Analytics</h1>
+        <h4 class="header-white "> Next Month Forecast VS Current Inventory</h4>
         <div class="w-row">
             <div class="w-col w-col-12">
                 <div class="w-embed w-iframe">
@@ -67,6 +59,7 @@
         </div>
         <div class="paragraph"> If the demand is 0 it is possible that there is not enough data to create a forecast.</div>
         <br>
+        <h4 class="header-white "> Sales Totals ($) per Location</h4>
         <div class="w-row">
             <div class="w-col w-col-12">
                 <div class="w-embed w-iframe">
@@ -96,11 +89,11 @@
                 document.getElementById('chart')
         );
         var options = {
-            'title': 'Sales Transaction Total',
             'isStacked': true,
             'legend': 'bottom',
             'width': 880,
-            'height': 371
+            'height': 371,
+            'colors': ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
         };
         chart.draw(data, options)
     }
@@ -113,11 +106,13 @@
         }});
 
         var options = {
-            chart: {
-                title: 'Next month Forecast and Current Inventory'
-            },
             'width': 880,
-            'height': 371
+            'height': 371,
+            'colors': ['#016d96','#e6693e'],
+            hAxis: {
+            maxLines: 2,
+          },
+            'legend': { position: "none" }
         };
 
         var chart = new google.charts.Bar(document.getElementById('forecast-chart'));

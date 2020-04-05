@@ -11,7 +11,7 @@
                                                      srcset="{{ url_for('static', filename='images/scm-girl-p-500.png') }} 500w, {{ url_for('static', filename='images/scm-girl-p-800.png') }} 800w, {{ url_for('static', filename='images/scm-girl-p-1080.png') }} 1080w, {{ url_for('static', filename='images/scm-girl-p-1600.png') }} 1600w, {{ url_for('static', filename='images/scm-girl-p-2000.png') }} 2000w, {{ url_for('static', filename='images/scm-girl-p-2600.png') }} 2600w, {{ url_for('static', filename='images/scm-girl-p-3200.png') }} 3200w, {{ url_for('static', filename='images/scm-girl-p-5000.png') }} 5000w"
                                                      sizes="177px" class="image-5"></div>
             <div class="w-col w-col-9">
-                <h3 class="peach-text">Hi Grace, welcome to Flexchain! We noticed the following events requiring your
+                <h3 class="peach-text">We noticed the following events requiring your
                     attention.</h3>
                 <div class="columns-6 w-row">
                     <div class="column-8 w-col w-col-4">
@@ -35,16 +35,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-col w-col-4">
-                        <div class="dashboard-tile w-row">
-                            <div class="column-5 w-col w-col-3">
-                                <h1 class="heading-4 yellow">{{ context.count_missingsales }}</h1>
-                            </div>
-                            <div class="w-col w-col-9">
-                                <div class="paragraph-text pt_homepage">Missing Sales Data</div>
-                                <a href="/product/log" class="secondary-cta">Enter Data</a></div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -52,10 +42,12 @@
 </div>
 <div id="Charts">
     <div class="top-container w-container">
-        <div class="page-subheader ask_sh">Flexchain can provide smart recommendations for your order strategy.<br>Select
+        <div class="page-subheader ask_sh">Flexchain can provide smart recommendations for your order strategy. <br>Select
             the question you want to ask.
         </div>
-        <label class="peach-text ask_pt">Selling</label><label class="radio-button-field w-radio"><input type="radio"
+        <hr class="rounded">
+        <br>
+        <label class="page-header">Selling</label><label class="radio-button-field w-radio"><input type="radio"
                                                                                                          data-name="Radio"
                                                                                                          id="What should I sell?"
                                                                                                          name="radio"
@@ -75,7 +67,7 @@
             class="paragraph-text ask_pt w-form-label">Should I sell this item?</span></label>
         <button id="Ask-Button-2" type="submit" class="secondary-button ask_sb w-button ask-now">Ask Now</button>
         <br><br>
-        <label class="peach-text ask_pt">Purchasing</label><label
+        <label class="page-header">Purchasing<br></label><label
             class="radio-button-field-2 w-radio"><input type="radio" data-name="Radio" id="How much should I order?"
                                                         name="radio" value="How much should I order?"
                                                         class="w-form-formradioinput w-radio-input"><span
@@ -85,13 +77,19 @@
                                                         class="w-form-formradioinput w-radio-input"><span for="radio"
                                                                                                           class="paragraph-text ask_pt w-form-label">When should I order?</span></label>
         <button id="Ask-Button" class="secondary-button ask_sb w-button ask-now">Ask Now</button>
+        <br><br>
     </div>
 </div>
 <div id="Modal" class="modal">
     <div class="top-container w-container">
         <div class="modal-content">
             <div style="display:none;" class="what-should-sell">
-                <label class="peach-text ask_pt">What should I sell?</label>
+                <br>
+                <label class="peach-text ask_pt"><br>What should I sell?<br></label>
+                Are you planning to participate in a weekend market, pop-up shop or any temporary sales event and is not quite sure which items to sell?
+                Select the date of the event and the location where you are planning to pull the stock. Flexchain will recommend the best item/s to sell given past sales trends and stock availability.
+                <br>
+                <br>
                 <form action="/insight/ask/sell/what" method="POST">
                     <label for="location">Location
                         <select name="location">
@@ -110,7 +108,9 @@
             </div>
             <div style="display:none;" class="where-should-sell">
                 <form action="/insight/ask/sell/where" method="POST">
-                    <label class="peach-text ask_pt">Where should I sell?</label>
+                    <label class="peach-text ask_pt"><br>Where should I sell?<br></label>
+                    <p>Some products sell really well in some stores while others do not sell at all. Know where to sell an item to get the most revenue.
+                        You can use the insights you get here to help in supply planning decisions.</p>
                     <label for="location">Location
                         <select name="location">
                             {% for location in context.locations %}
@@ -118,7 +118,7 @@
                             {% endfor %}
                         </select>
                     </label>
-                    <label for="top-three-products"> Top Three Products <br>
+                    <label for="top-three-products"> Select Product(s) <br>
                         {% for product in context.products %}
                         <input type="checkbox" name="{{ product.sku }}"/> {{ product.product_name }}
                         <br>
@@ -131,15 +131,17 @@
             </div>
             <div style="display:none;" class="should-sell">
                 <form action="/insight/ask/sell/should" method="POST">
-                    <label class="peach-text ask_pt">Should I sell this item?</label>
-                    <label for="product">
+                    <label class="peach-text ask_pt"><br>Should I sell this item?<br></label>
+                    <p>Some products sell really well in some stores while others do not sell at all.
+                        Flexchain will suggest if it is a sound decision to sell an item in a certain location based on their inventory turnover ratio. </p>
+                    <label for="product">Select the product that you are planning to sell
                         <select name="product">
                             {% for product in context.products %}
                             <option value="{{ product.sku }}">{{ product.product_name }}</option>
                             {% endfor %}
                         </select>
                     </label>
-                    <label for="location">
+                    <label for="location"> Select shop location
                         <select name="location">
                             {% for location in context.locations %}
                             <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
@@ -153,7 +155,8 @@
             </div>
             <div style="display:none;" class="how-much-order">
                 <form method="POST" action="/insight/ask/order/quantity">
-                    <label class="peach-text ask_pt">How much should I order?</label>
+                    <label class="peach-text ask_pt"><br>How much should I order?<br></label>
+                    <p> Get a cost-efficient order quantity recommendation for a product based on holding cost, ordering cost and demand variability. </p>
                     <label for="product">
                         Product
                         <select name="product">
@@ -169,9 +172,14 @@
             </div>
             <div style="display:none;" class="when-order">
                 <div class="w-form">
-                    <form action="/insight/ask/order/when" method="POST"><label class="peach-text ask_pt">When should I
-                        order?</label>
-                        <label for="product" class="formlabel">Select the item you want to order</label><select
+                    <form action="/insight/ask/order/when" method="POST"><label class="peach-text ask_pt"><br>When should I
+                        order?<br></label>
+                        <p> In Flexchain, placing new orders is event-based and review policy is continuous.
+                            Therefore, to be on top of your inventory, you must evaluate regularly what is your reorder point.
+                            Reorder point is the threshold for current inventory.
+                            Once a product drops to this quantity, you must place an order to your supplier to restock. </p>
+                        <label for="product">Select the item you are planning to order</label>
+                        <select
                                 id="Product"
                                 name="product"
                                 required=""

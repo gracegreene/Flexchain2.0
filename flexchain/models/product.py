@@ -130,7 +130,7 @@ def get_product(cursor, sku, archive=False):
 
 def get_ROP(connection, sku):
     # R= NORMSINV(service level) x Standard Dev of demand for SKU
-    z = norm.ppf(0.95, loc=10, scale=2)
+    z = norm.ppf(0.95, loc=0, scale=1)
 
     sql = '''select STR_TO_DATE(concat_ws("-",month(transaction.date),year(transaction.date),"01"), "%m-%Y-%d") as monthofsale,sum(quantity)
                     from transaction join transaction_sku on transaction.transaction_id = transaction_sku.transaction_id
@@ -143,6 +143,8 @@ def get_ROP(connection, sku):
     series = read_sql(sql, con=connection, parse_dates=0, index_col=["monthofsale"])
     sales = series.values
     sigma = np.std(sales)
+    print(sku, z, sigma)
+    print(z * sigma)
     return float(z * sigma)
 
 
@@ -240,7 +242,7 @@ def get_order_quantity(connection, cursor, sku):
     for unit_cost in cursor:
         uc = unit_cost
     ordering_cost = 0.1 * uc[0]
-    holding_cost = 0.25 * uc[0]
+    holding_cost = (0.25 * uc[0]) / 12
 
     sql = '''select STR_TO_DATE(concat_ws("-",month(transaction.date),year(transaction.date),"01"), "%m-%Y-%d") as monthofsale,sum(quantity)
                 from transaction join transaction_sku on transaction.transaction_id = transaction_sku.transaction_id
@@ -252,5 +254,7 @@ def get_order_quantity(connection, cursor, sku):
     '''.format(sku)
     series = read_sql(sql, con=connection, parse_dates=0, index_col=["monthofsale"])
     sales = series.values
-    q = sqrt((sales.mean() * ordering_cost)/holding_cost)
+    q = sqrt(2*(sales.mean() * ordering_cost)/holding_cost)
+    print("sales mean", sales.mean(), "q", q)
+    print("unit cost", unit_cost[0], "ordering cost", ordering_cost, "holding cost", holding_cost)
     return q
