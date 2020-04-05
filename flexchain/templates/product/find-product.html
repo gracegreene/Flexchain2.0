@@ -68,7 +68,7 @@
       <div class="w-col w-col-2 form-field-product">{{ product.description }}</div>
       <div class="w-col w-col-1 form-field-product">{{ product.weight }}</div>
       <div class="w-col w-col-2"><img src="{{ product.image_path }}" alt="prod_image"/></div>
-      <div class="w-col w-col-2"><a href="#" class="simple-link w-button">View Details</a></div>
+      <div class="w-col w-col-2"><a href="/product/details?sku={{ product.sku }}" class="simple-link w-button">View Details</a></div>
     </div>
     <br>
     {% endfor %}
