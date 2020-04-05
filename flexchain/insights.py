@@ -5,7 +5,7 @@ from flask import (
     Blueprint, render_template, request, redirect, url_for, session
 )
 
-from auth import login_required
+from .auth import login_required
 from .db import get_db
 from .forecast import forecast
 from .models.current_inventory import get_current_inventory

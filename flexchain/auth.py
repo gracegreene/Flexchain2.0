@@ -2,7 +2,7 @@ from functools import wraps
 
 from flask import session, request, redirect, url_for
 
-from models.user import login_user
+from .models.user import login_user
 
 
 def get_auth_storage():
