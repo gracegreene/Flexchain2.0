@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% include 'nav.html' %}
 {% block content %}
+<link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet" type="text/css">
 <div id="Charts">
     <div class="top-container-2 tc2_product w-container">
         <div class="div-block-2">
@@ -19,22 +20,30 @@
         <div class="div-block-sales">
             <div class="w-form">
                 <form method="POST" action="/product/log" id="wf-form-Sales-Data" name="wf-form-Sales-Data"
-                      data-name="Sales Data" class="form-5 logsales"><input type="text" class="text-field-6 w-input"
-                                                                            maxlength="256" name="Date" data-name="Date"
-                                                                            placeholder="Date" id="Date" required="">
-                    <div><input type="text" class="text-field-6 w-input" maxlength="256" name="Total-Amount"
-                                data-name="Total Amount" placeholder="Total Amount" id="Total-Amount" required=""></div>
+                      data-name="Sales Data" class="form-5 logsales">
+                    <label class="header-white" style="text-align: left;" for="Date">Date
+                        <input type="text" class="text-field-6 w-input" maxlength="256" name="Date" data-name="Date" placeholder="Date" id="Date" required="">
+                    </label>
+                    <label for="Total-Amount" class="header-white" style="text-align: left;">Total Amount
+                        <input type="text" class="text-field-6 w-input" maxlength="256" name="Total-Amount" data-name="Total Amount" placeholder="Total Amount" id="Total-Amount" required="">
+                    </label>
+                    <label for="Location" class="header-white" style="text-align: left;">Location
                     <select id="Location-2" name="Location" data-name="Location" required=""
                             class="select-field-4 w-select">{% for location in context.locations%}
                         <option value="{{ location.location_id }}">{{ location.loc_name }}</option>
                         {% endfor %}</select>
+                    </label>
+                    <label for="SKU-0" class="header-white" style="text-align: left;">Product
                     <select id="SKU-0" name="SKU-0" data-name="SKU" class="select-field-3 w-select">
                         <option value="">--------</option>
                         {% for product in context.products %}
                         <option value="{{ product.sku }}">{{ product.product_name }}</option>
-                        {% endfor %}</select><input type="number" class="text-field-5 w-input" maxlength="256"
+                        {% endfor %}</select>
+                    </label>
+                    <label for="Quantity-0" class="header-white" style="text-align: left;">Quantity
+                        <input type="number" class="text-field-5 w-input" maxlength="256"
                                                     name="Quantity-0" data-name="Location 3" placeholder="Quantity Sold"
-                                                    id="Location-3" required="">
+                               id="Location-3" required=""></label>
                     <div class="div-block-5"></div>
                     <select id="SKU-1" name="SKU-1" data-name="SKU 2" class="select-field-3 w-select">
                         <option value="">--------</option>

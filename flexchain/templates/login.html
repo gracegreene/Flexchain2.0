@@ -5,7 +5,8 @@
     <div class="w-col w-col-4"></div>
     <div class="w-col w-col-4"><img src="{{ url_for('static', filename='images/flexchain-logo.png') }}"  sizes="(max-width: 479px) 96vw, (max-width: 767px) 97vw, (max-width: 3225px) 31vw, 1000px" alt="logo" class="image-6">
       <div class="w-form">
-        <form action="/login/attempt" method="POST" id="email-form" name="email-form" data-name="Email Form"><label for="email" class="peach-text">Email</label><input type="text" class="w-input" maxlength="256" name="email"><label for="password" class="peach-text">Password</label><input type="password" class="w-input" maxlength="256" name="password" data-name="Email" id="email" required=""><input type="submit" value="Submit" data-wait="Please wait..." class="primary-button login_page w-button"></form>
+        <form action="/login/attempt" method="POST" id="email-form" name="email-form" data-name="Email Form"><label for="email" class="peach-text">Email</label><input type="text" class="w-input" maxlength="256" name="email"><label for="password" class="peach-text">Password</label>
+            <input type="password" class="w-input" maxlength="256" name="password" data-name="Email" id="email" required=""><input type="submit" value="Login" data-wait="Please wait..." class="primary-button login_page w-button" style="float: right;"></form>
         <div class="w-form-done">
           <div>Thank you! Your submission has been received!</div>
         </div>
