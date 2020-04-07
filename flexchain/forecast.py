@@ -33,5 +33,6 @@ def forecast(p, q, d, sku, next_forecast, connection):
             history.append(yhat)
     except Exception as e:
         print(e)
+    print(predictions)
     return predictions
 

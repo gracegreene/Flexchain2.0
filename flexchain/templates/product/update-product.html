@@ -147,12 +147,13 @@
         <div class="w-col w-col-2"></div>
         <div class="w-col w-col-2"></div>
     </div>
+    <br>
     {% for product in context.products %}
-    <div class="primary-cta w-row">
-        <div class="w-col w-col-1">{{ product.sku }}</div>
-        <div class="w-col w-col-3">{{ product.product_name }}</div>
-        <div class="w-col w-col-3">{{ product.description }}</div>
-        <div class="w-col w-col-1">{{ product.weight }}</div>
+    <div class="w-row">
+        <div class="w-col w-col-1 form-field-product">{{ product.sku }}</div>
+        <div class="w-col w-col-3 form-field-product">{{ product.product_name }}</div>
+        <div class="w-col w-col-3 form-field-product">{{ product.description }}</div>
+        <div class="w-col w-col-1 form-field-product">{{ product.weight }}</div>
         <div class="w-col w-col-2"><img src="{{ product.image_path }}" alt="prod_image"/></div>
         <div class="w-col w-col-2"><a href="/product/update-form?sku={{product.sku}}" class="simple-link w-button">Update</a>
         </div>

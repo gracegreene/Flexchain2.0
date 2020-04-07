@@ -184,7 +184,7 @@ def suggest_order_quantity():
     # you should order x amount
     # Answer: Flexchain recommends ordering x amount of <product name> once available inventory is below <ROP>
     # order quantity function for x
-    answer = 'Flexchain recommends ordering {:.0f} amount of {} once available inventory is below {}.'
+    answer = 'Flexchain recommends ordering {:.0f} {} once available inventory is below {:.0f}.'
     form_product = request.form.get('product', None)
     try:
         connection = get_db()
