@@ -34,3 +34,10 @@ def perform_login(cursor, email, password):
     print(authorizations)
     print(first_name)
     return False
+
+
+def attempt_logout():
+    authorizations = get_auth_storage()
+    if request.remote_addr in authorizations:
+        authorizations[request.remote_addr]
+        session['auth'] = authorizations

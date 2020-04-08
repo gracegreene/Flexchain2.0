@@ -2,7 +2,7 @@ import os
 
 from flask import session, Flask, render_template, request, redirect, url_for
 
-from .auth import login_required, perform_login
+from .auth import login_required, perform_login, attempt_logout
 from .models.chart_data import get_txn_amount, get_forecast_inventory
 from .models.product import get_product_out, get_product_low
 
@@ -74,6 +74,12 @@ def create_app(test_config=None):
     @app.route('/login')
     def login():
         return render_template('login.html')
+
+
+    @app.route('/logout')
+    def logout():
+        attempt_logout()
+        return redirect('/login')
 
     @app.route('/login/attempt', methods=['POST'])
     def login_attempt():
