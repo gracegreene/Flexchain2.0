@@ -247,8 +247,8 @@ def get_order_quantity(connection, cursor, sku):
     cursor.execute(sql, (sku,))
     for unit_cost in cursor:
         uc = unit_cost
-    ordering_cost = 0.1 * uc[0]
-    holding_cost = (0.25 * uc[0]) / 12
+    ordering_cost = 0.25 * uc[0]
+    holding_cost = (0.10 * uc[0]) / 12
 
     sql = '''select STR_TO_DATE(concat_ws("-",month(transaction.date),year(transaction.date),"01"), "%m-%Y-%d") as monthofsale,sum(quantity)
                 from transaction join transaction_sku on transaction.transaction_id = transaction_sku.transaction_id
