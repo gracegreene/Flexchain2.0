@@ -142,7 +142,7 @@ def get_ROP(connection, sku):
     '''.format(sku)
     series = read_sql(sql, con=connection, parse_dates=0, index_col=["monthofsale"])
     sales = series.values
-    if len(sales)=0:
+    if len(sales) == 0:
         return 0
     sigma_d = np.std(sales)
     sigma_l = 0.7 #stddev for historical lead time
