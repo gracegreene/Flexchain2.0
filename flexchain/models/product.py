@@ -142,8 +142,10 @@ def get_ROP(connection, sku):
     '''.format(sku)
     series = read_sql(sql, con=connection, parse_dates=0, index_col=["monthofsale"])
     sales = series.values
+    if len(sales)=0:
+        return 0
     sigma_d = np.std(sales)
-    sigma_l = 0.7 #stddev for historical lead team
+    sigma_l = 0.7 #stddev for historical lead time
     mu_d = np.mean(sales)
     mu_l = 1.8
     ROP = (mu_d * mu_l) + (z * (sqrt((mu_l**2 * sigma_d**2) + (mu_d**2 * sigma_l**2))))
