@@ -27,7 +27,12 @@ def add_product_page():
         retail_price = request.form.get("Retail-Price")
         image_path = request.form.get("Image-Path")
         collection = request.form.get("Collection")
-        # TODO Validate form
+        for item in request.form.values():
+            if not validation(item):
+                print('Invalid form entry')
+                error = "Invalid entry"
+                return render_template('product/add-product.html',error=error)
+        print('validation passed')
         # Attempt to insert into database
         p = product.product(sku, product_name, description, retail_price, unit_cost, weight, company_code="DMD",
                             length=length, width=width, height=height, case_size=case_size,
@@ -238,3 +243,10 @@ def get_product_details_page():
     except Exception as e:
         print(e)
     return render_template("/product/product-details.html", context=page_data)
+
+
+def validation(string):
+    if all([x.isalpha() or x.isnumeric() or x == '-' for x in string]):
+        return True
+    return False
+
