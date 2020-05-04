@@ -22,6 +22,11 @@ def add_store_page():
             zip_code = request.form.get("Zip-Code")
             coordinates = request.form.get("Coordinates")
             notes = request.form.get("Notes")
+            for loc in request.form.values():
+                if not validation(loc):
+                    print('Invalid form entry')
+                    error = "Invalid entry"
+                    return render_template('location/add-store.html', error=error)
             loc = location.location(0, "store", store_name, country, state, street_address, zip_code, integration_id,
                                     coordinates, notes, "Dress My Desk")
             loc.insert(cursor)
@@ -47,6 +52,11 @@ def add_warehouse():
             zip_code = request.form.get("Zip-Code")
             coordinates = request.form.get("Coordinates")
             notes = request.form.get("Notes")
+            for item in request.form.values():
+                if not validation(item):
+                    print('Invalid form entry')
+                    error = "Invalid entry"
+                    return render_template('location/add-warehouse.html', error=error)
             loc = location.location(0, "warehouse", store_name, country, state, street_address, zip_code, integration_id,
                                     coordinates, notes, "Dress My Desk")
             loc.insert(cursor)
@@ -82,6 +92,11 @@ def adjust_inventory():
         prod = request.form.get('product')
         reason = int(request.form.get('reason')) - 1
         quantity = request.form.get('quantity')
+        for txn in request.form.values():
+            if not validation(txn):
+                print('Invalid form entry')
+                error = "Invalid entry"
+                return render_template('location/adjust-inventory.html',error=error)
         print(from_location, to_location, prod, reason, quantity)
         try:
             # Reduction
@@ -176,3 +191,8 @@ def update_warehouse():
 @bp.route('')
 def location_index():
     return render_template("location/index.html")
+
+def validation(string):
+    if all([x.isalpha() or x.isnumeric() or x == '-' for x in string]):
+        return True
+    return False

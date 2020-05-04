@@ -124,6 +124,11 @@ def log_sales():
             {'sku': request.form.get("SKU-2"), 'quantity': request.form.get("Quantity-2")},
             {'sku': request.form.get("SKU-3"), 'quantity': request.form.get("Quantity-3")}
         ]
+        for sale in request.form.values():
+            if not validation(sale):
+                print('Invalid form entry')
+                error = "Invalid entry"
+                return render_template('product/log-sales.html',error=error)
         cursor = connection.cursor()
         try:
             new_transaction = transaction.Transaction(date, total_sale, selected_location)
@@ -161,7 +166,7 @@ def update():
         cursor = connection.cursor()
         page_data["products"] = product.get_product(cursor, query)
         cursor.close()
-    return render_template('product/update-product.html', context=page_data)
+    return render_template('product/update-form.html', context=page_data)
 
 
 @bp.route('update-form', methods=["GET", "POST"])
@@ -172,7 +177,11 @@ def update_form():
     connection = get_db()
     if request.method == "POST":
         # Get form values here
-        # Validate values
+        for item in request.form.values():
+            if not validation(item):
+                print('Invalid form entry')
+                error = "Invalid entry"
+                return render_template('product/add-product.html', error=error)
         cursor = connection.cursor()
         try:
             sku = request.form.get("SKU")
